@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="frames.css">
+	<style>
+		.container {
+			display: grid;
+			grid-template-columns: 1fr 1fr 50px 1fr 1fr;
+			grid-template-rows: 1fr 50px 1fr;
+			width: 100%;
+			height: 100%;
+		}
+		.border {
+			background-color: #27576B;
+		}
+		
+		.player {
+			grid-column-start: auto;
+			grid-column-end: span 2;
+			visibility: hidden;
+		}
+		
+		.player-info { padding-left: 50px; }
+		.player-info span {
+			text-align: center;
+			width: 100%;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="item player">Player 1</div>
+		<div class="item border"></div>
+		<div class="item player">Player 2</div>
+		
+		<div class="item border player-info"><span>▲ </span><span id="player1Name">Zeta Two</span></div>
+		<div class="item border player-info"><span>▼ </span><span id="player3Name">b0bb</span></div>
+		<div class="item border"></div>
+		<div class="item border player-info"><span>▲ </span><span id="player2Name">Quend</span></div>
+		<div class="item border player-info"><span>▼ </span><span id="player4Name">redshark</span></div>
+		
+		<div class="item player">Player 3</div>
+		<div class="item border"></div>
+		<div class="item player">Player 4</div>
+	</div>
+	
+	<script>
+		const nameSpans = [
+		document.querySelector('#player1Name'),
+		document.querySelector('#player2Name'),
+		document.querySelector('#player3Name'),
+		document.querySelector('#player4Name'),
+		]
+		const nameReplicant = nodecg.Replicant('playerNames', {defaultValue: ['Player 1', 'Player 2', 'Player 3', 'Player 4']});
+		nameReplicant.on('change', (newValue, oldValue) => {
+			for(i=0;i<4;i++) {
+				nameSpans[i].textContent = newValue[i];
+			}
+		});
+	</script>
+</body>
+</html>

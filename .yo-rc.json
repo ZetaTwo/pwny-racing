@@ -1,0 +1,9 @@
+{
+  "generator-nodecg": {
+    "promptValues": {
+      "authorName": "Calle Svensson",
+      "authorEmail": "calle.svensson@zeta-two.com",
+      "authorUrl": ""
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	Player 1: <input id="player1NameInput" name="player1NameInput" type="text">
+	Player 2: <input id="player2NameInput" name="player2NameInput" type="text">
+	Player 3: <input id="player3NameInput" name="player3NameInput" type="text">
+	Player 4: <input id="player4NameInput" name="player4NameInput" type="text">
+	<button id="saveButton">Save</button>
+	<script>
+		const nameInputs = [
+		document.querySelector('#player1NameInput'),
+		document.querySelector('#player2NameInput'),
+		document.querySelector('#player3NameInput'),
+		document.querySelector('#player4NameInput'),
+		];
+		const saveButton = document.querySelector('#saveButton');
+		
+		const nameReplicant = nodecg.Replicant('playerNames', {defaultValue: ['Player 1', 'Player 2', 'Player 3', 'Player 4']});
+		nameReplicant.on('change', (newValue, oldValue) => {
+			for(i=0;i<4;i++) {
+				nameInputs[i].value = newValue[i];
+			}
+		});
+		saveButton.onclick = () => {
+			nameReplicant.value = nameInputs.map((input) => input.value);
+		};
+	</script>
+</body>
+</html>

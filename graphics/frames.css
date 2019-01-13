@@ -1,0 +1,16 @@
+html {
+    height: 100%;
+}
+body {
+    font-family: sans-serif;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #333; 
+    
+    color: #AA7539;
+    font-size: 24pt;
+    font-family: monospace; 
+}
+/* http://paletton.com/#uid=23r0u0kllllaFw0g0qFqFg0w0aF */

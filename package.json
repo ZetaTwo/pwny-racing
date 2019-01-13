@@ -1,0 +1,47 @@
+{
+  "name": "zetabundle",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://zeta-two.com",
+  "author": {
+    "name": "Calle Svensson",
+    "email": "calle.svensson@zeta-two.com",
+    "url": "https://zeta-two.com"
+  },
+  "files": [
+    "dashboard",
+    "graphics",
+    "extension.js",
+    "extension"
+  ],
+  "keywords": [
+    "",
+    "nodecg-bundle"
+  ],
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "playernames",
+        "title": "Player Names",
+        "width": 2,
+        "file": "playernames.html",
+        "headerColor": "#525F78"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "splitframe.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "playerframe.html",
+        "width": 1920,
+        "height": 50
+      }
+    ]
+  },
+  "repository": "https://github.com/nodecg/nodecg.git",
+  "license": "MIT"
+}
