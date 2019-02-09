@@ -27,11 +27,23 @@
         "width": 2,
         "file": "playernames.html",
         "headerColor": "#525F78"
+      },
+      {
+        "name": "countdown",
+        "title": "Countdown",
+        "width": 2,
+        "file": "countdown.html",
+        "headerColor": "#525F78"
       }
     ],
     "graphics": [
       {
         "file": "splitframe.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "countdown.html",
         "width": 1920,
         "height": 1080
       },

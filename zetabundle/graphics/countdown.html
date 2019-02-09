@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="frames.css">
+    <style>
+        body {
+            width: 1920px;
+            height: 1080px;
+            background-image: url('splash2_empty.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        #splash-container {
+            background: linear-gradient(to left, #ffffff 49.9%, #000000 49.9%, #000000 49.9%);
+            font-size: 2.2em;
+            margin: 750px auto;
+            text-align: center;
+            width: 900px;
+        }
+
+        #splash-text {
+            color: #ffffff;
+            mix-blend-mode: exclusion;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="splash-container">
+        <div id="splash-text">
+                Stream starts in:<br>00:00:00
+        </div>
+    </div>
+    <script>
+        const textBox = document.querySelector('#splash-text');
+        const countdownReplicant = nodecg.Replicant('countdown', { defaultValue: { seconds: 60 * 60 * 10, active: false } });
+        countdownReplicant.on('change', (newValue, oldValue) => {
+            hour = Math.floor((newValue.seconds/3600)).toString().padStart(2, '0');
+            minute = Math.floor(((newValue.seconds/60)%60)).toString().padStart(2, '0');
+            second = Math.floor(((newValue.seconds % 60))).toString().padStart(2, '0');
+            console.log(newValue.seconds)
+
+            textBox.textContent = `Stream starts in:\n${hour}:${minute}:${second}`;
+        });
+    </script>
+</body>
+
+</html>

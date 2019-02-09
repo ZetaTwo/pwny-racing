@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .timeinput {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+	Time: <input class="timeinput" id="countdownHours" name="countdownHours" type="text" value="10">
+	: <input class="timeinput" id="countdownMinutes" name="countdownMinutes" type="text" value="0">
+	: <input class="timeinput" id="countdownSeconds" name="countdownSeconds" type="text" value="0">
+    <button id="startButton">Start/pause</button>
+    <button id="setButton">Set</button>
+	<script>
+		const timeInputs = [
+		document.querySelector('#countdownHours'),
+		document.querySelector('#countdownMinutes'),
+		document.querySelector('#countdownSeconds'),
+		];
+        const startButton = document.querySelector('#startButton');
+        const setButton = document.querySelector('#setButton');
+		
+		const countdownReplicant = nodecg.Replicant('countdown', {defaultValue: {seconds: 60*60*10, active: false}});
+		countdownReplicant.on('change', (newValue, oldValue) => {
+			hour = newValue
+		});
+		startButton.onclick = () => {
+            countdownReplicant.value.active = !countdownReplicant.value.active;
+        };
+        setButton.onclick = () => {
+            times = timeInputs.map(x => parseInt(x.value))
+            countdownReplicant.value.seconds = times[0]*60*60 + times[1]*60 + times[2];
+        }
+	</script>
+</body>
+</html>
