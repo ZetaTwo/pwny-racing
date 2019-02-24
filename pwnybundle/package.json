@@ -1,12 +1,12 @@
 {
-  "name": "zetabundle",
+  "name": "pwnybundle",
   "version": "0.0.0",
   "description": "",
-  "homepage": "https://zeta-two.com",
+  "homepage": "https://pwny.racing",
   "author": {
     "name": "Calle Svensson",
     "email": "calle.svensson@zeta-two.com",
-    "url": "https://zeta-two.com"
+    "url": "https://pwny.racing"
   },
   "files": [
     "dashboard",
