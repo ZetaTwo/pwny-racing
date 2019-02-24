@@ -1,15 +1,7 @@
-# docker-pwn
+# Docker pwnable image
 
 Docker setup for hosting pwnables
 
-1) Install docker, ./prepare_docker.sh
-
-2) Change name of challenge in docker-compose.yml, ctf_name => ctf_whatever
-
-3) Change port to whatever in ctf.xinetd
-
-4) Add a 'flag' file with the flag in it
-
-5) Add the challenge binary as 'chall'
-
-6) ./start_chall.sh
+* Place the contents if this directory together with a file called "chall" and a file called "flag"
+* Build the image with `docker build -t $CHALLENGE_NAME .`
+* Run the image with `docker run -d -p ${PORT}:1337/tcp ${CHALLENGE_NAME}:latest`
