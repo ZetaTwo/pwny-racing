@@ -1,4 +1,8 @@
 baseURL = "https://pwny.racing"
 languageCode = "en-us"
 title = "Pwny Racing"
-theme = "pwnyracing"
+#theme = "pwnyracing"
+theme = "hyde-hyde"
+
+[params.social]
+youtube = "ZetaTwo"
