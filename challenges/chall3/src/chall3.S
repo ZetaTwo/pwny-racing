@@ -17,22 +17,22 @@ _start:
 	xor %rax, %rax
 	xor %rdi, %rdi
 	mov %rsp, %rsi
-	mov $0x100, %rdx
+	mov $256, %rdx
 	syscall
 
-	add $0x20, %rsp
-	mov $1, %rdi
-	mov $3, %rsi
-	mov $3, %rdx
-	mov $7, %rcx
+	add $32, %rsp
+	mov $1,  %rdi
+	mov $3,  %rsi
+	mov $3,  %rdx
+	mov $7,  %rcx
 
-	cmp $0x20, %rax
+	cmp $32, %rax
 	jz  exit
 
 	movq $0x23, 8(%rsp)
 	retfq
 
 exit:
-	movq $60, %rax
-	movq $0, %rbx
+	mov $60, %rax
+	mov $0,  %rbx
 	syscall
