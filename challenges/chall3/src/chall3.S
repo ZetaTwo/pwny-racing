@@ -6,7 +6,7 @@ msg:
 .globl _start
 _start:
 
-	sub $0x20, %rsp
+	sub $32, %rsp
 
 	mov $1, %rax
 	mov $1, %rdi
