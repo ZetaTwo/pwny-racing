@@ -8,15 +8,12 @@ BIN=chall3
 
 all:
 	$(MAKE) $(BIN)
-	@/usr/bin/printf '\xcd\x80\xcb' | dd of=$(BIN) bs=1 seek=311 count=3 conv=notrunc 
 
 $(BIN): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $@ $(LFLAGS)
-	echo $(OBJ)
 
 .o:
 	$(CC) $(CFLAGS) $< -o $@
-	echo ".o"
 
 challenge: all
 	rm -f $(OBJ)
