@@ -14,7 +14,8 @@ _start:
 	mov $10, %rdx
 	syscall
 
-	mov $0, %rax
+	xor %rax, %rax
+	xor %rdi, %rdi
 	mov %rsp, %rsi
 	mov $0x100, %rdx
 	syscall
