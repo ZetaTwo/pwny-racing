@@ -11,6 +11,7 @@ The application has two (intentional) bugs:
 
 There is a simple buffer overflow, the stack is setup like:
 
+```
   +-----------------+
   | buffer[00 - 03] |  <----+
   +-----------------+       |
@@ -35,6 +36,7 @@ There is a simple buffer overflow, the stack is setup like:
   +-----------------+       |
   | ptr             |  -----+
   +-----------------+
+```
 
 So the buffer is written to, byte by byte through the ptr pointer, once the buffer overflows it will write into
 that very pointer. This poses a bit of a problem since there is no stable way to overwrite the pointer, instead
@@ -64,6 +66,8 @@ threshold. In this case just a simple -1 will do.
 The application is straight-forward to exploit but the trick is the player must not write the buffer from a low
 to high address, instead they should look to write into a lower address (future stack frame) and then they will
 achieve the ability to write anywhere.
+
+```
  +---------------------------------+
  |  future work() frame            |
  |                                 |
@@ -89,6 +93,7 @@ achieve the ability to write anywhere.
  +-----------------+
  | return addr     |  <-- never reached
  +-----------------+
+```
 
 ## Hints
 
