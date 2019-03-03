@@ -83,4 +83,3 @@ while True:
 		io.close()
 
 sys.exit()
-io.close()
