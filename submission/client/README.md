@@ -73,3 +73,5 @@ An example of a valid `json` response is:
 	"message": "Congratulations ZetaTwo! You have won episode 1 of pwny race.",
 }
 ```
+
+The identifying information the user will provide in the first argument when running the client will be present in the `token` `GET` parameter of the request.
