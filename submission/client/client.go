@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/tkanos/gonfig"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -57,8 +58,9 @@ func main() {
 	client := &http.Client{}
 	url := fmt.Sprintf("%s?token=%s", conf.Url, url.QueryEscape(os.Args[1]))
 
-	req, _ := http.NewRequest("GET", url, nil)
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
 	req.SetBasicAuth(conf.User, conf.Pass)
+	req.Header.Set("User-Agent", "Pwny-Racing-Submission-Client_v1")
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -68,8 +70,14 @@ func main() {
 
 	defer resp.Body.Close()
 
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %s\n", err)
+		os.Exit(-1)
+	}
+
 	result := Result{}
-	json.NewDecoder(resp.Body).Decode(result)
+	json.Unmarshal(body, &result)
 
 	switch result.Status {
 	case "win":
