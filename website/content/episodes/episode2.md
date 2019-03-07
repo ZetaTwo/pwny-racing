@@ -15,13 +15,13 @@ You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=411Bi
 The participants playing:  
 
 * borysp
-  - TODO
+  - 1. former codisec player 2. current dragonsector player 3. wargames (OTW champ, 100% pwnable.kr) 4. docker/runc bug from last month with Adam Iwaniuk
 * hpmv
   - TODO
-* vos
+* Vlad "vos" Roskov
   - TODO
-* ???
-  - TODO
+* Matt "zap"
+  - Matt is a full time student at Rensselaer Polytechnic Institute. He is currently finishing his junior year and is acting treasurer of RPI's CTF team, RPISEC.
 
 Hosted by:
 
