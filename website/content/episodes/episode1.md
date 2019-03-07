@@ -14,17 +14,17 @@ You can watch the episode on [YouTube](https://www.youtube.com/watch?v=L_ZqbkCQs
 
 The participants playing:  
 
-* Jay "jay" Little
+* [Jay "jay" Little](https://twitter.com/computerality)
   - "Jay Little is a security researcher at Trail of Bits. Jay has over 10 years experience making types and structures in IDA Pro."
 * Alex "endeavor" Eubanks
   - "Alex Eubanks is a program manager at ForAllSecure, where he spends most of his time balancing spreadsheets, writing up reports and proposals, and scheduling customer meetings. Also he’s hiring."
-* MurmusCTF
+* [MurmusCTF](https://twitter.com/MurmusCTF)
   - TODO
 
 Hosted by:
 
-* Carl "Zeta Two" Svensson - Host
-* b0bb - Co-commentator
+* [Carl "Zeta Two" Svensson](https://twitter.com/ZetaTwo) - Host
+* [b0bb](https://twitter.com/0xb0bb) - Co-commentator
 
 ## Challenge
 

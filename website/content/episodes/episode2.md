@@ -14,19 +14,19 @@ You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=411Bi
 
 The participants playing:  
 
-* borysp
+* [borysp](https://twitter.com/boryspop)
   - 1. former codisec player 2. current dragonsector player 3. wargames (OTW champ, 100% pwnable.kr) 4. docker/runc bug from last month with Adam Iwaniuk
 * hpmv
   - TODO
 * Vlad "vos" Roskov
   - TODO
-* Matt "zap"
+* [Matt "zap"](https://twitter.com/SoggyCheesecak3)
   - Matt is a full time student at Rensselaer Polytechnic Institute. He is currently finishing his junior year and is acting treasurer of RPI's CTF team, RPISEC.
 
 Hosted by:
 
-* Carl "Zeta Two" Svensson - Host
-* b0bb - Co-commentator
+* [Carl "Zeta Two" Svensson](https://twitter.com/ZetaTwo) - Host
+* [b0bb](https://twitter.com/0xb0bb) - Co-commentator
 
 ## Challenge
 
