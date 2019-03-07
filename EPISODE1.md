@@ -9,9 +9,13 @@ YouTube: https://www.youtube.com/watch?v=L_ZqbkCQs1s
 
 ### Participants
 * Jay "jay" Little - "Jay Little is a security researcher at Trail of Bits. Jay has over 10 years experience making types and structures in IDA Pro."
-* Dustin "gynophage"  - "Dustin used to write exploits. Now he mostly writes PowerPoint."
 * Alex "endeavor" Eubanks - "Alex Eubanks is a program manager at ForAllSecure, where he spends most of his time balancing spreadsheets, writing up reports and proposals, and scheduling customer meetings. Also he’s hiring."
+* MurmusCTF
+
+No show:
+* Dustin "gynophage"  - "Dustin used to write exploits. Now he mostly writes PowerPoint."
 * Ryan "withzombies" Stortz - "Ryan is engineer"
+
 
 ## Challenges
 
