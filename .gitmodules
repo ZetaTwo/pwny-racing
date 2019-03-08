@@ -1,3 +1,6 @@
 [submodule "nodecg/nodecg"]
 	path = server/nodecg/nodecg
 	url = https://github.com/nodecg/nodecg.git
+[submodule "server/nodecg/nodecg"]
+	path = server/nodecg/nodecg
+	url = https://github.com/nodecg/nodecg.git
