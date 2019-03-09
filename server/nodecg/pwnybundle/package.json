@@ -34,6 +34,13 @@
         "width": 2,
         "file": "countdown.html",
         "headerColor": "#525F78"
+      },
+      {
+        "name": "gamestate",
+        "title": "Game State",
+        "width": 2,
+        "file": "gamestate.html",
+        "headerColor": "#525F78"
       }
     ],
     "graphics": [
@@ -51,9 +58,17 @@
         "file": "playerframe.html",
         "width": 1920,
         "height": 50
+      },
+      {
+        "file": "fireworks.html",
+        "width": 1920,
+        "height": 50
       }
     ]
   },
   "repository": "https://github.com/nodecg/nodecg.git",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }

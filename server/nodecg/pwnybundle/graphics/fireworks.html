@@ -1,52 +1,81 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Hello World!</title>
-		<script type="text/javascript" src="fireworks.js"></script>
-		<style>
-			canvas {
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 1;
-			}
+<!DOCTYPE html>
+<html lang="en">
 
-			h1.winner {
-				color: #fff;
-				text-align: center;
-				font-size: 4em;
-				font-family: arial, verdana, sans-serif;
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="frames.css">
+	<title>Pwny Racing - Fireworks</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="fireworks.js"></script>
+	<style>
+		canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
+		}
 
-				position: absolute;
-				width: 100%;
-				top: calc(30%);
-				z-index: 2;
+		h1.winner {
+			color: #fff;
+			text-align: center;
+			font-size: 4em;
+			font-family: arial, verdana, sans-serif;
 
+			position: absolute;
+			width: 100%;
+			top: calc(30%);
+			z-index: 2;
+
+			opacity: 0;
+			-webkit-animation: fadeinout 5s linear 1 forwards;
+			-moz-animation: fadeinout 5s linear 1 forwards;
+			-ms-animation: fadeinout 5s linear 1 forwards;
+			-o-animation: fadeinout 5s linear 1 forwards;
+			animation: fadeinout 5s linear 1 forwards;
+			animation-iteration-count: infinite;
+		}
+
+		@-webkit-keyframes fadeinout {
+			0% {
 				opacity: 0;
-			    -webkit-animation: fadeinout 5s linear 1 forwards;
-			       -moz-animation: fadeinout 5s linear 1 forwards;
-			        -ms-animation: fadeinout 5s linear 1 forwards;
-			         -o-animation: fadeinout 5s linear 1 forwards;
-			            animation: fadeinout 5s linear 1 forwards;
-			            animation-iteration-count: infinite;
 			}
 
-			@-webkit-keyframes fadeinout {
-			  0% { opacity: 0; }
-			  50% { opacity: 1; }
-			  100% { opacity: 0; }
+			50% {
+				opacity: 1;
 			}
 
-			@keyframes fadeinout {
-			  0% { opacity: 0; }
-			  50% { opacity: 1; }
-			  100% { opacity: 0; }
+			100% {
+				opacity: 0;
 			}
-		</style>
-	</head>
-	<body>
-		<input type="button" onclick="fire('xyz wins pwny.racing episode 2!')" value="Fire!" />
-		<input type="button" onclick="kill()" value="Stop" />
-	</body>
+		}
+
+		@keyframes fadeinout {
+			0% {
+				opacity: 0;
+			}
+
+			50% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<script>
+			const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
+			gameStateReplicant.on('change', (newValue, oldValue) => {
+				if(newValue.fireworks) {
+					fire(newValue.winner + ' wins Pwny Racing episode 2!');
+				} else {
+					kill();
+				}
+			});
+		</script>
+</body>
+
 </html>

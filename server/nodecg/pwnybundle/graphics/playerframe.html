@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="frames.css">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="frames.css">
 	<style>
 		.container {
 			display: grid;
@@ -11,17 +12,21 @@
 			width: 100%;
 			height: 100%;
 		}
+
 		.border {
 			background-color: #27576B;
 		}
-		
+
 		.player {
 			grid-column-start: auto;
 			grid-column-end: span 2;
 			visibility: hidden;
 		}
-		
-		.player-info { padding-left: 50px; }
+
+		.player-info {
+			padding-left: 50px;
+		}
+
 		.player-info span {
 			text-align: center;
 			width: 100%;
@@ -29,24 +34,26 @@
 		}
 	</style>
 </head>
+
 <body>
 	<div class="container">
 		<div class="item border player-info"><span id="playerName">Player 1</span></div>
 		<div class="item border">A</div>
-        <div class="item border">B</div>
-        <div class="item border">C</div>
-        <div class="item border">D</div>
+		<div class="item border">B</div>
+		<div class="item border">C</div>
+		<div class="item border">D</div>
 	</div>
-	
+
 	<script>
-        const nameSpan = document.querySelector('#playerName');
-        const playerIndex = parseInt(window.location.hash.substr(1)) || 0;
-        nodecg.log.info('Player index: %d', playerIndex);
-        
-		const nameReplicant = nodecg.Replicant('playerNames', {defaultValue: ['Player 1', 'Player 2', 'Player 3', 'Player 4']});
+		const nameSpan = document.querySelector('#playerName');
+		const playerIndex = parseInt(window.location.hash.substr(1)) || 0;
+		nodecg.log.info('Player index: %d', playerIndex);
+
+		const nameReplicant = nodecg.Replicant('playerNames', { defaultValue: ['Player 1', 'Player 2', 'Player 3', 'Player 4'] });
 		nameReplicant.on('change', (newValue, oldValue) => {
-            nameSpan.textContent = newValue[playerIndex];
+			nameSpan.textContent = newValue[playerIndex];
 		});
 	</script>
 </body>
+
 </html>

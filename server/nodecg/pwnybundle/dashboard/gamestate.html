@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<button id="startGame">Start game</button>
+	<button id="stopFireworks">Stop fireworks</button>
+	<button id="testFireworks">Test fireworks</button>
+	<script>
+        const startGameButton = document.querySelector('#startGame');
+        const stopFireworksButton = document.querySelector('#stopFireworks');
+        const testFireworksButton = document.querySelector('#testFireworks');
+		
+		const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
+		startGameButton.onclick = () => {
+            gameStateReplicant.value.started = true;
+            gameStateReplicant.value.finished = false;
+            gameStateReplicant.value.winner = false;
+            gameStateReplicant.value.fireworks = false;
+        };
+        stopFireworksButton.onclick = () => {
+            gameStateReplicant.value.fireworks = false;
+        };
+        testFireworksButton.onclick = () => {
+            gameStateReplicant.value.fireworks = true;
+            gameStateReplicant.value.winner = "Zeta Two";
+		};
+	</script>
+</body>
+</html>
