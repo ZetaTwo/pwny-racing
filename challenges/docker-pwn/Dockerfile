@@ -31,20 +31,21 @@ RUN groupadd -r ctf && useradd -r -g ctf ctf
 ADD ctf.xinetd /etc/xinetd.d/ctf
 ADD chall_init.sh /etc/chall_init.sh
 ADD redir.sh /home/ctf/redir.sh
+ADD flag_submitter /home/ctf/flag_submitter
 
 # Set permissions for common items 
-RUN chown -R root:ctf /home/ctf
 RUN chmod 750 /home/ctf/redir.sh
-RUN chmod 700 /etc/chall_init.sh
+RUN chmod 500 /etc/chall_init.sh
 
 # Add challenge specific items
-ADD flag /home/ctf/flag
 ADD chall /home/ctf/chall
+ADD .config.json /home/ctf/.config.json
 
 # Set permissions for specific items
-RUN chmod 750 /home/ctf/chall
-RUN chmod 440 /home/ctf/flag
 RUN chown -R root:ctf /home/ctf
+RUN chmod 750 /home/ctf/chall
+RUN chmod 400 /home/ctf/.config.json
+RUN chmod 4111 /home/ctf/flag_submitter
 
 RUN service xinetd restart
 
