@@ -65,13 +65,14 @@ def handle_race_challenge(challenge, user_token):
 
 def handle_community_challenge(challenge, user_token):
     result = create_result()
-    application.logger.info('Solved community challenge: %d, E-mail: %s', challenge, user_token.split('\n')[0].strip())
+    user_token_clean = user_token.split('\n')[0].strip()
+    application.logger.info('Solved community challenge: %d, E-mail: %s', challenge, user_token_clean)
     
     result['status'] = 'win'
     result['message'] = 'Congratulations! You have solved the community challenge. We will contact you with the results later.'
 
     slack_message = {
-        'text': 'User with email `%s` solved the community challenge!' % 'calle.svensson@zeta-two.com'
+        'text': 'User with email `%s` solved the community challenge!' % user_token_clean
     }
     r = requests.post(SLACK_URL, json=slack_message)
     if r.status_code != 200:
