@@ -29,4 +29,5 @@ Hosted by:
 ## Challenge
 
 Author: b0bb  
-The challenge was an 32-bit x86 pwnable. The challenge can be downloaded here: TODO
+The challenge was an 32-bit x86 pwnable. The challenge can be downloaded here: [Challenge 1](/challenges/chall1-dist.tgz).
+NOTE: We are currently not running the remote server for the challenge. We are working on a solution to have them up but in the meanwhile you can still solve the challenge locally.

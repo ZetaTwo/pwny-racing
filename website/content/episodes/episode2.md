@@ -5,10 +5,10 @@ menu:
     parent: "episodes"
 ---
 
-The second episode of Pwny Racing will air on March 9th.  
+The second episode of Pwny Racing aired on March 9th.  
 Slight improvements has been made to the infrastructure.
 
-You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=411BiewfNrM).
+You can watch the episode on [YouTube](https://www.youtube.com/watch?v=411BiewfNrM).
 
 ## Participants
 
@@ -31,4 +31,5 @@ Hosted by:
 ## Challenge
 
 Author: b0bb  
-The challenge was an 64-bit x86 pwnable. The challenge can be downloaded here: TODO
+The challenge was an 64-bit x86 pwnable. The challenge can be downloaded here: [Challenge 3](/challenges/chall3-dist.tgz).
+NOTE: We are currently not running the remote server for the challenge. We are working on a solution to have them up but in the meanwhile you can still solve the challenge locally.
