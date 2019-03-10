@@ -18,6 +18,9 @@ PARTICIPANTS = {
 COMMUNITY_CHALLENGES = [2]
 RACE_CHALLENGES = [1,3]
 
+SLACK_URL = 'https://hooks.slack.com/services/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'
+#SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
+
 # TODO: Not used at the moment
 FLAGS = {
     1: 'pwny{congratulations-on-finishing-the-pwnable-race}',
@@ -66,6 +69,16 @@ def handle_community_challenge(challenge, user_token):
     
     result['status'] = 'win'
     result['message'] = 'Congratulations! You have solved the community challenge. We will contact you with the results later.'
+
+    slack_message = {
+        'text': 'User with email `%s` solved the community challenge!' % 'calle.svensson@zeta-two.com'
+    }
+    r = requests.post(SLACK_URL, json=slack_message)
+    if r.status_code != 200:
+        application.logger.error('Failed to post Slack message: %s', r.text)
+    else:
+        application.logger.info('Posted Slack message: %s', r.text)
+
     return jsonify(result)
 
 @application.route('/challenges/<int:challenge>/flag')
