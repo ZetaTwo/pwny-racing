@@ -15,5 +15,12 @@ Here we will post all current and previous community challenges.
 
 ### Community challenge 1
 
-The first community challenge will be released here on Sunday March 10th at 15:00 UTC.
-This page will contain materials and instructions for how to submit the flag.
+The community challenge is a pwnable that we challenge everyone to solve.
+[Download the materials](/challenges/chall2-dist.tgz) and develop an exploit for the binary.
+When you have a working exploit, you can connect to the remote server and exploit it.
+On the server there is an executable called "flag_submitter". To prove that you have successfully exploited the server, you must run this program with your e-mail as an argument.
+For example, I would run it as `./flag_submitter calle.svensson@zeta-two.com`.
+
+The first person to solve the community challenge will be invited to the next episode of Pwny Racing.
+In case that person can't participate, the offer will go to the second solver and so on.
+If you have any questions about the challenge, contact [@ZetaTwo](https://twitter.com/ZetaTwo) or e-mail `contact@pwny.racing`.
