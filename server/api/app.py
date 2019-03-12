@@ -18,8 +18,8 @@ PARTICIPANTS = {
 COMMUNITY_CHALLENGES = [2]
 RACE_CHALLENGES = [1,3]
 
-SLACK_URL = 'https://hooks.slack.com/services/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'
-#SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
+SLACK_URL = 'https://hooks.slack.com/services/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'
+#SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
 
 # TODO: Not used at the moment
 FLAGS = {
