@@ -7,8 +7,8 @@ markup: mmark
 The scoreboard for the current season of the Pwny Race looks like this
 
 {.table}
-Name                                       | Participated | Won
--------------------------------------------|--------------|-----
+Name                                       | Participated                      | Won
+-------------------------------------------|-----------------------------------|-----
 [Murmus](https://twitter.com/MurmusCTF)    |      1 [ep1](/episodes/episode1/) |   1
 Vlad “vos” Roskov                          |      1 [ep2](/episodes/episode2/) |   1
 [borysp](https://twitter.com/boryspop)     |      1 [ep2](/episodes/episode2/) |   0
