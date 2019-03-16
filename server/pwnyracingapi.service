@@ -1,0 +1,20 @@
+[Unit]
+Description = PwnyRacingApi
+After = network.target
+
+[Service]
+PermissionsStartOnly = true
+PIDFile = /run/pwnyracingapi/pwnyracingapi.pid
+User = pwnyracingapi
+Group = pwnyracingapi
+WorkingDirectory = /opt/pwnyracing/api
+ExecStartPre = /bin/mkdir /run/pwnyracingapi
+ExecStartPre = /bin/chown -R pwnyracingapi:pwnyracingapi /run/pwnyracingapi
+ExecStart = /usr/bin/env gunicorn app -b 127.0.0.1:8000 --pid /run/pwnyracingapi/pwnyracingapi.pid
+ExecReload = /bin/kill -s HUP $MAINPID
+ExecStop = /bin/kill -s TERM $MAINPID
+ExecStopPost = /bin/rm -rf /run/pwnyracingapi
+PrivateTmp = true
+
+[Install]
+WantedBy = multi-user.target
