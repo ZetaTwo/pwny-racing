@@ -24,3 +24,11 @@ For example, I would run it as `./flag_submitter calle.svensson@zeta-two.com`.
 The first person to solve the community challenge will be invited to the next episode of Pwny Racing.
 In case that person can't participate, the offer will go to the second solver and so on.
 If you have any questions about the challenge, contact [@ZetaTwo](https://twitter.com/ZetaTwo) or e-mail `contact@pwny.racing`.
+
+Solvers (times in UTC):
+
+1. 2019-03-10 18:34:30:  [laxa](https://twitter.com/l4x4)  
+2. 2019-03-10 20:04:03: [mak](https://twitter.com/maciekkotowicz)  
+3. 2019-03-10 20:35:39: bananabush  
+4. 2019-03-11 03:19:06: [korniltsev](https://twitter.com/korniltsev) ([\[SPbCTF\] fargate](https://ctftime.org/team/63864))  
+5. 2019-03-11 15:07:31: [tbnz](https://twitter.com/_tbnz)  

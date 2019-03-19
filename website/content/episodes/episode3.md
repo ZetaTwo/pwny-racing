@@ -6,7 +6,7 @@ menu:
 ---
 
 The third episode of Pwny Racing will air on April 13th.  
-We continue to develop the contect and improve the experience.
+We continue to develop the contest and improve the experience.
 
 You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=SD8m_35QzOw).
 
