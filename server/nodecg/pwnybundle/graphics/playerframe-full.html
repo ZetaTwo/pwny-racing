@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="frames.css">
+	<style>
+		.container {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: 50px;
+			width: 100%;
+			height: 100%;
+		}
+
+		.border {
+			background-color: #27576B;
+		}
+
+		.player {
+			grid-column-start: auto;
+			grid-column-end: span 2;
+			visibility: hidden;
+		}
+
+		.player-info {
+			padding-left: 50px;
+		}
+
+		.player-info span {
+			text-align: center;
+			width: 100%;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="item border player-info"><span id="streamStatus">Hacking with Zeta Two</span></div>
+	</div>
+
+	<script>
+		const statusSpan = document.querySelector('#streamStatus');
+		
+		const statusReplicant = nodecg.Replicant('statusSpan', { defaultValue: 'Hacking with Zeta Two' });
+		statusReplicant.on('change', (newValue, oldValue) => {
+            console.log(newValue);
+			statusSpan.textContent = newValue;
+		});
+	</script>
+</body>
+
+</html>

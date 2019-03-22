@@ -5,6 +5,7 @@ const app = express();
 module.exports = function (nodecg) {
 	const countdownReplicant = nodecg.Replicant('countdown', {defaultValue: {seconds: 60*60*10, active: false}});
 	const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
+	const statusReplicant = nodecg.Replicant('statusSpan', { defaultValue: 'Hacking with Zeta Two' });
 
 	function updateCountdown() {
 		if(countdownReplicant.value.active) {
@@ -31,6 +32,12 @@ module.exports = function (nodecg) {
 		}
 
         res.json({"winner": is_winner});
+	});
+
+	app.post('/pwnyracing/stream/status', (req, res) => {
+		statusReplicant.value = req.body.status;
+
+        res.json({"status": "ok"});
     });
 
     nodecg.mount(app); // The route '/my-bundle/customroute` is now available
