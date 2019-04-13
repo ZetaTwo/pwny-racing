@@ -11,10 +11,20 @@
 
 ## RTMP Settings
 
-1. Make up a random string, this is your STREAM_KEY
-2. Get the participant password from an organizer, this is the CURRENT_PARTICIPANT_PASSWORD
+1. Get your PLAYER_INDEX and the current PARTICIPANT_PASSWORD from the organizers.
+2. Make up a random string, this is your STREAM_KEY
 3. Setup OBS to stream to an RTMP server with the following settings
 4. Send your STREAM_KEY to an organizer
 
-URL: rtmp://stream.pwny.racing/participant
+URL: rtmp://stream.pwny.racing/participant_${PLAYER_INDEX}
 Streaming key: STREAM_KEY?psk=CURRENT_PARTICIPANT_PASSWORD
+
+Example:  
+Your PLAYER_INDEX is 3 and the PARTICIPANT_PASSWORD is "supersecretpassword".
+You pick the STREAM_KEY "imal33th4xxor". Your settings will be:
+
+URL: "rtmp://stream.pwny.racing/participant_3"
+Streaming key: "imal33th4xxor?psk=supersecretpassword"
+
+To verify that the stream is working, you can then assemble this into a full URL and open in an RTMP capable player such as VLC.
+Play URL: rtmp://stream.pwny.racing/participant_3/imal33th4xxor?psk=supersecretpassword
