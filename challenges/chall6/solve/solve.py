@@ -2,9 +2,9 @@
 from pwn import *
 import sys
 
-LOCAL = True
-HOST  = ''
-PORT  = 12345
+LOCAL = False
+HOST  = 'challenge.pwny.racing'
+PORT  = 11531
 
 GOT   = 0x603038  # the address of strcpy in GOT
 LIBC  = 0x18e590  # distance from __strlen_avx2() leak to libc base
