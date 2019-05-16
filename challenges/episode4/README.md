@@ -5,7 +5,7 @@ The application has a limited format string bug that is limited because:
   1. it is located in the `.data` segment.
   2. although `1024` bytes are read, the string passed to `printf` must be `13` bytes or less.
 
-In addition to those limitations, bot `**envp` and `**argv` are cleared as well as there being
+In addition to those limitations, both `**envp` and `**argv` are cleared as well as there being
 no `libc` or user controlled pointers on the stack for the player to use.
 
 ## Exploitation
