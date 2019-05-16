@@ -46,7 +46,7 @@ return, by the time they return from `main()` they can pivot the stack to somewh
 
   1. use the fsb to leak addresses of the stack and binary.
   2. use the fsb to write to the lower 2 bytes of the stored base pointer and point it to the `again()`
-     buffer that will be used as a trampoline (`pop rbp; ret; leave; ret`).
+     buffer that will be used as a trampoline (`pop rbp; ret; leave; ret` or `pop rsp; ret`).
   3. write two ROP payloads; the trampoline and one in the main buffer to leak libc and read another
      payload over the top of it.
   4. write a payload with libc gadgets that will pop a shell.
@@ -57,8 +57,8 @@ Below is a diagram to explain the stack layout:
  +---------------------------------+
  |  future again() frame           |
  |                                 |
- |  +---------------------------+  |
- |  | buf[]: 0x5858585858585858 |  | <------  C) the future saved return address ------+
+ |  +---------------------------+  | <------  C) the future saved return address ------+
+ |  | buf[]: 0x5858585858585858 |  |                                                   |
  |  +---------------------------+  |                                                   |
  |  | buf[]: 0x5858585858585858 |  |                                                   |
  |  +---------------------------+  |                                                   |
