@@ -19,8 +19,8 @@ strategies have gone from novel to formulaic in a few short years as the attack 
 generalised. There has, however, always been another option and that option is what this challenge
 is designed to explore.
 
-In a given stack frame the stack pointer (rsp) points to the top of the frame and the base pointer
-(rbp) points to the bottom. So as a stack frame is cleaned up, the current base pointer is put into
+In a given stack frame the stack pointer (`rsp`) points to the top of the frame and the base pointer
+(`rbp`) points to the bottom. So as a stack frame is cleaned up, the current base pointer is put into
 the stack pointer and the previous base pointer is restored from the stack. This means that base
 pointers point to base pointers in a chain. So although it is usually possible to find some function
 pointer to subvert, another method is to subvert the stack frame metadata.
