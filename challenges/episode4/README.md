@@ -8,7 +8,7 @@ The application has a limited format string bug that is limited because:
 In addition to those limitations, both `**envp` and `**argv` are cleared as well as there being
 no `libc` or user controlled pointers on the stack for the player to use.
 
-## Exploitation
+# Exploitation
 
 Usually in these limited format string bug challenges, the goal is to forge pointers in an
 indirect way (writing a pointer to a pointer, or partially overwriting a `libc` or `ld` pointer).
