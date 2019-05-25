@@ -24,25 +24,6 @@ Redlof.o : Redlof.cpp Redlof.hpp Thing.hpp Elif.hpp
 Elif.o : Elif.cpp Elif.hpp Thing.hpp
 	$(CC) $(CFLAGS) -c Elif.cpp
 
-# # Compilation of "Folder"
-# Folder.o : Folder.cpp Folder.hpp Element.hpp File.hpp
-# 	$(ECHO) $(ECHOFLAGS) [+] Compilation of "Folder"...
-# 	$(COMP) $(COMPFLAGS) -c Folder.cpp
-# 	$(ECHO) $(ECHOFLAGS)
-
-# # Compilation of "File"
-# File.o : File.cpp File.hpp Element.hpp
-# 	$(ECHO) $(ECHOFLAGS) [+] Compilation of "File"...
-# 	$(COMP) $(COMPFLAGS) -c File.cpp
-# 	$(ECHO) $(ECHOFLAGS)
-
-# Cleaning rule
-# $(CLEAN) :
-# 	$(RM) $(RMFLAGS) $(BIN) $(OBJS) core
-
-# .o:
-# 	$(CC) $(CFLAGS) $< -o $@
-
 challenge: all
 	rm -f $(OBJ)
 
