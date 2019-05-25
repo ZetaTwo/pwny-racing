@@ -7,3 +7,5 @@
 *.til
 *.gdb_history
 core
+
+*_docker
