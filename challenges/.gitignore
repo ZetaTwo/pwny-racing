@@ -1,0 +1,9 @@
+*.id0
+*.id1
+*.id2
+*.idb
+*.i64
+*.nam
+*.til
+*.gdb_history
+core
