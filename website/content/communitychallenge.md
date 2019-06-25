@@ -57,7 +57,7 @@ Solvers (times in UTC):
 6. 2019-05-27 09:17:11 [Anatoly Korniltsev](https://twitter.com/korniltsev)
 7. 2019-05-27 22:09:47 martin
 8. 2019-06-05 17:30:20 [nneonneo](https://twitter.com/nneonneo)
-9. 2019-06-19 02:41:09 dreamist
+9. 2019-06-19 02:41:09 [dreamist](https://mobile.twitter.com/PoeticDreamist) ([ntropy](https://ctftime.org/team/30563))
 
 ### Community challenge 4
 
