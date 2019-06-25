@@ -12,7 +12,12 @@ You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=
 
 ## Participants
 
-The participants playing: laxa, mrtumble, kileak & Lord_Idiot
+The participants playing:
+
+* laxa
+* mrtumble
+* kileak
+* Lord_Idiot
 
 Hosted by:
 

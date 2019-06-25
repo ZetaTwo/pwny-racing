@@ -47,4 +47,18 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall8-dist.tgz)
 
-Solvers (times in UTC): TBA
+Solvers (times in UTC):
+
+1. 2019-05-26 18:14:59 [ottizy](https://twitter.com/liuhackse)
+2. 2019-05-26 18:38:56 [laxa](https://twitter.com/l4x4)  
+3. 2019-05-26 19:16:49 [fsoc_sh](https://twitter.com/fsoc_sh)
+4. 2019-05-26 20:11:00 [kidOfArcrania](kidOfArcrania)
+5. 2019-05-27 02:55:21 peace-maker
+6. 2019-05-27 09:17:11 [Anatoly Korniltsev](https://twitter.com/korniltsev)
+7. 2019-05-27 22:09:47 martin
+8. 2019-06-05 17:30:20 [nneonneo](https://twitter.com/nneonneo)
+9. 2019-06-19 02:41:09 dreamist
+
+### Community challenge 4
+
+Will be released here on June 30th 16:00 UTC
