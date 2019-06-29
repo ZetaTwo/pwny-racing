@@ -30,7 +30,9 @@ to the kernel, then the `xinetd` buffering can alter the order of operations in 
 
 This has the effect of making the values in volatile and regular registers less consistent with
 local runs and so the players might have a dangling `FILE *` reference in a register locally but
-they will be confused when this is not the case remotely.
+they will be confused when this is not the case remotely. So by clearing the possible locations
+for a `FILE *` reference after `IO` jumps we can ensure the players will not attempt to waste time
+building payloads around these values.
 
 # Exploitation
 
