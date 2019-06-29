@@ -20,6 +20,18 @@ function in order to obtain a valid leak, you would have the additional burden o
 the stack canary check at the end of that function (the same stack canary that was not setup due
 to the fact the attacker jumped into the middle of a function).
 
+# Note
+
+The only artificial addition to the binary is the clearing of registers before returning from `main()`.
+This is not to make things trickier, but rather to not confuse the players as there is a rather
+interesting behavioral difference with this kind of binary that is buffered both at the kernel
+level as well as libc when served over `xinetd`. Once a buffer is soley managed by libc as opposed
+to the kernel, then the `xinetd` buffering can alter the order of operations in the `IO` jump table.
+
+This has the effect of making the values in volatile and regular registers less consistent with
+local runs and so the players might have a dangling `FILE *` reference in a register locally but
+they will be confused when this is not the case remotely.
+
 # Exploitation
 
 There are a few ways to deal with this kind of problems (some more esoteric than others) but I
