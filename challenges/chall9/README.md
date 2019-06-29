@@ -32,7 +32,10 @@ local variables are positioned relative to `rbp` (by default), it will be possib
 certain useful values on the fake stack. Once we have the data we need  (to perform a libc ID),
 then we can read/write a useful payload.
 
-So the idea is to control this partial pixot and lay down some data and then finish  the rop
-chain.
+So the idea is to use the fake stack to generate real unguessable values (like a stack canary or
+`stdout FILE *`) and then build a ropchain around them, being careful to not damage the
+uninitialised values over several runs (restarting the binary).
 
+Keep in mind that the `FILE *` will be line buffered by default, so any leaks that do not contain
+whitespace that forces a flush (like `\n` and `\r`) will require a `fflush(fp)` call.
 
