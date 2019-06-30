@@ -26,4 +26,3 @@ mrtumble                                               |      [E04](/episodes/ep
 kileak                                                 |      [E04](/episodes/episode4/)                              |   0
 [theKidOfArcrania](https://twitter.com/kidOfArcrania)  |      [E05](/episodes/episode5/)                              |   0
 ottizy                                                 |      [E05](/episodes/episode5/)                              |   0
-[Murmus](https://twitter.com/MurmusCTF)                |      [E05](/episodes/episode5/)                              |   0
