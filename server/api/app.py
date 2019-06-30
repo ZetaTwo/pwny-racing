@@ -15,7 +15,7 @@ PARTICIPANTS = {
     'ottizy': 3,
 }
 
-COMMUNITY_CHALLENGES = [2,6,8]
+COMMUNITY_CHALLENGES = [3,6,8,10]
 RACE_CHALLENGES = [1,3,5,7,9]
 
 SLACK_URL = 'https://hooks.slack.com/services/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'

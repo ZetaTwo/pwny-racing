@@ -61,4 +61,6 @@ Solvers (times in UTC):
 
 ### Community challenge 4
 
-Will be released here on June 30th 16:00 UTC
+[Download the materials](/challenges/chall10-dist.tgz)
+
+Solvers (times in UTC): TBD
