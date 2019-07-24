@@ -63,4 +63,12 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall10-dist.tgz)
 
-Solvers (times in UTC): TBD
+Solvers (times in UTC):
+
+1. 2019-07-01 06:06:07 [nneonneo](https://twitter.com/nneonneo)
+2. 2019-07-01 16:43:02 [blasty](https://twitter.com/bl4sty/)
+3. 2019-07-05 23:22:42 martin
+4. 2019-07-10 23:06:39 [acez](https://twitter.com/amatcama/)
+5. 2019-07-12 03:24:45 fkilibarda
+6. 2019-07-13 19:27:12 lukas
+7. 2019-07-15 01:19:59 martinl
