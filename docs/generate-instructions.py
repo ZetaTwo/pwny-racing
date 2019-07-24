@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 import random
@@ -26,15 +26,15 @@ streamer_instructions_template = env.get_template('streamer-setup.md.tpl')
 obs_settings_template = env.from_string('{{ participant_name }}: rtmp://stream.pwny.racing/participant_{{ participant_index }}/{{ participant_key }}?psk={{ episode_password }}')
 
 episode = {
-    'episode_number': 5,
-    'episode_password': 'qxJaQrTgxh'
+    'episode_number': 6,
+    'episode_password': 'tLRnYNjw1vd1B8GK'
 }
 
 participants = [
-    (0, 'Murmus', 'murmus.ctf@gmail.com', 'alNoZLKUxe'),
-    (1, 'nneonneo', 'nneonneo@gmail.com', 'K6KZKxOle8'),
-    (2, 'kidOfArcrania', 'wanghenry1998@gmail.com', 'OibYFlnUlA'),
-    (3, 'ottizy', 'martinlarsson396@gmail.com', 'ZU7BJ9aD4a'),
+    (0, 'acez', '?', 'f6Kxa0n8ChENaxtQ'),
+    (1, 'blasty', '?', '47wCQdElhIPcpSJF'),
+    (2, 'TBD', '?', 'nDyAwrKQ1r6eez99'),
+    (3, 'TBD', '?', 'K9i0sKjCJ82kF1Q6'),
 ]
 
 for participant in participants:

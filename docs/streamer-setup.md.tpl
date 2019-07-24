@@ -1,4 +1,4 @@
-To: {{ participant_email }}
+To: {{ participant_name }}  <{{ participant_email }}>
 Subject: Setup instructions for Pwny Race participants
 
 # Setup instructions for Pwny Race participants
