@@ -1,4 +1,4 @@
-#CC=arm-linux-gnueabihf-gcc
+CC=arm-linux-gnueabihf-gcc
 CFLAGS=-s -z relro -z now -fstack-protector-all -marm -O0
 SRC=episode6.c
 OBJ=$(SRC:.c=.o)
