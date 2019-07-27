@@ -7,7 +7,7 @@ PORT = 11535
 
 LIBC = 0x593f0
 SYST = 0x2d4cc
-CMD  = './flag_submitter b0bb'
+CMD  = './flag_submitter test'
 
 if len(sys.argv) > 1:
     HOST  = sys.argv[1]
