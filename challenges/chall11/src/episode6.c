@@ -4,7 +4,7 @@
 
 typedef long long * BLOCK;
 
-#define MAX_BUFF 0x10
+#define MAX_BUFF 0x20
 #define MAX_NUMS 0x10
 
 char input[MAX_BUFF];
