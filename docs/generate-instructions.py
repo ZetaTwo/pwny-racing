@@ -33,8 +33,8 @@ episode = {
 participants = [
     (0, 'acez', '?', 'f6Kxa0n8ChENaxtQ'),
     (1, 'blasty', '?', '47wCQdElhIPcpSJF'),
-    (2, 'TBD', '?', 'nDyAwrKQ1r6eez99'),
-    (3, 'TBD', '?', 'K9i0sKjCJ82kF1Q6'),
+    (2, 'likvidera', '?', 'nDyAwrKQ1r6eez99'),
+    (3, 'Vacant', '?', 'K9i0sKjCJ82kF1Q6'),
 ]
 
 for participant in participants:

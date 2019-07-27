@@ -9,14 +9,14 @@ if __name__ != '__main__':
     application.logger.setLevel(gunicorn_logger.level)
 
 PARTICIPANTS = {
-    'murmus': 0,
-    'nneonneo': 1,
-    'kidofarcrania': 2,
-    'ottizy': 3,
+    'acez': 0,
+    'blasty': 1,
+    'likvidera': 2,
+    'vacant': 3,
 }
 
-COMMUNITY_CHALLENGES = [3,6,8,10]
-RACE_CHALLENGES = [1,3,5,7,9]
+COMMUNITY_CHALLENGES = [2,6,8,10]
+RACE_CHALLENGES = [1,3,5,7,9,11]
 
 SLACK_URL = 'https://hooks.slack.com/services/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'
 #SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
@@ -84,6 +84,7 @@ def handle_community_challenge(challenge, user_token):
 
 @application.route('/challenges/<int:challenge>/flag')
 def challenge_flag(challenge):
+    result = create_result()
     user_token = request.args.get('token', False)
     if not user_token:
         result['message'] = 'Token not provided'
@@ -94,6 +95,5 @@ def challenge_flag(challenge):
     elif challenge in RACE_CHALLENGES:
         return handle_race_challenge(challenge, user_token)
     else:
-        result = create_result()
         result['message'] = 'Challenge %d does not exist' % int(challenge)
         return jsonify(result)
