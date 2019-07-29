@@ -4,7 +4,7 @@ menu: "main"
 markup: mmark
 ---
 
-The scoreboard for the current season of the Pwny Race looks like this
+The scoreboard for the current season of the Pwny Race is:
 
 {.table}
 Name                                                                                         | Participated                                                 | Won
