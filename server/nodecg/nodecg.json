@@ -1,0 +1,15 @@
+{
+    "login": {
+      "enabled": true,
+      "sessionSecret": "y6q7wkN4QNXs8Oo4b2rqJ4eUW7vRlHgdngMcJssSaCOBNf4XV5xzUZumg3RFyzUV",
+      "local": {
+        "enabled": true,
+        "allowedUsers": [
+          {
+            "username": "zetatwo",
+            "password": "sha256:4fa4569ef45847f1dd7e62931a0faa82ff0c0d2ba6507a76162c6c2a56be3ae0"
+          }
+        ]
+      }
+    }
+  }
