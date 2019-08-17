@@ -55,6 +55,11 @@
         "height": 1080
       },
       {
+        "file": "scoreboard.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "playerframe.html",
         "width": 1920,
         "height": 50
@@ -74,6 +79,7 @@
   "repository": "https://github.com/nodecg/nodecg.git",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "moment": "^2.24.0"
   }
 }

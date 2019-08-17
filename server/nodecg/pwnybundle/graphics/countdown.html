@@ -26,6 +26,8 @@
         }
     </style>
 
+    <script src="../node_modules/moment/min/moment.min.js"></script>
+
 </head>
 
 <body>
@@ -38,12 +40,11 @@
         const textBox = document.querySelector('#splash-text');
         const countdownReplicant = nodecg.Replicant('countdown', { defaultValue: { seconds: 60 * 60 * 10, active: false } });
         countdownReplicant.on('change', (newValue, oldValue) => {
-            hour = Math.floor((newValue.seconds/3600)).toString().padStart(2, '0');
-            minute = Math.floor(((newValue.seconds/60)%60)).toString().padStart(2, '0');
-            second = Math.floor(((newValue.seconds % 60))).toString().padStart(2, '0');
-            console.log(newValue.seconds)
-
-            textBox.textContent = `Stream starts in:\n${hour}:${minute}:${second}`;
+            const remaining = moment.duration(newValue.seconds, 'seconds');
+            const hours = remaining.hours().toString().padStart(2, '0');
+            const minutes = remaining.minutes().toString().padStart(2, '0');
+            const seconds = remaining.seconds().toString().padStart(2, '0');
+            textBox.textContent = `Stream starts in:\n${hours}:${minutes}:${seconds}`;
         });
     </script>
 </body>

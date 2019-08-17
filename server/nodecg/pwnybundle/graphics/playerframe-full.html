@@ -45,7 +45,6 @@
 		
 		const statusReplicant = nodecg.Replicant('statusSpan', { defaultValue: 'Hacking with Zeta Two' });
 		statusReplicant.on('change', (newValue, oldValue) => {
-            console.log(newValue);
 			statusSpan.textContent = newValue;
 		});
 	</script>
