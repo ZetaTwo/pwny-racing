@@ -36,13 +36,15 @@
             font-size: 50%;
         }
 
-	</style>
+    </style>
+    
+    <script src="../node_modules/moment/min/moment.min.js"></script>
 </head>
 
 <body>
 	<div class="container">
         <h1>Standings</h1>
-        <table class="scoreboard">
+        <table class="scoreboard" id="scoreboard">
             <col><col><col><col><col><col><col><col><col><col><col><col><col>
             <tr><th>#</th></th><th>Player</th><th colspan="2">Round 1</th><th colspan="2">Round 2</th><th colspan="2">Round 3</th><th colspan="2">Round 4</th><th colspan="2">Round 5</th><th>Total</th></tr>
             <tr><td>1</td><td>ZetaTwo</td><td><b>13:37</b></td><td><b>5p</b></td><td>13:37</td><td>5p</td><td>13:37</td><td>5p</td><td>13:37</td><td>5p</td><td>13:37</td><td>5p</td><td>5</td></tr>
@@ -53,7 +55,76 @@
 	</div>
 
 	<script>
-		
+        const scoreboardReplicant = nodecg.Replicant('scoreboard', { defaultValue: {
+                "players": [
+                    {"name": "Player 1", "rounds": [false, false, false, false, false] },
+                    {"name": "Player 2", "rounds": [false, false, false, false, false] },
+                    {"name": "Player 3", "rounds": [false, false, false, false, false] },
+                    {"name": "Player 4", "rounds": [false, false, false, false, false] },
+                ],
+                "rounds": [
+                    {"started": false, "checkpoint": false, "done": false},
+                    {"started": false, "checkpoint": false, "done": false},
+                    {"started": false, "checkpoint": false, "done": false},
+                    {"started": false, "checkpoint": false, "done": false},
+                    {"started": false, "checkpoint": false, "done": false},
+                ]
+            }
+        });
+        const scoreboardTable = document.getElementById('scoreboard');
+
+        scoreboardReplicant.on('change', (newValue, oldValue) => {
+            //const player_rows_data = calculate_rows(newValue); //TODO: calculate the data below and redraw every tick
+            const player_rows_data = [
+                {"name": "Player 3", "rounds": [{"time": 20*1000, "winner": true, "points": 5}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
+                {"name": "Player 2", "rounds": [{"time": 30*1000, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
+                {"name": "Player 4", "rounds": [{"time": 2*60*1000, "points": 2}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
+                {"name": "Player 1", "rounds": [{"time": false, "points": 0}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
+            ];
+            const rounds_data = newValue.rounds;
+
+
+            for(let player = 0; player < player_rows_data.length; player++) {
+                const table_row = scoreboardTable.rows[player+1];
+                player_row_data = player_rows_data[player];
+                table_row.cells[1].textContent = player_row_data.name;
+                
+                for(let round = 0; round < rounds_data.length; round++) {
+                    const round_data = rounds_data[round];
+                    if(round_data.started === false) {
+                        table_row.cells[2+2*round].textContent = '';
+                        table_row.cells[2+2*round+1].textContent = '';
+                    } else {
+                        const endtime = moment(player_row_data.rounds[round].time || undefined);
+                        const starttime = moment(round_data.started);
+                        
+                        const elapsed = moment.duration(endtime.diff(starttime));
+                        const minutes = elapsed.minutes().toString().padStart(2, '0');
+                        const seconds = elapsed.seconds().toString().padStart(2, '0');
+
+                        let time_content = `${minutes}:${seconds}`;
+                        let score_content = player_row_data.rounds[round].points + 'p';
+
+                        if(!player_row_data.rounds[round].winner && round_data.checkpoint) {
+                            const elapsed_delta = moment.duration(endtime.diff(round_data.checkpoint));
+                            const minutes_delta = elapsed_delta.minutes().toString().padStart(2, '0');
+                            const seconds_delta = elapsed_delta.seconds().toString().padStart(2, '0');
+
+                            time_content += `<br><span class="timediff">+${minutes_delta}:${seconds_delta}</span>`;
+                        }
+
+                        if(player_row_data.rounds[round].winner) {
+                            time_content = `<b>${time_content}</b>`;
+                            score_content = `<b>${score_content}</b>`;
+                        }
+
+                        table_row.cells[2+2*round].innerHTML = time_content;
+                        table_row.cells[2+2*round+1].innerHTML = score_content;
+                    }
+                }
+            }
+        });
+    
 	</script>
 </body>
 
