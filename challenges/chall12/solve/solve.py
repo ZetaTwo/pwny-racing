@@ -16,9 +16,6 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
     PORT = sys.argv[2]
 
-if len(sys.argv) > 3:
-    CMD = sys.argv[3]
-
 io = remote(HOST, PORT)
 print io.recvuntil('5!\n')
 
