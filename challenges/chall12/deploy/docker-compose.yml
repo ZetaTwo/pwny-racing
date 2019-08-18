@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  chall12:
+    build:
+      context: .
+    container_name: chall12
+    ports:
+      - "1337:1337"
+    entrypoint: "/usr/sbin/xinetd -dontfork"
