@@ -55,6 +55,7 @@
 	</div>
 
 	<script>
+        
         const scoreboardReplicant = nodecg.Replicant('scoreboard', { defaultValue: {
                 "players": [
                     {"name": "Player 1", "rounds": [false, false, false, false, false] },
@@ -73,15 +74,15 @@
         });
         const scoreboardTable = document.getElementById('scoreboard');
 
-        scoreboardReplicant.on('change', (newValue, oldValue) => {
-            //const player_rows_data = calculate_rows(newValue); //TODO: calculate the data below and redraw every tick
+        let updateScoreboard = (value) => {
+            //const player_rows_data = calculate_rows(value); //TODO: calculate the data below and redraw every tick
             const player_rows_data = [
                 {"name": "Player 3", "rounds": [{"time": 20*1000, "winner": true, "points": 5}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
                 {"name": "Player 2", "rounds": [{"time": 30*1000, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
                 {"name": "Player 4", "rounds": [{"time": 2*60*1000, "points": 2}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
                 {"name": "Player 1", "rounds": [{"time": false, "points": 0}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}, {"time": 10, "delta": false, "winner": true, "points": 3}]},
             ];
-            const rounds_data = newValue.rounds;
+            const rounds_data = value.rounds;
 
 
             for(let player = 0; player < player_rows_data.length; player++) {
@@ -123,7 +124,12 @@
                     }
                 }
             }
+        };
+
+        scoreboardReplicant.on('change', (newValue, oldValue) => {
+            updateScoreboard(newValue);
         });
+        setInterval(() => updateScoreboard(scoreboardReplicant.value), 1000);
     
 	</script>
 </body>
