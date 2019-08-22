@@ -9,11 +9,14 @@
     </style>
 </head>
 <body>
+    <div>
 	Time: <input class="timeinput" id="countdownHours" name="countdownHours" type="text" value="10">
 	: <input class="timeinput" id="countdownMinutes" name="countdownMinutes" type="text" value="0">
-	: <input class="timeinput" id="countdownSeconds" name="countdownSeconds" type="text" value="0">
+    : <input class="timeinput" id="countdownSeconds" name="countdownSeconds" type="text" value="0">
+</div><div>
     <button id="startButton">Start/pause</button>
     <button id="setButton">Set</button>
+</div>
 	<script>
 		const timeInputs = [
 		document.querySelector('#countdownHours'),

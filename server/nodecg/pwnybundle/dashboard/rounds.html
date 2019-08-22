@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+    <table>
+      <tr><th>Round</th><th>State</th></tr>
+      <tr><td>1</td><td><button id="round1">Start</button></td></tr>
+      <tr><td>2</td><td><button id="round2">Start</button></td></tr>
+      <tr><td>3</td><td><button id="round3">Start</button></td></tr>
+      <tr><td>4</td><td><button id="round4">Start</button></td></tr>
+      <tr><td>5</td><td><button id="round5">Start</button></td></tr>
+    </table>
+	<script>
+        const rounds = [
+            document.querySelector('#round1'),
+            document.querySelector('#round2'),
+            document.querySelector('#round3'),
+            document.querySelector('#round4'),
+            document.querySelector('#round5')
+        ];
+
+        const roundsReplicant = nodecg.Replicant('rounds', { defaultValue: [
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+        ]});
+
+        for(let i = 0; i < rounds.length; i++) {
+            rounds[i].onclick = () => {
+                console.log(i);
+            }
+        }
+	</script>
+</body>
+</html>

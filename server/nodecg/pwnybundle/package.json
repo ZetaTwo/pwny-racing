@@ -24,22 +24,29 @@
       {
         "name": "playernames",
         "title": "Player Names",
-        "width": 2,
+        "width": 3,
         "file": "playernames.html",
         "headerColor": "#525F78"
       },
       {
         "name": "countdown",
         "title": "Countdown",
-        "width": 2,
+        "width": 3,
         "file": "countdown.html",
         "headerColor": "#525F78"
       },
       {
         "name": "gamestate",
         "title": "Game State",
-        "width": 2,
+        "width": 4,
         "file": "gamestate.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "rounds",
+        "title": "Game Rounds",
+        "width": 2,
+        "file": "rounds.html",
         "headerColor": "#525F78"
       }
     ],

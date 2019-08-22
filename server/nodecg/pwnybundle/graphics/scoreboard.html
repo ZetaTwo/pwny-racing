@@ -55,23 +55,24 @@
 	</div>
 
 	<script>
-        
-        const scoreboardReplicant = nodecg.Replicant('scoreboard', { defaultValue: {
-                "players": [
-                    {"name": "Player 1", "rounds": [false, false, false, false, false] },
-                    {"name": "Player 2", "rounds": [false, false, false, false, false] },
-                    {"name": "Player 3", "rounds": [false, false, false, false, false] },
-                    {"name": "Player 4", "rounds": [false, false, false, false, false] },
-                ],
-                "rounds": [
-                    {"started": false, "checkpoint": false, "done": false},
-                    {"started": false, "checkpoint": false, "done": false},
-                    {"started": false, "checkpoint": false, "done": false},
-                    {"started": false, "checkpoint": false, "done": false},
-                    {"started": false, "checkpoint": false, "done": false},
-                ]
-            }
-        });
+        // Replicants
+        const roundsReplicant = nodecg.Replicant('rounds', { defaultValue: [
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+            {"started": false, "checkpoint": false, "done": false},
+        ]});
+
+        const playerRoundsReplicant = nodecg.Replicant('playerRounds', { defaultValue: [
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+        ]});
+
+        const nameReplicant = nodecg.Replicant('playerNames', { defaultValue: ['Player 1', 'Player 2', 'Player 3', 'Player 4'] });
+		
         const scoreboardTable = document.getElementById('scoreboard');
 
         let updateScoreboard = (value) => {
@@ -126,10 +127,33 @@
             }
         };
 
-        scoreboardReplicant.on('change', (newValue, oldValue) => {
-            updateScoreboard(newValue);
+        // Event handlers
+        playerRoundsReplicant.on('change', (newValue, oldValue) => {
+            updateScoreboard({
+                "players": newValue,
+                "rounds": roundsReplicant.value,
+                "names": namesReplicant.value,
+            });
         });
-        setInterval(() => updateScoreboard(scoreboardReplicant.value), 1000);
+        roundsReplicant.on('change', (newValue, oldValue) => {
+            updateScoreboard({
+                "players": newValue,
+                "rounds": roundsReplicant.value,
+                "names": namesReplicant.value,
+            });
+        });
+        namesReplicant.on('change', (newValue, oldValue) => {
+            updateScoreboard({
+                "players": playerRoundsReplicant.value,
+                "rounds": roundsReplicant.value,
+                "names": newValue,
+            });
+        });
+        setInterval(() => updateScoreboard({
+                "players": playerRoundsReplicant.value,
+                "rounds": roundsReplicant.value,
+                "names": namesReplicant.value,
+            }), 1000);
     
 	</script>
 </body>

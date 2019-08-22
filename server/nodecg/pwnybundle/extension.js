@@ -6,6 +6,12 @@ module.exports = function (nodecg) {
 	const countdownReplicant = nodecg.Replicant('countdown', {defaultValue: {seconds: 60*60*10, active: false}});
 	const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
 	const statusReplicant = nodecg.Replicant('statusSpan', { defaultValue: 'Hacking with Zeta Two' });
+	const playerRoundsReplicant = nodecg.Replicant('playerRounds', { defaultValue: [
+		[false, false, false, false, false],
+		[false, false, false, false, false],
+		[false, false, false, false, false],
+		[false, false, false, false, false],
+	]});
 
 	function updateCountdown() {
 		if(countdownReplicant.value.active) {
@@ -32,6 +38,10 @@ module.exports = function (nodecg) {
 		}
 
         res.json({"winner": is_winner});
+	});
+
+	app.post('/pwnyracing/roundflag', (req, res) => {
+		req.body.username
 	});
 
 	app.post('/pwnyracing/stream/status', (req, res) => {
