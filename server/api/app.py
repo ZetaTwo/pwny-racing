@@ -17,13 +17,6 @@ PARTICIPANTS = {
 
 COMMUNITY_CHALLENGES = [2,6,8,10]
 RACE_CHALLENGES = [1,3,5,7,9,11]
-SPECIAL_CHALLENGES = {
-    12: handle_episode7,
-    13: handle_episode7,
-    14: handle_episode7,
-    15: handle_episode7,
-    16: handle_episode7,
-}
 
 SLACK_URL = 'https://hooks.slack.com/services/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'
 #SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
@@ -109,6 +102,13 @@ def handle_episode7(challenge, user_token):
     
     return jsonify(result)
 
+SPECIAL_CHALLENGES = {
+    12: handle_episode7,
+    13: handle_episode7,
+    14: handle_episode7,
+    15: handle_episode7,
+    16: handle_episode7,
+}
 
 @application.route('/challenges/<int:challenge>/flag')
 def challenge_flag(challenge):
