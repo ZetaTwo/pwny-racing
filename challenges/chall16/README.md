@@ -26,6 +26,11 @@ using `__libc_csu_init()` or just call one of the many functions that can clear
 `rdx` for them and then call `execve("/bin/sh", NULL, NULL)` directly in their ROP
 chain.
 
+*Note:* There is an easy way out if the player cannot see the above methods paying
+off, they can just overflow, obtain a leak and then restart the program (with `main()`
+in their ROP chain for a second run) and do another buffer overflow. This method is
+just a little slower than the others (at least the way I do them).
+
 ## Protections
 
 ```
