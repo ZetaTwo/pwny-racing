@@ -9,10 +9,10 @@ if __name__ != '__main__':
     application.logger.setLevel(gunicorn_logger.level)
 
 PARTICIPANTS = {
-    'acez': 0,
-    'blasty': 1,
-    'likvidera': 2,
-    'vacant': 3,
+    'spq': 0,
+    'quend': 1,
+    'zap': 2,
+    'ferdi265': 3,
 }
 
 COMMUNITY_CHALLENGES = [2,6,8,10]
@@ -90,9 +90,25 @@ def handle_community_challenge(challenge, user_token):
     return jsonify(result)
 
 def handle_episode7(challenge, user_token):
+    round_number = challenge - 12
     result = create_result()
-
     
+    user = get_unique_user(user_token)
+    if not user:
+        result['message'] = 'User not unique, please provide full username'
+        return jsonify(result)
+
+    user_slot = PARTICIPANTS[user]
+    try:
+        requests.post('http://localhost:9090/pwnyracing/roundflag', data={'userslot': user_slot, 'username': user, 'round': round_number}).json()['winner']
+        result['status'] = 'win'
+        result['message'] = 'Great job! You solved the round %d challenge. Keep it up!' % (round_number + 1)
+    except:
+        result['status'] = 'lose'
+        result['message'] = 'Something went wrong. Please tell the commentators!'
+    
+    return jsonify(result)
+
 
 @application.route('/challenges/<int:challenge>/flag')
 def challenge_flag(challenge):
