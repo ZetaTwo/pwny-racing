@@ -57,3 +57,15 @@ Stack:    Canary found
 NX:       NX enabled
 PIE:      No PIE (0x8048000)
 ```
+
+## Building
+
+Please keep in mind that the challenge requires an exported env variable `$PROG`
+to be set to `/bin/cat` in order to run. Since this is a repurposed challenge, the
+way it was done in the original docker container is that the `redir.sh` script had
+the following:
+
+```bash
+#! /bin/bash
+export PROG=/bin/cat && cd /home/ctf && ./chall
+```
