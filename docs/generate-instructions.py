@@ -26,15 +26,15 @@ streamer_instructions_template = env.get_template('streamer-setup.md.tpl')
 obs_settings_template = env.from_string('{{ participant_name }}: rtmp://stream.pwny.racing/participant_{{ participant_index }}/{{ participant_key }}?psk={{ episode_password }}')
 
 episode = {
-    'episode_number': 6,
-    'episode_password': 'tLRnYNjw1vd1B8GK'
+    'episode_number': 7,
+    'episode_password': 'tLRnYNj1wvd1B8GK'
 }
 
 participants = [
-    (0, 'acez', '?', 'f6Kxa0n8ChENaxtQ'),
-    (1, 'blasty', '?', '47wCQdElhIPcpSJF'),
-    (2, 'likvidera', '?', 'nDyAwrKQ1r6eez99'),
-    (3, 'Vacant', '?', 'K9i0sKjCJ82kF1Q6'),
+    (0, 'spq', '?', 'f6Kxa0nC8hENaxtQ'),
+    (1, 'quend', '?', '47wCQEdlhIPcpSJF'),
+    (2, 'zap', '?', 'nDyAwrQK1r6eez99'),
+    (3, 'ferdi265', '?', 'K90isKjCJ82kF1Q6'),
 ]
 
 for participant in participants:
