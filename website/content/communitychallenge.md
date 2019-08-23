@@ -72,3 +72,9 @@ Solvers (times in UTC):
 5. 2019-07-12 03:24:45 fkilibarda
 6. 2019-07-13 19:27:12 lukas
 7. 2019-07-15 01:19:59 martinl
+
+## Community challenge 5
+
+[Download the materials](/challenges/chall17-dist.tgz)
+
+Solvers (times in UTC): TBD
