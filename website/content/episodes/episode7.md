@@ -7,7 +7,7 @@ menu:
 
 The seventh episode of Pwny Racing aired on August 22nd.  
 
-You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=6t-JVBVVXic).
+You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=ZmrOVQEmj0g).
 
 ## Participants
 
