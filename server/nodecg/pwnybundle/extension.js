@@ -41,14 +41,19 @@ module.exports = function (nodecg) {
 	});
 
 	app.post('/pwnyracing/roundflag', (req, res) => {
-		userslot = req.body.userslot
-		round = req.body.round
+		const userslot = parseInt(req.body['username']);
+		const round = parseInt(req.body['round']);
+
 
 		if(userslot >= playerRoundsReplicant.value.length || round >= playerRoundsReplicant.value[0].length) {
 			return res.json({"status": "fail"});
 		}
 
+		console.log(playerRoundsReplicant.value[userslot]);
+		console.log(playerRoundsReplicant.value[userslot][round]);
+
 		playerRoundsReplicant.value[userslot][round] = Date.now();
+		return res.json({"status": "ok"});
 	});
 
 	app.post('/pwnyracing/stream/status', (req, res) => {

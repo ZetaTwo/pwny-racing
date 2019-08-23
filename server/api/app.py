@@ -93,6 +93,7 @@ def handle_episode7(challenge, user_token):
 
     user_slot = PARTICIPANTS[user]
     try:
+        print(user_slot, user, round_number)
         requests.post('http://localhost:9090/pwnyracing/roundflag', data={'userslot': user_slot, 'username': user, 'round': round_number}).json()['winner']
         result['status'] = 'win'
         result['message'] = 'Great job! You solved the round %d challenge. Keep it up!' % (round_number + 1)
