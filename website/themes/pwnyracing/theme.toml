@@ -11,7 +11,7 @@ features = []
 min_version = "0.38"
 
 [author]
-  name = "Carl \"ZetaTwo\" Svensson
+  name = "Carl \"ZetaTwo\" Svensson"
   homepage = "https://zeta-two.com"
 
 # If porting an existing theme
