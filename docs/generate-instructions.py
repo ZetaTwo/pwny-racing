@@ -34,7 +34,7 @@ participants = [
     (0, 'spq', '?', 'f6Kxa0nC8hENaxtQ'),
     (1, 'quend', '?', '47wCQEdlhIPcpSJF'),
     (2, 'zap', '?', 'nDyAwrQK1r6eez99'),
-    (3, 'ferdi265', '?', 'K90isKjCJ82kF1Q6'),
+    (3, 'aweinstock', '?', 'K90isKjCJ82kF1Q6'),
 ]
 
 for participant in participants:
