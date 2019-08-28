@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>pwny.racing - E02 Community Challenge Writeup</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>pwny.racing</h1>
+					<h3 class="fragment">E02 Community Challenge Writeup</h3>
+					<p class="fragment">
+						<small>By <a href="https://twitter.com/ZetaTwo">ZetaTwo</a> and <a href="https://twitter.com/0xb0bb">b0bb</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>The Challenge</h2>
+					<section>
+						<p class="fragment">Provide input to call 16 junk functions in any order</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									void populate(){
+
+									    funcs[0x0] = &w9IufIp;
+									    funcs[0x1] = &daGS75A;
+									    funcs[0x2] = &NBKY1ub;
+									    funcs[0x3] = &NsS879W;
+									    funcs[0x4] = &Xt9KAAY;
+									    funcs[0x5] = &M1vJ30d;
+									    funcs[0x6] = &ZJJgn6q;
+									    funcs[0x7] = &x4N20OF;
+									    funcs[0x8] = &GLL1JFR;
+									    funcs[0x9] = &RYmCgnz;
+									    /* etc. etc. */
+									}
+									```
+								</script>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p>They really are junk functions</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									void PvdMpNh(){
+
+									    printf("Haikus are easy\n" \
+									           "But sometimes they don't make sense\n" \
+									           "Microwave noodles!\n");
+									}
+
+									void ZJJgn6q(){
+
+									    free((void *) rand());
+									}
+
+									/* etc. etc. */
+									```
+								</script>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p>Except maybe this one</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									void NBKY1ub(){
+
+									    system("d0g ./fl4444g");
+									}
+									```
+								</script>
+							</div>
+						</div>
+						<p class="fragment">But not exactly ideal</p>
+					</section>
+					<section>
+						<p>How does it work?</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									/* read input from user */
+									if ((n = read(0, input, INPUT_SIZE)) == 0)
+										return n;
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									/* split input into 16 byte blocks and get the crc32 */
+									for (i = 0; i < *size; i += CHUNK_SIZE)
+										cvals[v++] = crc32(0, (const char *) &input[i],
+														MIN(*size-i, CHUNK_SIZE));
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									/* use the crc32 to pick which junk function to call */
+									for (i = 0, v = 0; i < crcsz; i += CHUNK_SIZE)
+										(*(funcs[abs(cvals[v++]) % 0x0f]))(&input[i]);
+									```
+								</script>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p>There is also some debug functionality</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									int opt;
+									while((opt = getopt(argc, argv, ":d")) != -1)
+										switch(opt){
+										case 'd':
+											debug = 1; /* this is on the stack */
+											break;
+									}
+
+									/* ... */
+
+									if (*(long *) debug > 0)
+										dump("\e[1mdebug:\e[0m         ", input, *size);
+									```
+								</script>
+							</div>
+						</div>
+						<p class="fragment">Dumping some stack might be helpful later</p>
+					</section>
+				</section>
+
+				<section>
+					<h2>Running</h2>
+					<section>
+						<img style="margin-top: 50px" width="774" height="560" data-src="./img/run_0.png">
+					</section>
+					<section>
+						<img style="margin-top: 50px" width="774" height="560" data-src="./img/run_1.png">
+					</section>
+					<section>
+						<img style="margin-top: 50px" width="774" height="560" data-src="./img/run_2.png">
+					</section>
+					<section>
+						<img style="margin-top: 50px" width="774" height="560" data-src="./img/run_3.png">
+					</section>
+				</section>
+
+				<section>
+					<h2>The Bugs</h2>
+					<section>
+						<p>1. Casting error on the debug flag</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									/* two 32bit values on main() stack */
+									unsigned int fails = 0;
+									unsigned int debug = 0;
+
+									/* ... */
+
+									/* if no data was read, increment the fail counter */
+									if (crcsz == 0){
+										fails++;
+										continue;
+									}
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									/* in read_input() */
+
+									/* debug is cast as 64bit value so includes fail counter */
+									if (*(long *) debug > 0)
+										dump("\e[1mdebug:\e[0m         ", input, *size);
+									```
+								</script>
+							</div>
+						</div>
+					</section>
+
+					<section>
+						<p style="padding-top: 35px">2. Leblancian Paradox</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									/* this is what a beautiful bug looks like */
+									(*(funcs[abs(cvals[v++]) % 0x0f]))();
+									```
+								</script>
+							</div>
+						</div>
+					</section>
+				</section>
+
+
+				<section>
+					<h2>Leblancian Paradox</h2>
+					<section>
+						<p class="fragment">this code</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```c
+									int foo(int x) {
+										return abs(x);
+									}
+									```
+								</script>
+							</div>
+						</div>
+						<p class="fragment">compiles to</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									foo:
+									    ; crud here
+										cdq
+										xor eax, edx
+										sub eax, edx
+										; crud here
+									```
+								</script>
+							</div>
+						</div>
+						<p class="fragment">so why isn't there a call abs instruction?</p>
+					</section>
+
+					<section>
+						<p>because abs() is an automatic builtin function in gcc and is therefor inlined
+						with an optimised version even if optimisation is set to -O0. To disable you must
+						use -fno-builtin-function</p>
+					</section>
+
+					<section>
+						<p>this is a beautiful optimisation to handle both cases</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									; sign extend eax to edx
+									; so if eax is > 0 then edx = 0 else edx = -1
+									cdq
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									; if edx == 0 then eax will stay the same
+									xor eax, edx
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									; subtract eax with edx
+									; if eax was > 0, edx is 0
+									; if eax was < 0, edx is -1
+									sub eax, edx
+									```
+								</script>
+							</div>
+						</div>
+						<p><span class="fragment">it is almost perfect.</span> <span class="fragment">almost...</span></p>
+					</section>
+					
+					<section>
+						<h4>so what is wrong with it?</h4>
+						<p class="fragment">it fails on exactly 1 edge case...</p>
+						<p class="fragment">INT_MIN = -2147483648 = 0x80000000</p>
+						<p class="fragment">this is because there is one more negative number in the range of numbers
+						                    than positive numbers since only an even set of numbers can be expressed
+						                    in all 32bits and pesky 0 takes up one of those slots.</p>
+					</section>
+
+					<section>
+						<p>lets break abs() with 0x80000000</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									; eax = 0x80000000
+									; edx = 0xffffffff
+									cdq
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									; eax = 0x7fffffff (0x80000000 ^ 0xffffffff)
+									xor eax, edx
+									```
+								</script>
+							</div>
+						</div>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```assembly
+									; eax = 0x80000000 (0x7fffffff - 0xffffffff)
+									sub eax, edx
+									; so... (abs(0x80000000) % 0x0f) == -8
+									```
+								</script>
+							</div>
+						</div>
+						<p>
+							<span class="fragment">eax is now a negative number, </span>
+							<span class="fragment">the most negative 32bit number it could possibly be.</span>
+							<span class="fragment">ouch...</span>
+						</p>
+					</section>
+					
+					<section>
+						<h4 style="margin-top: 55px">how could you have known this?</h4>
+						<section>
+							<div data-markdown>
+								<script type="text/template">
+									1. Read books, it is in "The Art of Software Security Assessment" on page 250. <!-- .element: class="fragment"-->
+									2. Read source code including test cases. In this case pc37078.c in gcc. <!-- .element: class="fragment" -->
+									3. The Zeta approach, try all the things! INT_MAX, 0, INT_MIN etc. Break it and then ask why? <!-- .element: class="fragment" -->
+								</script>
+							</div>
+						</section>
+					</section>
+				</section>
+
+				<section>
+					<h2>Attack Plan</h2>
+					<section>
+						<div data-markdown>
+							<script type="text/template">
+								1. Increment fail counter to take advantage of casting bug and turn debugging on. Do this by providing just
+								an empty line as input. <!-- .element: class="fragment"-->
+								2. Write 1024 bytes to leak a function pointer. <!-- .element: class="fragment" -->
+								3. Use leak to calculate location of system(). <!-- .element: class="fragment" -->
+								4. Put system pointer 8 * sizeof(long long) bytes before function pointers. <!-- .element: class="fragment" -->
+								5. Write a string that crc32(string) == 0x80000000 and contains a valid shell command. <!-- .element: class="fragment" -->
+							</script>
+						</div>
+					</section>
+					<section>
+						<p>how to find the crc32() string that returns 0x80000000?</p>
+						<div data-markdown>
+							<script type="text/template">
+								1. Brute force '/bin/sh;#????' where ? is replaced with random bytes. <!-- .element: class="fragment"-->
+								2. Use a tool like 'force32' to forge it in a calculated manner. <!-- .element: class="fragment" -->
+							</script>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<h2>Fin, änden, the end.</h2>
+					<img style="margin-top: 50px; border-width: 0px;" data-src="./img/hfs.png" width="500" height="auto">
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
