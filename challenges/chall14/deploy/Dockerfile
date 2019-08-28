@@ -20,15 +20,12 @@ RUN chmod 750 /home/ctf/redir.sh
 # Add challenge specific items
 ADD files/chall /home/ctf/chall
 ADD files/.config.json /home/ctf/.config.json
-RUN touch /home/ctf/.ssh
 
 # Set permissions for specific items
 RUN chown -R root:ctf /home/ctf
 RUN chmod 750 /home/ctf/chall
 RUN chmod 400 /home/ctf/.config.json
 RUN chmod 4111 /home/ctf/flag_submitter
-RUN chmod 400 /home/ctf/.ssh
-RUN chattr +i /home/ctf/.ssh
 
 # Start serving
 RUN service xinetd restart
