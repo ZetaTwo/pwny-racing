@@ -52,6 +52,23 @@
 				<section>
 					<h2>The Challenge</h2>
 					<section>
+						<p>Protections</p>
+						<div class="fragment">
+							<div data-markdown>
+								<script type="text/template">
+									```bash
+									Arch:     amd64-64-little
+									RELRO:    Full RELRO
+									Stack:    Canary found
+									NX:       NX enabled
+									PIE:      PIE enabled
+									```
+								</script>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p>The application:</p>
 						<p class="fragment">Provide input to call 16 junk functions in any order</p>
 						<div class="fragment">
 							<div data-markdown>
@@ -417,7 +434,7 @@
 
 				<section>
 					<h2>Fin, änden, the end.</h2>
-					<img style="margin-top: 50px; border-width: 0px;" data-src="./img/hfs.png" width="500" height="auto">
+					<img style="margin-top: 50px; border-width: 0px; background-color: transparent;" data-src="./img/hfs.png" width="500" height="auto">
 				</section>
 
 			</div>
