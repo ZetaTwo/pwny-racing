@@ -22,7 +22,13 @@ The first person to solve the community challenge will be invited to the next ep
 In case that person can't participate, the offer will go to the second solver and so on.
 If you have any questions about the challenge, contact [@ZetaTwo](https://twitter.com/ZetaTwo) or e-mail `contact@pwny.racing`.
 
+If you solve the challenge, feel free to do a pull request to [the solution repository](https://github.com/ZetaTwo/pwny-racing-solutions) with your solution.
+Take care to follow the repository structure. We would like to get as many of your solutions in there as possible so that they can act as a resource for other people.
+We might also do something in the future where showcase different ways of tackling the challenges.
+
 ### Community challenge 1
+
+A [video run through of the challenge](https://www.youtube.com/watch?v=3lH_6AE4UIw) is available on YouTube.
 
 [Download the materials](/challenges/chall2-dist.tgz)
 
