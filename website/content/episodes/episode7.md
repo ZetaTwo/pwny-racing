@@ -13,7 +13,7 @@ You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=
 
 The participants playing:
 
-* [spq](https://twitter.com/spq) ([ESPR](https://ctftime.org/team/285))
+* [spq](https://twitter.com/spq) ([ESPR](https://ctftime.org/team/15712))
 * [quend](https://twitter.com/Calaquendi44) ([RPISEC](https://ctftime.org/team/572)/[HackingForSoju](https://ctftime.org/team/3208))
 * [zap](https://twitter.com/zap_rpisec) ([RPISEC](https://ctftime.org/team/572))
 * [aweinstock](https://aweinstock.com/) ([RPISEC](https://ctftime.org/team/572))

@@ -15,7 +15,7 @@ Vlad “vos” Roskov ([LCBC](https://ctftime.org/team/15726))                  
 [Lord_Idiot](https://twitter.com/__lord_idiot) ([HATS SG](https://ctftime.org/team/58574))                                         |      [E04](/episodes/episode4/)                              |   1
 [nneonneo](https://twitter.com/nneonneo) ([PPP](https://ctftime.org/team/284))                                                     |      [E05](/episodes/episode5/)                              |   1
 [acez](https://twitter.com/amatcama) ([Shellphish](https://ctftime.org/team/285))                                                  |      [E06](/episodes/episode6/)                              |   1
-[spq](https://twitter.com/spq) ([ESPR](https://ctftime.org/team/285))                                                              |      [E07](/episodes/episode7/)                              |   1
+[spq](https://twitter.com/spq) ([ESPR](https://ctftime.org/team/15712))                                                            |      [E07](/episodes/episode7/)                              |   1
 endeavor ([rainbowsandpwnies](https://ctftime.org/team/1480))                                                                      |      [E01](/episodes/episode1/)                              |   0
 [jay](https://twitter.com/computerality) ([Trail of Bits](https://www.trailofbits.com/))                                           |      [E01](/episodes/episode1/)                              |   0
 [borysp](https://twitter.com/boryspop) ([Dragon Sector](https://ctftime.org/team/3329))                                            |      [E02](/episodes/episode2/)                              |   0
