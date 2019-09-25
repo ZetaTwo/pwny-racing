@@ -11,7 +11,13 @@ You can watch the live steam on [YouTube](https://www.youtube.com/watch?v=OS4RdW
 
 ## Participants
 
-The participants playing: TBA
+The participants playing:
+
+* XeR
+* [nneonneo](https://twitter.com/nneonneo)
+* [honululu](https://twitter.com/_honululu_)
+* TBD
+
 Hosted by:
 
 * [Carl "Zeta Two" Svensson](https://twitter.com/ZetaTwo) - Host
