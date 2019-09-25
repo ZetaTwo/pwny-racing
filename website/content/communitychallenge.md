@@ -61,7 +61,7 @@ Solvers (times in UTC):
 4. 2019-05-26 20:11:00 [kidOfArcrania](kidOfArcrania)
 5. 2019-05-27 02:55:21 peace-maker
 6. 2019-05-27 09:17:11 [Anatoly Korniltsev](https://twitter.com/korniltsev)
-7. 2019-05-27 22:09:47 martin
+7. 2019-05-27 22:09:47 [martin](https://twitter.com/martin30527833)
 8. 2019-06-05 17:30:20 [nneonneo](https://twitter.com/nneonneo)
 9. 2019-06-19 02:41:09 [dreamist](https://mobile.twitter.com/PoeticDreamist) ([ntropy](https://ctftime.org/team/30563))
 
@@ -73,7 +73,7 @@ Solvers (times in UTC):
 
 1. 2019-07-01 06:06:07 [nneonneo](https://twitter.com/nneonneo)
 2. 2019-07-01 16:43:02 [blasty](https://twitter.com/bl4sty/)
-3. 2019-07-05 23:22:42 martin
+3. 2019-07-05 23:22:42 [martin](https://twitter.com/martin30527833)
 4. 2019-07-10 23:06:39 [acez](https://twitter.com/amatcama/)
 5. 2019-07-12 03:24:45 fkilibarda
 6. 2019-07-13 19:27:12 lukas
@@ -83,4 +83,11 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall17-dist.tgz)
 
-Solvers (times in UTC): TBD
+Solvers (times in UTC):
+
+1. 2019-08-23 22:51:35 [martin](https://twitter.com/martin30527833)
+2. 2019-08-23 22:54:58 XeR
+3. 2019-08-24 12:41:36 anonymous
+4. 2019-08-24 22:27:23 anonymous
+5. 2019-08-25 04:50:21 peace-maker
+6. 2019-09-03 14:42:52 [nandayo](https://twitter.com/nanday0_)
