@@ -1,0 +1,25 @@
+episode:
+  number: 8
+  password: pLVgvQkVM1
+  youtube_key: '89pf-ztc9-hfgy-cabs'
+participants:
+- id: 0
+  name: XeR
+  email: ''
+  password: KFA8WFBpOQ
+  youtube_key: 'YOUTUBE_KEY_PARTICIPANT0'
+- id: 1
+  name: nneonneo
+  email: ''
+  password: Q43PUMcDAv
+  youtube_key: 'YOUTUBE_KEY_PARTICIPANT1'
+- id: 2
+  name: honululu
+  email: ''
+  password: mBTMCSc5HF
+  youtube_key: 'YOUTUBE_KEY_PARTICIPANT2'
+- id: 3
+  name: TBD
+  email: ''
+  password: N4N5eBIbHi
+  youtube_key: 'YOUTUBE_KEY_PARTICIPANT3'

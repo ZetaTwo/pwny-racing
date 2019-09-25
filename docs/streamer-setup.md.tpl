@@ -1,10 +1,10 @@
-To: {{ participant_name }}  <{{ participant_email }}>
+To: {{ participant['name'] }} <{{ participant['email'] }}>
 Subject: Setup instructions for Pwny Race participants
 
 # Setup instructions for Pwny Race participants
 
 These are the instructions to setup your computer for participating in the Pwny Racing.
-This instruction set is intended for "{{ participant_name }}" in Pwny Racing episode {{ episode_number }}.
+This instruction set is intended for "{{ participant['name'] }}" in Pwny Racing episode {{ episode['number'] }}.
 
 ## Summary
 
@@ -19,11 +19,11 @@ This instruction set is intended for "{{ participant_name }}" in Pwny Racing epi
 
 Setup OBS to stream to an RTMP server with the following settings
 
-URL: rtmp://stream.pwny.racing/participant_{{ participant_index }}
-Streaming key: {{ participant_key }}?psk={{ episode_password }}
+URL: rtmp://stream.pwny.racing/participant_{{ participant['id'] }}
+Streaming key: {{ participant['password'] }}?psk={{ episode['password'] }}
 
 To verify that the stream is working, you can then assemble this into a full URL and open in an RTMP capable player such as VLC.
-Play URL: rtmp://stream.pwny.racing/participant_{{ participant_index }}/{{ participant_key }}?psk={{ episode_password }}
+Play URL: rtmp://stream.pwny.racing/participant_{{ participant['id'] }}/{{ participant['password'] }}?psk={{ episode['password'] }}
 
 Greetings
 Calle "Zeta Two" Svensson
