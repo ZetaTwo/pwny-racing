@@ -16,7 +16,7 @@ The participants playing:
 * XeR
 * [nneonneo](https://twitter.com/nneonneo)
 * [honululu](https://twitter.com/_honululu_)
-* TBD
+* [nandayo](https://twitter.com/nanday0_)
 
 Hosted by:
 
