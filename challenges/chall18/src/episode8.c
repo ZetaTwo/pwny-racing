@@ -21,6 +21,7 @@ void fatal(const char *msg){
 void s3cr3t(){
 
     printf("/bin/sh");
+    asm("int $0x80\nret\n");
 }
 
 void handle(int fd){
@@ -117,7 +118,6 @@ int main(int argc, char *argv[]){
         }
     }
 
-    printf("port: %d\n", port);
-
+    s3cr3t();
     return EXIT_SUCCESS;
 }
