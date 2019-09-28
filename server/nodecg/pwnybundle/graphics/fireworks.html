@@ -19,7 +19,7 @@
 			color: #fff;
 			text-align: center;
 			font-size: 4em; /* fallback */
-			font-size: 90vw;
+			font-size: 5vw;
 			font-family: arial, verdana, sans-serif;
 
 			position: absolute;
@@ -55,7 +55,7 @@
 			const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
 			gameStateReplicant.on('change', (newValue, oldValue) => {
 				if(newValue.fireworks) {
-					fire(newValue.winner + ' wins Pwny Racing episode 2!');
+					fire(newValue.winner + ' wins Pwny Racing episode 8!');
 				} else {
 					kill();
 				}

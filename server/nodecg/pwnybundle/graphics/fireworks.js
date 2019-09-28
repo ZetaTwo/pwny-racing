@@ -13,7 +13,8 @@ var SCREEN_WIDTH = window.innerWidth,
     particles = [],
     rockets = [],
     MAX_PARTICLES = 400,
-    colorCode = 0;
+    colorCode = 0,
+    active = false;
 
 var launchInterval;
 var loopInterval;
@@ -28,13 +29,17 @@ function fire(text){
     winText.classList.add("fade");
     launchInterval = setInterval(launch, 800);
     loopInterval = setInterval(loop, 1000 / 50);
+    active = true;
 }
 
 function kill(){
     clearInterval(launchInterval);
     clearInterval(loopInterval);
-    document.body.removeChild(winText);
-    document.body.removeChild(canvas);
+    if(active) {
+        document.body.removeChild(winText);
+        document.body.removeChild(canvas);
+        active = false;
+    }
 }
 
 function launch() {
