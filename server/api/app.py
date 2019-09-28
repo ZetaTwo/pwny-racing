@@ -9,14 +9,14 @@ if __name__ != '__main__':
     application.logger.setLevel(gunicorn_logger.level)
 
 PARTICIPANTS = {
-    'spq': 0,
-    'quend': 1,
-    'zap': 2,
-    'ferdi265': 3,
+    'xer': 0,
+    'nneonneo': 1,
+    'honululu': 2,
+    'nandayo': 3,
 }
 
-COMMUNITY_CHALLENGES = [2,6,8,10,17]
-RACE_CHALLENGES = [1,3,5,7,9,11]
+COMMUNITY_CHALLENGES = [2,6,8,10,17,18]
+RACE_CHALLENGES = [1,3,5,7,9,11,12,13,14,15,16,19]
 
 SLACK_URL = 'https://hooks.slack.com/services/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'
 #SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
