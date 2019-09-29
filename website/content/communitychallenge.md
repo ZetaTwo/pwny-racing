@@ -91,3 +91,9 @@ Solvers (times in UTC):
 4. 2019-08-24 22:27:23 anonymous
 5. 2019-08-25 04:50:21 peace-maker
 6. 2019-09-03 14:42:52 [nandayo](https://twitter.com/nanday0_)
+
+## Community challenge 6
+
+[Download the materials](/challenges/chall19-dist.tgz)
+
+Solvers (times in UTC): TBD

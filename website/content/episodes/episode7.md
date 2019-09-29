@@ -32,7 +32,7 @@ The challenges can be downloaded here:
 
 * [Challenge 12](/challenges/chall12-dist.tgz)
 * [Challenge 13](/challenges/chall13-dist.tgz)
-* Challenge 14 (Not yet released)
+* [Challenge 14](/challenges/chall14-dist.tgz)
 * [Challenge 15](/challenges/chall15-dist.tgz)
 * Challenge 16 (Not yet released)
 
