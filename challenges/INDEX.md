@@ -1,14 +1,14 @@
 # Challenge list
 
-* chall1 - Episode 1
-* chall2 - Community challenge 1
-* chall3 - Episode 2
-* chall4 - 
-* chall5 - Episode 3
-* chall6 - Community challenge 2
-* chall7 - Episode 4
-* chall8 - Community challenge 3
-* chall9 - Episode 5
+* chall01 - Episode 1
+* chall02 - Community challenge 1
+* chall03 - Episode 2
+* chall04 - 
+* chall05 - Episode 3
+* chall06 - Community challenge 2
+* chall07 - Episode 4
+* chall08 - Community challenge 3
+* chall09 - Episode 5
 * chall10 - Community challenge 4
 * chall11 - Episode 6
 * chall12 - Episode 7 (chall A)
