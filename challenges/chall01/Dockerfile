@@ -1,7 +1,7 @@
 FROM ubuntu:18.04 AS build
 
-RUN apt-get update --fix-missing && apt-get -y upgrade
-RUN apt-get install -y build-essential
+RUN dpkg --add-architecture i386 && apt-get update && apt-get -y upgrade
+RUN apt-get install -y build-essential libc6-dev:i386
 RUN mkdir /build
 ADD src /build/src
 RUN cd /build/src && make
