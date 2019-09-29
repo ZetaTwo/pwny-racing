@@ -5,9 +5,9 @@ menu:
     parent: "episodes"
 ---
 
-The eigth episode of Pwny Racing will air on September 28th.  
+The eigth episode of Pwny Racing aired on September 28th.  
 
-You can watch the live steam on [YouTube](https://www.youtube.com/watch?v=OS4RdWsLCuA).
+You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=OS4RdWsLCuA).
 
 ## Participants
 
@@ -25,8 +25,7 @@ Hosted by:
 
 ## Challenges
 
-Author: b0bb  
+Author: b0bb
 
-TBA
-
+The challenge was an 32-bit x86 pwnable. Since the challenge is supposed to be solved blind we will not release it quite yet as we hope to have it hosted soon.
 NOTE: We are currently not running the remote server for the challenge. We are working on a solution to have them up but in the meanwhile you can still solve the challenge locally.
