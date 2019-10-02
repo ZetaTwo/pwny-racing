@@ -1,7 +1,7 @@
 CFLAGS=-s -z relro -z now -fstack-protector-all -no-pie -fno-pic -O0
-SRC=episode5.c
+SRC=chall9.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall9
 
 .PHONY : clean
 
