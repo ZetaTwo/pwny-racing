@@ -3,7 +3,7 @@ FROM ubuntu:18.04 AS build
 RUN apt-get update && apt-get install -y build-essential gcc-multilib
 RUN mkdir /build
 ADD src /build/src
-RUN cd /build/src && make
+RUN cd /build/src && make clean && make
 
 FROM pwnable:latest
 
