@@ -1,5 +1,5 @@
 CFLAGS=-z relro -z now -fno-stack-protector -Wno-format-security # -no-pie -fno-pic
-SRC=episode4.c
+SRC=chall7.c
 OBJ=$(SRC:.c=.o)
 BIN=chall7
 
