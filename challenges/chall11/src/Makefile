@@ -1,8 +1,8 @@
-CC=arm-linux-gnueabihf-gcc
+CC=arm-linux-gnueabihf-gcc-4.8
 CFLAGS=-s -z relro -z now -fstack-protector-all -marm -O0
-SRC=episode6.c
+SRC=chall11.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall11
 
 .PHONY : clean
 

