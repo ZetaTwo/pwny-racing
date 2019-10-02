@@ -8,7 +8,7 @@ RUN cd /build/src && make
 FROM pwnable:latest
 
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y libc6:i386
-COPY --from=build /build/src/chall3 /home/ctf/chall
+COPY --from=build /build/src/chall5 /home/ctf/chall
 ADD deploy/.config.json /home/ctf/.config.json
 ADD deploy/flag /home/ctf/flag
 RUN chown root:ctf /home/ctf/chall /home/ctf/.config.json /home/ctf/flag

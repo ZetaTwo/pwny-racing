@@ -4,8 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 EXPOSE 1337
 
 # Update and install dependencies
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y xinetd
+RUN apt-get update && apt-get -y upgrade && apt-get install -y xinetd
 
 RUN groupadd -r ctf && useradd -r -g ctf ctf
 

