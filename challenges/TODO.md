@@ -1,6 +1,5 @@
 Port to new Docker:
 
-* chall 12
 * chall 13
 * chall 14
 * chall 15

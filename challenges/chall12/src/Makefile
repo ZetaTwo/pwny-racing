@@ -1,7 +1,7 @@
 CFLAGS=-s -z,relro -no-pie -fno-pic -fno-stack-protector -Wno-implicit-function-declaration
-SRC=episode7a.c
+SRC=chall12.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall12
 
 .PHONY : clean
 
