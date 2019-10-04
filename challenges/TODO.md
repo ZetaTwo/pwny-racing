@@ -10,7 +10,6 @@ Port to new Docker:
 
 Port exploit to Python 3 and new system:
 
-* chall 3
 * chall 5
 * chall 6
 * chall 7
