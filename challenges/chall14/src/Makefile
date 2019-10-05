@@ -1,7 +1,7 @@
 CFLAGS=-s -fstack-protector-all
-SRC=episode7c.c
+SRC=chall14.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall14
 
 .PHONY : clean
 

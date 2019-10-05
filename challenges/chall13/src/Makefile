@@ -1,7 +1,7 @@
 CFLAGS=-s -Wl,-z,relro -m32 -no-pie -fno-pic -fstack-protector-all -Wno-format-security
-SRC=episode7b.c
+SRC=chall13.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall13
 
 .PHONY : clean
 

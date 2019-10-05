@@ -1,7 +1,7 @@
 CFLAGS=-s -fstack-protector-all -Wno-incompatible-pointer-types -Wno-int-conversion
-SRC=episode7e.c
+SRC=chall16.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall16
 
 .PHONY : clean
 

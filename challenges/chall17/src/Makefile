@@ -1,7 +1,7 @@
 CFLAGS=-s -z relro -z now -no-pie -fno-pic -fstack-protector-all -m32
-SRC=community7.c
+SRC=chall17.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall17
 
 .PHONY : clean
 

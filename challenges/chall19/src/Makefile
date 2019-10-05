@@ -1,7 +1,7 @@
 CFLAGS=-s
-SRC=community8.c
+SRC=chall19.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall19
 
 .PHONY : clean
 

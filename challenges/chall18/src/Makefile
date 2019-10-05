@@ -1,7 +1,7 @@
 CFLAGS=-static -fstack-protector-all -m32 -O0
-SRC=episode8.c
+SRC=chall18.c
 OBJ=$(SRC:.c=.o)
-BIN=chall
+BIN=chall18
 
 .PHONY : clean
 

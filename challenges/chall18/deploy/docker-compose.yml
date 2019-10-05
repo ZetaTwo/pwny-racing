@@ -1,9 +1,0 @@
-version: '3.7'
-services:
-  chall18:
-    build:
-      context: .
-    container_name: chall18
-    ports:
-      - "1337:1337"
-    entrypoint: "/home/ctf/redir.sh"
