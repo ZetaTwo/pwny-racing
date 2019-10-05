@@ -4,7 +4,7 @@ from pwn import *
 NUM_ATTEMPTS = 5
 
 HOST = ''
-PORT = 0
+PORT = 40002
 
 CRC_FIX = 0xd1b9af3d
 

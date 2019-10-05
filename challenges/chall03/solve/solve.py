@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 from pwn import *
 import sys
 import os
@@ -6,7 +6,7 @@ import os
 NUM_ATTEMPTS = 1000
 
 HOST = ''
-PORT = 11528
+PORT = 40003
 
 context(arch='amd64', os='linux')
 

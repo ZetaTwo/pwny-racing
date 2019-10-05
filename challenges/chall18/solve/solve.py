@@ -1,11 +1,11 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 from pwn import *
 import os
 import pickle
 import sys
 
 HOST = 'challenge.pwny.racing'
-PORT = 11542
+PORT = 40018
 
 if len(sys.argv) > 1:
     HOST  = sys.argv[1]

@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 from pwn import *
 import sys
 
 HOST = 'challenge.pwny.racing'
-PORT = 11537
+PORT = 40013
 
 LIBC = 0x065810
 HOOK = 0x1d5788

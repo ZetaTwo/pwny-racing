@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 from pwn import *
 import sys
 
 HOST = 'challenge.pwny.racing'
-PORT = 11535
+PORT = 40011
 
 CMD  = 'id'
 

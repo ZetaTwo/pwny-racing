@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 from pwn import *
 
 HOST = 'challenge.pwny.racing'
-PORT = 11538
+PORT = 40014
 
 if len(sys.argv) > 1:
     HOST  = sys.argv[1]

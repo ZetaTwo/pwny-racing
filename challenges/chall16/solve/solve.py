@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 from pwn import *
 import sys
 import time
 
 HOST  = 'challenge.pwny.racing'
-PORT  = 11540
+PORT  = 40016
 
 BASE  = 0xc1d
 STACK = 0x130

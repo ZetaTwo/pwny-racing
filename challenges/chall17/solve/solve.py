@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 from pwn import *
 import sys
 import time
@@ -6,7 +6,7 @@ import time
 target_elf = ELF('../bin/chall17')
 
 HOST = ''
-PORT = 11541
+PORT = 40017
 ADDR = 0x0804b480
 
 if len(sys.argv) > 1:

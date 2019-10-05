@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 from pwn import *
 import sys
 
 HOST = 'challenge.pwny.racing'
-PORT = 11534
+PORT = 40009
 
 # context(terminal=['tmux', 'splitw', '-h'])  # horizontal split window
 # context(terminal=['tmux', 'new-window'])    # open new window

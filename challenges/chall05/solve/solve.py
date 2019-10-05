@@ -3,7 +3,7 @@ from pwn import *
 import sys
 
 HOST  = ''
-PORT  = 12345
+PORT  = 40005
 NUM_ATTEMPTS = 10
 
 target_elf = ELF('../bin/chall5')

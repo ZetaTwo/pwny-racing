@@ -1,2 +1,2 @@
 #!/bin/sh
-nc challenge.pwny.racing 11541
+nc challenge.pwny.racing 40017
