@@ -86,8 +86,6 @@ def exploit_attempt():
 
 		io.sendline(b'id')
 		id_result = io.recvline()
-		io.sendline(b'id')
-		id_result = io.recvline()
 		if b'uid=' in id_result:
 			log.success('shell: %s', id_result.decode('ascii').strip())
 			if not os.environ.get('HEALTH_CHECK', False):
