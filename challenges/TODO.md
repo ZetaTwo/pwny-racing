@@ -1,6 +1,5 @@
 Port exploit to Python 3 and new system:
 
-* chall 6
 * chall 7
 * chall 8
 * chall 9
