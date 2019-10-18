@@ -1,35 +1,28 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">Pwny Racing</a>
-      </div>
-  
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-        {{ $currentPage := . }}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Pwny Racing <span class="sr-only">(current)</span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      {{ $currentPage := . }}
         {{ range .Site.Menus.main }}
             {{ if .HasChildren }}
-                <li class="{{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }} dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">{{ .Pre }}<span>{{ .Title }} <span class="caret"></span></span></a>
-                  <ul class="dropdown-menu">
+                <li class="nav-item dropdown {{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }} dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ .Pre }}<span>{{ .Title }}</span></a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       {{ range .Children }}
-                          <li class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}"><a href="{{ .URL }}">{{ .Title }}</a></li>
+                          <a class="dropdown-item {{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}" href="{{ .URL }}">{{ .Title }}</a>
                       {{ end }}
-                  </ul>
+                  </div>
                 </li>
             {{ else }}
-                <li class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}"><a href="{{ .URL }}">{{ .Pre }}<span>{{ .Title }}</span></a></li>
+                <li class="nav-item {{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}"><a class="nav-link" href="{{ .URL }}">{{ .Pre }}<span>{{ .Title }}</span></a></li>
             {{ end }}
         {{ end }}
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+
+    </ul>
+  </div>
+</nav>
