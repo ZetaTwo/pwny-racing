@@ -26,6 +26,8 @@ If you solve the challenge, feel free to do a pull request to [the solution repo
 Take care to follow the repository structure. We would like to get as many of your solutions in there as possible so that they can act as a resource for other people.
 We might also do something in the future where showcase different ways of tackling the challenges.
 
+The goal is always to get full code execution, even if you in some cases can read the flag without it. We are now hosting all the remote challenges so that you can try to solve them against our server. However, there is no way to turn in flags or track progress. It's only the latest community challenge that counts towards earning a spot in the next episode.
+
 ### Community challenge 1
 
 A [video run through of the challenge](https://www.youtube.com/watch?v=3lH_6AE4UIw) is available on YouTube.

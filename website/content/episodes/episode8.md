@@ -27,5 +27,6 @@ Hosted by:
 
 Author: b0bb
 
-The challenge was an 32-bit x86 pwnable. Since the challenge is supposed to be solved blind we will not release it quite yet as we hope to have it hosted soon.
-NOTE: We are currently not running the remote server for the challenge. We are working on a solution to have them up but in the meanwhile you can still solve the challenge locally.
+The challenge was an 32-bit x86 pwnable. The challenge can be downloaded here: [Challenge 18](/challenges/chall18-dist.tgz). 
+
+NOTE: The goal is always to get full code execution, even if you in some cases can read the flag without it. We are now hosting the remote challenges so that you can try to solve them against our server. However, there is no way to turn in flags or track progress.
