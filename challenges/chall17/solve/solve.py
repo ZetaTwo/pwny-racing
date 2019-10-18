@@ -50,7 +50,6 @@ def exploit_attempt():
             sys.exit(0)
         else:
             log.failure('Error: %s', id_result)
-            sys.exit(1)
     except EOFError as e:
         log.failure('Fail: EOF')
     except Exception as e:

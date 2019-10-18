@@ -75,10 +75,9 @@ def exploit_attempt():
             log.success('shell: %s', id_result.decode('ascii').strip())
             if not os.environ.get('HEALTH_CHECK', False):
                 io.interactive()
-            sys.exit(0)
+            return True
         else:
             log.failure('Error: %s', id_result)
-            sys.exit(1)
     except EOFError as e:
         log.failure('Fail: EOF')
     except Exception as e:
