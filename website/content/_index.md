@@ -2,7 +2,7 @@
 title: "Pwny Racing"
 ---
 
-![Pwny Racing](/img/banner.png)
+![Pwny Racing](/img/banner.png "Pwny Racing")
 
 Welcome to Pwny Racing!  
 Pwny Racing is a monthly live streamed head-to-head hacking competition.  
