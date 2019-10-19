@@ -1,5 +1,9 @@
 #!/bin/sh
 CHALLENGE_NAME=$1
-cd $CHALLENGE_NAME
-./test.sh
+HOST=$2
+PORT=$3
+cd ../$CHALLENGE_NAME
+./test.sh $HOST $PORT
+TEST_RESULT=$?
 cd -
+exit $TEST_RESULT

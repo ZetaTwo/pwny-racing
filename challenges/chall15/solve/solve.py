@@ -4,6 +4,7 @@ import sys
 import time
 
 target_elf = ELF('../bin/chall15')
+context(timeout=5)
 
 HOST = ''
 PORT = 40015

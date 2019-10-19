@@ -19,8 +19,8 @@ if len(sys.argv) > 2:
 def exploit_attempt():
     try:
         if len(HOST) > 0:
-            target_libc = ELF('../bin/libc.so.6', level='warn')
-            io = remote(HOST, PORT)
+            target_libc = ELF('../bin/libc.so.6')
+            io = remote(HOST, PORT, level='warn')
         else:
             target_libc = target_elf.libc
             io = target_elf.process(level='warn')

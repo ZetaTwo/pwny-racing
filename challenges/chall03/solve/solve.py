@@ -5,6 +5,8 @@ import os
 
 NUM_ATTEMPTS = 1000
 
+context(timeout=5)
+
 HOST = ''
 PORT = 40003
 
