@@ -105,6 +105,5 @@ Solvers (times in UTC):
 3. 2019-09-29 19:03:24 anonymous
 4. 2019-09-29 19:19:30 XeR
 5. 2019-09-29 21:44:23 [acez](https://twitter.com/amatcama)
-6. 2019-09-29 22:35:13 anonymous
-7. 2019-09-29 22:37:43 anonymous
-8. 2019-09-30 08:04:42 [honululu](https://twitter.com/_honululu_)
+6. 2019-09-29 22:35:13 [mallle](@fktio)
+7. 2019-09-30 08:04:42 [honululu](https://twitter.com/_honululu_)
