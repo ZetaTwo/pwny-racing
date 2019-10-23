@@ -17,6 +17,7 @@ PARTICIPANTS = {
 
 COMMUNITY_CHALLENGES = [2,6,8,10,17,19]
 RACE_CHALLENGES = [1,3,5,7,9,11,12,13,14,15,16,18]
+ACTIVE_CHALLENGES = [19]
 
 SLACK_URL = 'https://hooks.slack.com/services/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'
 #SLACK_URL = 'https://hooks.slack.com/services/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' #Testing
@@ -47,6 +48,25 @@ def create_result():
         'status': 'error',
         'message': 'Unknown error',
     }
+
+def handle_old_challenge(challenge, user_token):
+    result = create_result()
+    user_token_clean = user_token.split('\n')[0].strip()
+    application.logger.info('Solved old challenge: %d, E-mail: %s', challenge, user_token_clean)
+    
+    result['status'] = 'win'
+    result['message'] = 'Congratulations! You have solved the challenge. We are working on a way to track this progress. For now, save your exploit for later use.'
+
+    slack_message = {
+        'text': 'User with email `%s` solved the an old challenge: `%d`' % (user_token_clean, challenge)
+    }
+    r = requests.post(SLACK_URL, json=slack_message)
+    if r.status_code != 200:
+        application.logger.error('Failed to post Slack message: %s', r.text)
+    else:
+        application.logger.info('Posted Slack message: %s', r.text)
+
+    return jsonify(result)
 
 def handle_race_challenge(challenge, user_token):
     result = create_result()
@@ -119,7 +139,9 @@ def challenge_flag(challenge):
         result['message'] = 'Token not provided'
         return jsonify(result)
 
-    if challenge in COMMUNITY_CHALLENGES:
+    if challenge not in ACTIVE_CHALLENGES:
+        return handle_old_challenge(challenge, user_token)
+    elif challenge in COMMUNITY_CHALLENGES:
         return handle_community_challenge(challenge, user_token)
     elif challenge in RACE_CHALLENGES:
         return handle_race_challenge(challenge, user_token)
