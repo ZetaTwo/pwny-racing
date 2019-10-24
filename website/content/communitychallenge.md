@@ -102,7 +102,7 @@ Solvers (times in UTC):
 
 1. 2019-09-29 18:06:52 peace-maker
 2. 2019-09-29 18:19:29 PewZ
-3. 2019-09-29 19:03:24 anonymous
+3. 2019-09-29 19:03:24 [alfink](https://twitter.com/_alfink_)
 4. 2019-09-29 19:19:30 XeR
 5. 2019-09-29 21:44:23 [acez](https://twitter.com/amatcama)
 6. 2019-09-29 22:35:13 [mallle](@fktio)
