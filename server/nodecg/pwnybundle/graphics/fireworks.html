@@ -55,7 +55,7 @@
 			const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
 			gameStateReplicant.on('change', (newValue, oldValue) => {
 				if(newValue.fireworks) {
-					fire(newValue.winner + ' wins Pwny Racing episode 8!');
+					fire(newValue.winner + ' wins Pwny Racing episode 9!');
 				} else {
 					kill();
 				}
