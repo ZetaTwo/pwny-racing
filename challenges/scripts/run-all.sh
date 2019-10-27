@@ -16,7 +16,9 @@
 ./run-chall.sh chall13 40013
 ./run-chall.sh chall14 40014
 ./run-chall.sh chall15 40015
-#./run-chall.sh chall16 40016 # Not yet released
+./run-chall.sh chall16 40016
 ./run-chall.sh chall17 40017
 ./run-chall.sh chall18 40018
 ./run-chall.sh chall19 40019
+#./run-chall.sh chall19 40020 # Needs fixing
+./run-chall.sh chall19 40021

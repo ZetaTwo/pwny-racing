@@ -34,6 +34,6 @@ The challenges can be downloaded here:
 * [Challenge 13](/challenges/chall13-dist.tgz)
 * [Challenge 14](/challenges/chall14-dist.tgz)
 * [Challenge 15](/challenges/chall15-dist.tgz)
-* Challenge 16 (Not yet released)
+* [Challenge 16](/challenges/chall16-dist.tgz)
 
 NOTE: The goal is always to get full code execution, even if you in some cases can read the flag without it. We are now hosting the remote challenges so that you can try to solve them against our server. However, there is no way to turn in flags or track progress.
