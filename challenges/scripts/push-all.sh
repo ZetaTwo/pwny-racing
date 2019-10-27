@@ -21,3 +21,5 @@
 ./push-chall.sh chall17
 ./push-chall.sh chall18
 ./push-chall.sh chall19
+#./push-chall.sh chall20 # Needs fixing
+./push-chall.sh chall21
