@@ -58,7 +58,7 @@ def handle_old_challenge(challenge, user_token):
     result['message'] = 'Congratulations! You have solved the challenge. We are working on a way to track this progress. For now, save your exploit for later use.'
 
     slack_message = {
-        'text': 'User with email `%s` solved the an old challenge: `%d`' % (user_token_clean, challenge)
+        'text': 'User with email `%s` solved an old challenge: `%d`' % (user_token_clean, challenge)
     }
     r = requests.post(SLACK_URL, json=slack_message)
     if r.status_code != 200:
