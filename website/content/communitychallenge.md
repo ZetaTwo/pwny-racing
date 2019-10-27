@@ -107,3 +107,10 @@ Solvers (times in UTC):
 5. 2019-09-29 21:44:23 [acez](https://twitter.com/amatcama)
 6. 2019-09-29 22:35:13 [mallle](@fktio)
 7. 2019-09-30 08:04:42 [honululu](https://twitter.com/_honululu_)
+8. 2019-10-25 21:52:53 zzz
+
+## Community challenge 7
+
+[Download the materials](/challenges/chall21-dist.tgz)
+
+Solvers (times in UTC): TBD

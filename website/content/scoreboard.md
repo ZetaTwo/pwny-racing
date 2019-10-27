@@ -16,6 +16,7 @@ Vlad “vos” Roskov ([LCBC](https://ctftime.org/team/15726))                  
 [Lord_Idiot](https://twitter.com/__lord_idiot) ([HATS SG](https://ctftime.org/team/58574))                                         |      [E04](/episodes/episode4/)                              |   1
 [acez](https://twitter.com/amatcama) ([Shellphish](https://ctftime.org/team/285))                                                  |      [E06](/episodes/episode6/)                              |   1
 [spq](https://twitter.com/spq) ([ESPR](https://ctftime.org/team/15712))                                                            |      [E07](/episodes/episode7/)                              |   1
+[niklasb](https://twitter.com/_niklasb)                                                                                            |      [E09](/episodes/episode9/)                              |   1
 endeavor ([rainbowsandpwnies](https://ctftime.org/team/1480))                                                                      |      [E01](/episodes/episode1/)                              |   0
 [jay](https://twitter.com/computerality) ([Trail of Bits](https://www.trailofbits.com/))                                           |      [E01](/episodes/episode1/)                              |   0
 [borysp](https://twitter.com/boryspop) ([Dragon Sector](https://ctftime.org/team/3329))                                            |      [E02](/episodes/episode2/)                              |   0
@@ -35,3 +36,6 @@ ottizy ([LiUhack](https://ctftime.org/team/57588))                              
 XeR ([The Flat Network Society](https://ctftime.org/team/87434))                                                                   |      [E08](/episodes/episode8/)                              |   0
 [honululu](https://twitter.com/_honululu_) ([Shellphish](https://ctftime.org/team/285))                                            |      [E08](/episodes/episode8/)                              |   0
 [nandayo](https://twitter.com/nanday0_)                                                                                            |      [E08](/episodes/episode8/)                              |   0
+[jazzy](https://twitter.com/ret2got)                                                                                               |      [E09](/episodes/episode9/)                              |   0
+[mightymo](https://twitter.com/m1ghtymo)                                                                                           |      [E09](/episodes/episode9/)                              |   0
+zzz                                                                                                                                |      [E09](/episodes/episode9/)                              |   0
