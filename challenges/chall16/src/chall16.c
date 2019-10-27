@@ -22,7 +22,7 @@ void clear(char *c[]){
 }
 
 void banner(){
-	
+
     puts("pwny.racing presents...\n\n\e[31;1m\e[47m▄\e[0m\e[31;1m█████████▄\e" \
     "[0m \e[31;1m\e[47m▄\e[0m\e[31;1m███     \e[31;1m\e[47m▄\e[0m\e[31;1m███"  \
     "\e[0m \e[31;1m\e[47m▄\e[0m\e[31;1m███   \e[31;1m\e[47m▄\e[0m\e[31;1m███"  \
@@ -68,7 +68,7 @@ int main(int argc, char *argv[], char *envp[]){
     *(rsp+32) = (long long) 0;
 
     char buffer[0x40];
-	
+    
     setvbuf(stdin, 0, _IONBF, 0);
     setvbuf(stdout, 0, _IONBF, 0);
 
