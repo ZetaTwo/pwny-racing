@@ -13,5 +13,5 @@ docker container rm -f extract
 echo "Packaging dist.tgz"
 mkdir tmp
 cp package/* bin/* tmp/
-tar czvf chall16-dist.tgz -C tmp .
+tar czvf chall21-dist.tgz -C tmp .
 rm -rf tmp
