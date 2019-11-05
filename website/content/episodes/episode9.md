@@ -5,7 +5,7 @@ menu:
     parent: "episodes"
 ---
 
-The eigth episode of Pwny Racing aired on October 26th.  
+The ninth episode of Pwny Racing aired on October 26th.
 
 You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=pmCAP2OXOJc).
 
