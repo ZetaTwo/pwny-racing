@@ -7,7 +7,7 @@ menu:
 
 Pwny Racing is collaborating The  episode of Pwny Racing aired on November 7th.  
 
-You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=lYLbwayCzps).
+You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=lYLbwayCzps).
 
 ## Details
 
