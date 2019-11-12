@@ -105,7 +105,7 @@ Solvers (times in UTC):
 3. 2019-09-29 19:03:24 [alfink](https://twitter.com/_alfink_)
 4. 2019-09-29 19:19:30 XeR
 5. 2019-09-29 21:44:23 [acez](https://twitter.com/amatcama)
-6. 2019-09-29 22:35:13 [mallle](@fktio)
+6. 2019-09-29 22:35:13 [mallle](https://twitter.com/fktio)
 7. 2019-09-30 08:04:42 [honululu](https://twitter.com/_honululu_)
 8. 2019-10-25 21:52:53 zzz
 
@@ -113,4 +113,25 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall21-dist.tgz)
 
-Solvers (times in UTC): TBD
+Solvers (times in UTC):
+
+1. 2019-10-27 21:12:41 peace-maker
+2. 2019-10-27 22:40:10 capsl
+3. 2019-10-28 00:30:03 [alfink](https://twitter.com/_alfink_)
+4. 2019-10-28 02:35:04 [nandayo](https://twitter.com/nanday0_)
+5. 2019-10-28 02:46:53 [rkevin](https://twitter.com/rkevin_arch)
+6. 2019-10-28 14:17:27 [mallle](https://twitter.com/fktio)
+7. 2019-10-28 14:44:02 [martin](https://twitter.com/martin30527833)
+8. 2019-10-28 16:55:32 [zzz](https://twitter.com/viktoredstrom)
+9. 2019-10-28 23:14:17 anonymous
+10. 2019-10-29 05:48:05 [NotDeGhost](https://blog.robertchen.cc/)
+11. 2019-10-29 11:07:02 [Galile0](https://twitter.com/Galile0Sec)
+12. 2019-10-29 14:24:13 [st3phn](https://twitter.com/st3phn)
+13. 2019-10-29 22:31:41 XeR
+14. 2019-10-30 15:29:25 [SakiiR](https://twitter.com/sakiirsecurity)
+15. 2019-10-30 15:50:56 nsr
+16. 2019-10-31 17:08:42 [sherl0ck](https://twitter.com/sherl0ck__)
+17. 2019-11-01 16:20:35 [Dashu](https://twitter.com/the_dashu)
+18. 2019-11-04 00:55:40 anonymous
+19. 2019-11-04 04:40:27 [Axel "0vercl0k" Souchet](https://twitter.com/0vercl0k)
+20. 2019-11-05 02:37:34 anonymous
