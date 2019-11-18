@@ -34,6 +34,8 @@ A [video run through of the challenge](https://www.youtube.com/watch?v=3lH_6AE4U
 
 [Download the materials](/challenges/chall2-dist.tgz)
 
+Released: 2019-03-10 13:24 UTC
+
 Solvers (times in UTC):
 
 1. 2019-03-10 18:34:30: [laxa](https://twitter.com/l4x4)  
@@ -46,12 +48,16 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall6-dist.tgz)
 
+Released: 2019-04-15 14:55 UTC
+
 Solvers (times in UTC):
 
 1. 2019-04-15 20:13:01: [laxa](https://twitter.com/l4x4)  
 2. 2019-05-06 12:56:13: peace-maker
 
 ### Community challenge 3
+
+Released: 2019-05-26 14:12 UTC
 
 [Download the materials](/challenges/chall8-dist.tgz)
 
@@ -71,6 +77,8 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall10-dist.tgz)
 
+Released: 2019-06-30 15:52 UTC
+
 Solvers (times in UTC):
 
 1. 2019-07-01 06:06:07 [nneonneo](https://twitter.com/nneonneo)
@@ -85,6 +93,8 @@ Solvers (times in UTC):
 
 [Download the materials](/challenges/chall17-dist.tgz)
 
+Released: 2019-08-23 14:26 UTC
+
 Solvers (times in UTC):
 
 1. 2019-08-23 22:51:35 [martin](https://twitter.com/martin30527833)
@@ -97,6 +107,8 @@ Solvers (times in UTC):
 ## Community challenge 6
 
 [Download the materials](/challenges/chall19-dist.tgz)
+
+Released: 2019-09-29 15:51 UTC
 
 Solvers (times in UTC):
 
@@ -112,6 +124,8 @@ Solvers (times in UTC):
 ## Community challenge 7
 
 [Download the materials](/challenges/chall21-dist.tgz)
+
+Released: 2019-10-27 19:55 UTC
 
 Solvers (times in UTC):
 
