@@ -146,6 +146,6 @@ Solvers (times in UTC):
 15. 2019-10-30 15:50:56 nsr
 16. 2019-10-31 17:08:42 [sherl0ck](https://twitter.com/sherl0ck__)
 17. 2019-11-01 16:20:35 [Dashu](https://twitter.com/the_dashu)
-18. 2019-11-04 00:55:40 anonymous
+18. 2019-11-04 00:55:40 [masthoon](https://twitter.com/masthoon)
 19. 2019-11-04 04:40:27 [Axel "0vercl0k" Souchet](https://twitter.com/0vercl0k)
-20. 2019-11-05 02:37:34 anonymous
+20. 2019-11-05 02:37:34 [noopnoop](https://twitter.com/owenflannagan1)
