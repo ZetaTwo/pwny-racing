@@ -1,7 +1,7 @@
 #!/bin/bash
 cd /home/ctf
 
-echo -e "                                      pwny.racng presents...\n\n"\
+echo -e "                                     pwny.racing presents...\n\n"\
 "\e[38;2;255;99;0m\e[47m▄\e[0m\e[48;2;223;84;0m\e[38;2;255;99;0m▄▄▄▄▄▄▄▄▄"\
 "\e[0m\e[38;2;255;99;0m▄\e[0m \e[38;2;255;99;0m\e[47m▄\e[0m\e[48;2;223;84"\
 ";0m\e[38;2;255;99;0m▄▄▄\e[0m     \e[38;2;255;99;0m\e[47m▄\e[0m\e[48;2;22"\
