@@ -23,7 +23,7 @@ The method in the reference exploit is to do everything manually. Firstly the
 player uses the small buffer overflow in order to read a second payload and
 pivot to a known memory address (in `.data`). At that point they will be able
 to plant strings and structs at known memory locations which allows them to
-calculate the offsets of indexes od their forged structures relative to the
+calculate the offsets of indexes to their forged structures relative to the
 relocation and symbol tables. This will allow them to trigger the resolve
 lookup for a given function (possibly `system()` and in that case they can
 also plant a string for a command to execute).
