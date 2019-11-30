@@ -4,15 +4,21 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-	<button id="startGame">Start game</button>
-	<button id="stopFireworks">Stop fireworks</button>
-	<button id="testFireworks">Test fireworks</button>
+    <div>Episode number: <input id="episodeNumberInput" name="episodeNumberInput" type="text"><button id="episodeNumberSave">Save</button></div>
+    <div>
+        <button id="startGame">Start game</button>
+        <button id="stopFireworks">Stop fireworks</button>
+        <button id="testFireworks">Test fireworks</button>
+    </div>
 	<script>
         const startGameButton = document.querySelector('#startGame');
         const stopFireworksButton = document.querySelector('#stopFireworks');
         const testFireworksButton = document.querySelector('#testFireworks');
+
+        const episodeNumberInput = document.querySelector('#episodeNumberInput');
+        const saveEpisodeNumberButton = document.querySelector('#episodeNumberSave');
 		
-		const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false}});
+		const gameStateReplicant = nodecg.Replicant('gamestate', {defaultValue: {started: false, finished: false, fireworks: false, winner: false, episode_number: 0}});
 		startGameButton.onclick = () => {
             gameStateReplicant.value.started = true;
             gameStateReplicant.value.finished = false;
@@ -25,6 +31,9 @@
         testFireworksButton.onclick = () => {
             gameStateReplicant.value.fireworks = true;
             gameStateReplicant.value.winner = "Zeta Two";
+		};
+        saveEpisodeNumberButton.onclick = () => {
+            gameStateReplicant.value.episode_number = parseInt(episodeNumberInput.value);
 		};
 	</script>
 </body>
