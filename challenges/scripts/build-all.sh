@@ -19,3 +19,6 @@
 ./build-chall.sh chall17
 ./build-chall.sh chall18
 ./build-chall.sh chall19
+#./build-chall.sh chall20 # Needs fixing
+./build-chall.sh chall21
+./build-chall.sh chall22

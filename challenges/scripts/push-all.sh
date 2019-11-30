@@ -23,3 +23,4 @@
 ./push-chall.sh chall19
 #./push-chall.sh chall20 # Needs fixing
 ./push-chall.sh chall21
+./push-chall.sh chall22
