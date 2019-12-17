@@ -53,7 +53,7 @@ Released: 2019-04-15 14:55 UTC
 Solvers (times in UTC):
 
 1. 2019-04-15 20:13:01: [laxa](https://twitter.com/l4x4)  
-2. 2019-05-06 12:56:13: peace-maker
+2. 2019-05-06 12:56:13: [Peace-Maker](https://twitter.com/jhartung10)
 
 ### Community challenge 3
 
@@ -67,7 +67,7 @@ Solvers (times in UTC):
 2. 2019-05-26 18:38:56 [laxa](https://twitter.com/l4x4)  
 3. 2019-05-26 19:16:49 [fsoc_sh](https://twitter.com/fsoc_sh)
 4. 2019-05-26 20:11:00 [kidOfArcrania](kidOfArcrania)
-5. 2019-05-27 02:55:21 peace-maker
+5. 2019-05-27 02:55:21 [Peace-Maker](https://twitter.com/jhartung10)
 6. 2019-05-27 09:17:11 [Anatoly Korniltsev](https://twitter.com/korniltsev)
 7. 2019-05-27 22:09:47 [martin](https://twitter.com/martin30527833)
 8. 2019-06-05 17:30:20 [nneonneo](https://twitter.com/nneonneo)
@@ -101,7 +101,7 @@ Solvers (times in UTC):
 2. 2019-08-23 22:54:58 XeR
 3. 2019-08-24 12:41:36 [chief](https://twitter.com/chief_x86)
 4. 2019-08-24 22:27:23 anonymous
-5. 2019-08-25 04:50:21 peace-maker
+5. 2019-08-25 04:50:21 [Peace-Maker](https://twitter.com/jhartung10)
 6. 2019-09-03 14:42:52 [nandayo](https://twitter.com/nanday0_)
 
 ## Community challenge 6
@@ -112,7 +112,7 @@ Released: 2019-09-29 15:51 UTC
 
 Solvers (times in UTC):
 
-1. 2019-09-29 18:06:52 peace-maker
+1. 2019-09-29 18:06:52 [Peace-Maker](https://twitter.com/jhartung10)
 2. 2019-09-29 18:19:29 PewZ
 3. 2019-09-29 19:03:24 [alfink](https://twitter.com/_alfink_)
 4. 2019-09-29 19:19:30 XeR
@@ -129,7 +129,7 @@ Released: 2019-10-27 19:55 UTC
 
 Solvers (times in UTC):
 
-1. 2019-10-27 21:12:41 peace-maker
+1. 2019-10-27 21:12:41 [Peace-Maker](https://twitter.com/jhartung10)
 2. 2019-10-27 22:40:10 capsl
 3. 2019-10-28 00:30:03 [alfink](https://twitter.com/_alfink_)
 4. 2019-10-28 02:35:04 [nandayo](https://twitter.com/nanday0_)
