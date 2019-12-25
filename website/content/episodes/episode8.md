@@ -3,6 +3,7 @@ title: "Episode 8"
 menu:
   main:
     parent: "episodes"
+    weight: 80
 ---
 
 The eigth episode of Pwny Racing aired on September 28th.  

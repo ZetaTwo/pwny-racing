@@ -1,8 +1,9 @@
 ---
-title: "Episode 11 - Live att 36C3"
+title: "Episode 11 - Live at 36C3"
 menu:
   main:
     parent: "episodes"
+    weight: 110
 ---
 
 The eleventh episode of Pwny Racing will air on December 28th.  

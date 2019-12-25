@@ -3,6 +3,7 @@ title: "Episode 4"
 menu:
   main:
     parent: "episodes"
+    weight: 40
 ---
 
 The fourth episode of Pwny Racing aired on May 25th.  

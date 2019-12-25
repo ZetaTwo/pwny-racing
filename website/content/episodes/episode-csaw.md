@@ -3,6 +3,7 @@ title: "Episode - CSAW'19 Special"
 menu:
   main:
     parent: "episodes"
+    weight: 95
 ---
 
 Pwny Racing collaborated with [Vector 35](https://vector35.com/) and [CSAW](https://ctf.csaw.io/) to bring the Pwny Racing CSAW 2019 special episode. The episode aired on November 7th.

@@ -3,6 +3,7 @@ title: "Episode 3"
 menu:
   main:
     parent: "episodes"
+    weight: 30
 ---
 
 The third episode of Pwny Racing aired on April 13th.  

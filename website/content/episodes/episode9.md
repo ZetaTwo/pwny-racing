@@ -3,6 +3,7 @@ title: "Episode 9"
 menu:
   main:
     parent: "episodes"
+    weight: 90
 ---
 
 The ninth episode of Pwny Racing aired on October 26th.

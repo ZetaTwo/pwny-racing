@@ -3,6 +3,7 @@ title: "Episode 6"
 menu:
   main:
     parent: "episodes"
+    weight: 60
 ---
 
 The sixth episode of Pwny Racing aired on July 27th.  

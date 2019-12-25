@@ -3,6 +3,7 @@ title: "Episode 1: Test Run"
 menu:
   main:
     parent: "episodes"
+    weight: 10
 ---
 
 The first episode of Pwny Racing aired on February 9th.  

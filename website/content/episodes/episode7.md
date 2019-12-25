@@ -3,6 +3,7 @@ title: "Episode 7 - Live at CCCamp 2019"
 menu:
   main:
     parent: "episodes"
+    weight: 70
 ---
 
 The seventh episode of Pwny Racing aired on August 22nd.  

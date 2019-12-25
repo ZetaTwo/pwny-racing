@@ -3,6 +3,7 @@ title: "Episode 10"
 menu:
   main:
     parent: "episodes"
+    weight: 100
 ---
 
 The tenth episode of Pwny Racing aired on November 30th.  

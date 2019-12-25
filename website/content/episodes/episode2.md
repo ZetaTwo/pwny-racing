@@ -3,6 +3,7 @@ title: "Episode 2"
 menu:
   main:
     parent: "episodes"
+    weight: 20
 ---
 
 The second episode of Pwny Racing aired on March 9th.  

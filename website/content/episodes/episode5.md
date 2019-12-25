@@ -3,6 +3,7 @@ title: "Episode 5"
 menu:
   main:
     parent: "episodes"
+    weight: 50
 ---
 
 The fifth episode of Pwny Racing aired on June 29th.  
