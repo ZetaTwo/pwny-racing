@@ -5,9 +5,9 @@ menu:
     parent: "episodes"
 ---
 
-The tenth episode of Pwny Racing will air on November 30th.  
+The tenth episode of Pwny Racing aired on November 30th.  
 
-You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=6wmyaYP5WkA).
+You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=6wmyaYP5WkA).
 
 ## Participants
 
