@@ -2,23 +2,18 @@
 
 CHALL="chall23"
 
-DOCKER="sudo docker"
-
 echo "Building challenge and container"
-$DOCKER build -t ${CHALL} .
+docker build -t ${CHALL} .
 
-echo "Compiling..."
-rm -rf src/build
-mkdir src/build
-$DOCKER run -t --volume="$PWD/src/:/src/:rw" chall23 make -C /src/build -f /src/Makefile
+echo "Extracting build artifacts"
+mkdir -p bin
+docker container create --name extract ${CHALL}:latest
+docker cp extract:/build/chall.hex bin/${CHALL}.hex
+docker cp extract:/build/flash-flag.hex bin/${CHALL}-flash-flag.hex
+docker container rm -f extract
 
 echo "Packaging dist.tgz"
-mkdir tmp
-cp src/build/chall23.hex tmp/
-tar czvf ${CHALL}-dist.tgz -C tmp .
-
-echo "Packaging secret-for-organizer.tgz"
-cp src/build/writeFlagToEEPROM.hex tmp/
-tar czvf ${CHALL}-secret-for-organizer.tgz -C tmp .
-rm -rf tmp
-
+TMP=$(mktemp -d)
+cp bin/${CHALL}.hex $TMP/
+tar czvf ${CHALL}-dist.tgz -C $TMP .
+rm -rf $TMP

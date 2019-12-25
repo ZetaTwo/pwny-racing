@@ -34,6 +34,10 @@ fuse:
 # Xcode uses the Makefile targets "", "clean" and "install"
 install: flash fuse
 
+clean:
+	rm -f *.o *.hex *.elf
+
+
 # file targets:
 %.elf : %.o
 	$(COMPILE) -o $@ $<

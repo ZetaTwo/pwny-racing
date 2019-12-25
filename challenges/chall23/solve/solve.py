@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import serial
 import time
 
@@ -69,38 +70,37 @@ print("Opening connection...")
 s = serial.Serial('/dev/ttyACM0', baudrate=9600, timeout=0.1)
 
 print("Resetting...")
-reply = ''
+reply = b''
 counter = 20
-while not 'RESET' in reply:
+while not b'RESET' in reply:
 	print("Wait for reset...")
 	reply += s.read(999)
 	counter += 1
 	if counter > 10:
-		s.write('\nrst\n')
+		s.write(b'\nrst\n')
 		counter = 0
-assert 'RESET' in reply
+assert b'RESET' in reply
 
 # Enable debug mode
-s.write('dbg\n')
+s.write(b'dbg\n')
 reply = s.read(999)
-print reply
+print(reply)
 
 # Send 'set 0' until the "reached" reply does not have a newline
-reply = 'reached\r\n'
-while 'reached\r\n' in reply:
-	s.write('set 0\n')
-	reply = ''
-	while not 'reached' in reply:
+reply = b'reached\r\n'
+while b'reached\r\n' in reply:
+	s.write(b'set 0\n')
+	reply = b''
+	while not b'reached' in reply:
 		reply += s.read(999)
-	print repr(reply)
+	print(repr(reply))
 
 # Overwrite the setpoint values with 255
-s.write('\xff'*10)
+s.write(b'\xff'*10)
 
 # Print all data until system reset
 counter = 0
-while not 'RESET' in reply:
+while not b'RESET' in reply:
 	reply = s.read(999)
-	counter += reply.count('+')
-	print counter, 255, repr(reply)
-
+	counter += reply.count(b'+')
+	print(counter, 255, repr(reply))
