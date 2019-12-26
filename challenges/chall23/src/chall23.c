@@ -8,6 +8,7 @@
 
 #define USART_BAUDRATE 9600
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL)))-1)
+#define ALARM_PIN 2
 
 __attribute__ ((section (".noinit")))
 static struct {
@@ -211,6 +212,7 @@ static void monitorTask(void) {
 		uartputs( STR_CRIT);
 		while(global.outReadIdx != global.outWriteIdx) { sendTask(); }
 
+		// Send shutdown code
 		uint8_t tmp, *i=NULL;
 		while((tmp=eeprom_read_byte(i)) != '\0') {
 			while ((UCSR0A & (1U << UDRE0)) == 0) {
@@ -219,7 +221,11 @@ static void monitorTask(void) {
 			UDR0 = tmp;
 			i++;
 		}
-		for(;;);
+
+		//TODO: Set alarm pin () to
+		// digitalWrite(ALARM_PIN, HIGH)
+
+		for(;;); // Halt
 	}
 	else if(global.pwmLevel > (uint8_t) 250) {
 		if(global.monState != (uint8_t) 1) {
@@ -236,6 +242,10 @@ int main(void) {
 
 	uartputs(STR_RESET);
 	global.dbg = 0;
+
+	//TODO: prepare pin
+	// pinMode(ALARM_PIN, OUTPUT);
+	// digitalWrite(ALARM_PIN, LOW)
 
 	commandInit();
 	pwmInit();
