@@ -11,7 +11,7 @@ docker cp --follow-link extract:/usr/arm-linux-gnueabihf/lib/libc.so.6 bin/libc.
 docker container rm -f extract
 
 echo "Packaging dist.tgz"
-mkdir tmp
-cp package/* bin/* tmp/
-tar czvf chall11-dist.tgz -C tmp .
-rm -rf tmp
+$TMP=$(mktemp -d)
+cp package/* bin/* $TMP/
+tar czvf chall11-dist.tgz -C $TMP .
+rm -rf $TMP

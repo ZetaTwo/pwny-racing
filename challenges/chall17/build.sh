@@ -11,7 +11,7 @@ docker cp extract:/home/ctf/chall bin/chall17
 docker container rm -f extract
 
 echo "Packaging dist.tgz"
-mkdir tmp
-cp package/* bin/* tmp/
-tar czvf chall17-dist.tgz -C tmp .
-rm -rf tmp
+$TMP=$(mktemp -d)
+cp package/* bin/* $TMP/
+tar czvf chall17-dist.tgz -C $TMP .
+rm -rf $TMP

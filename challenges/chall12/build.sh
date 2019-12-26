@@ -11,7 +11,7 @@ docker cp --follow-link extract:/lib/x86_64-linux-gnu/libc.so.6 bin/libc.so.6
 docker container rm -f extract
 
 echo "Packaging dist.tgz"
-mkdir tmp
-cp package/* bin/* tmp/
-tar czvf chall12-dist.tgz -C tmp .
-rm -rf tmp
+$TMP=$(mktemp -d)
+cp package/* bin/* $TMP/
+tar czvf chall12-dist.tgz -C $TMP .
+rm -rf $TMP
