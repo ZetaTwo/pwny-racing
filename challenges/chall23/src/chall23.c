@@ -204,27 +204,31 @@ static void monitorInit(void ) {
 	global.monState = 0;
 }
 
+static void emergency(void) {
+	uartputs( STR_CRIT);
+	while(global.outReadIdx != global.outWriteIdx) { sendTask(); }
+
+	/* Send shutdown code */
+	uint8_t tmp, *i=NULL;
+	while((tmp=eeprom_read_byte(i)) != '\0') {
+		while ((UCSR0A & (1U << UDRE0)) == 0) {
+			/* We must wait */
+		}
+		UDR0 = tmp;
+		i++;
+	}
+
+	/* Set alarm pin */
+	PORTB |=  ((uint8_t) (1U<<ALARM_PIN));
+	for(;;) {
+		/* Halt, with happy watchdog */
+		wdt_reset();
+	}
+}
+
 static void monitorTask(void) {
 	if(global.pwmLevel == (uint8_t) 255) {
-		uartputs( STR_CRIT);
-		while(global.outReadIdx != global.outWriteIdx) { sendTask(); }
-
-		/* Send shutdown code */
-		uint8_t tmp, *i=NULL;
-		while((tmp=eeprom_read_byte(i)) != '\0') {
-			while ((UCSR0A & (1U << UDRE0)) == 0) {
-				/* We must wait */
-			}
-			UDR0 = tmp;
-			i++;
-		}
-
-		/* Set alarm pin */
-		PORTB |=  ((uint8_t) (1U<<ALARM_PIN));
-		for(;;) {
-			/* Halt, with happy watchdog */
-			wdt_reset();
-		}
+		emergency();
 	}
 	else if(global.pwmLevel > (uint8_t) 250) {
 		if(global.monState != (uint8_t) 1) {
