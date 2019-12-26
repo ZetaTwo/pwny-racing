@@ -67,7 +67,7 @@ void uartPutChar(char cParm1,undefined uParm2)
 # Exploit:
 
 print("Opening connection...")
-s = serial.Serial('/dev/ttyACM0', baudrate=9600, timeout=0.1)
+s = serial.Serial('/dev/ttyUSB0', baudrate=9600, timeout=0.1)
 
 print("Resetting...")
 reply = b''
