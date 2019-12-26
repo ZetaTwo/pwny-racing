@@ -8,7 +8,10 @@
 
 #define USART_BAUDRATE 9600
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL)))-1)
-#define ALARM_PIN 2
+
+/* Both pins on port B */
+#define ALARM_PIN       (4U) /* Arduino Digital pin 12 */
+#define LED_PIN         (5U) /* Arduino Digital pin 13 */
 
 __attribute__ ((section (".noinit")))
 static struct {
@@ -31,12 +34,12 @@ const char STR_RESET[] PROGMEM = "RESET\n";
 const char STR_PROMPT[] PROGMEM = "> ";
 const char STR_HELP[] PROGMEM = "\nhlp, set x, dbg, rst\n";
 const char STR_OK[] PROGMEM = ("\nOK\n");
-const char STR_ERR[] PROGMEM = ("\n??? (hlp)\n");
+const char STR_ERR[] PROGMEM = ("\nERR\n");
 const char STR_INC[] PROGMEM = "+";
 const char STR_DEC[] PROGMEM = "-";
 const char STR_REACHED[] PROGMEM = "Target reached\n";
 const char STR_EMPTY[] PROGMEM = "";
-const char STR_CRIT[] PROGMEM = ( "CRIT!!! EM shutdowncode: ");
+const char STR_CRIT[] PROGMEM = ( "CRITICAL! EMERGENCY CODE: ");
 const char STR_WARN[] PROGMEM = ("WARNING: Almost critical!\n");
 
 static void uartput(uint8_t c) {
@@ -72,17 +75,9 @@ static void commandTask(void) {
 	}
 	else {
 	/* Is there new UART data? */
-#if AVR
 		if ((UCSR0A & (1U<<RXC0)) != 0) {
 			/* Yes! */
 			global.command[global.commandLen] = UDR0;
-#else
-		tmpReadChar = getchar();
-		if(tmpReadChar != -1) {
-			global.command[global.commandLen] = tmpReadChar;
-#endif
-			//uartput((global.command[global.commandLen]>>4) + (uint8_t)'0');
-			//uartput((global.command[global.commandLen]&0xf) + (uint8_t)'0');
 			if((global.command[global.commandLen] == (uint8_t) '\n') ||
 			   (global.command[global.commandLen] == (uint8_t) '\r') ||
 			   (global.commandLen == (uint8_t) 7)) {
@@ -102,7 +97,8 @@ static void commandTask(void) {
 			return;
 		}
 
-		if (global.command[0] == (uint8_t) 'h') {
+		if ((global.command[0] == (uint8_t) 'h') ||
+		    (global.command[0] == (uint8_t) '?')) {
 			uartputs(STR_HELP);
 		}
 		else if (global.command[0] == (uint8_t) 's' &&
@@ -136,17 +132,18 @@ static void commandTask(void) {
 static void pwmInit(void) {
 	global.pwmState = 0;
 	global.pwmLevel = 0;
-	DDRB |= (uint8_t) (1U<<5); // PB5 digital out (LED)
+	DDRB = (uint8_t) ((1U<<LED_PIN)|(1U<<ALARM_PIN));
+	PORTB = (uint8_t) 0;
 }
 
 static void pwmTask(void) {
 	global.pwmState--;
 
 	if(global.pwmState == 0) {
-		PORTB &= ~((uint8_t) (1U<<5));
+		PORTB &= ~((uint8_t) (1U<<LED_PIN));
 	}
 	else if(global.pwmState < global.pwmLevel) {
-		PORTB |=  ((uint8_t) (1U<<5));
+		PORTB |=  ((uint8_t) (1U<<LED_PIN));
 	}
 }
 
@@ -183,10 +180,10 @@ static void adjustTask(void) {
 
 
 static void sendInit(void) {
-	UCSR0B |= (uint8_t) ((1U << RXEN0) | (1U << TXEN0)); //turn on rx and tx
+	UCSR0B |= (uint8_t) ((1U << RXEN0) | (1U << TXEN0));
 	UCSR0C = (uint8_t) 6; // 8 databits
-	UBRR0H = (uint8_t) (BAUD_PRESCALE >> 8); //load upper 8 bits of baud value into high byte of UBBR
-	UBRR0L = (uint8_t) (BAUD_PRESCALE);     //load lower 8 bits of baud value into high byte of UBBR
+	UBRR0H = (uint8_t) (BAUD_PRESCALE >> 8);
+	UBRR0L = (uint8_t) (BAUD_PRESCALE);
 }
 
 static void sendTask(void) {
@@ -212,7 +209,7 @@ static void monitorTask(void) {
 		uartputs( STR_CRIT);
 		while(global.outReadIdx != global.outWriteIdx) { sendTask(); }
 
-		// Send shutdown code
+		/* Send shutdown code */
 		uint8_t tmp, *i=NULL;
 		while((tmp=eeprom_read_byte(i)) != '\0') {
 			while ((UCSR0A & (1U << UDRE0)) == 0) {
@@ -222,10 +219,12 @@ static void monitorTask(void) {
 			i++;
 		}
 
-		//TODO: Set alarm pin () to
-		// digitalWrite(ALARM_PIN, HIGH)
-
-		for(;;); // Halt
+		/* Set alarm pin */
+		PORTB |=  ((uint8_t) (1U<<ALARM_PIN));
+		for(;;) {
+			/* Halt, with happy watchdog */
+			wdt_reset();
+		}
 	}
 	else if(global.pwmLevel > (uint8_t) 250) {
 		if(global.monState != (uint8_t) 1) {
@@ -242,10 +241,6 @@ int main(void) {
 
 	uartputs(STR_RESET);
 	global.dbg = 0;
-
-	//TODO: prepare pin
-	// pinMode(ALARM_PIN, OUTPUT);
-	// digitalWrite(ALARM_PIN, LOW)
 
 	commandInit();
 	pwmInit();
