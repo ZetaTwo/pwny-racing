@@ -69,11 +69,15 @@ print("Opening connection...")
 s = serial.Serial('/dev/ttyACM0', baudrate=9600, timeout=0.1)
 
 print("Resetting...")
-s.write('\nrst\n')
 reply = ''
+counter = 20
 while not 'RESET' in reply:
 	print("Wait for reset...")
 	reply += s.read(999)
+	counter += 1
+	if counter > 10:
+		s.write('\nrst\n')
+		counter = 0
 assert 'RESET' in reply
 
 # Enable debug mode
