@@ -213,11 +213,13 @@ static void monitorTask(void) {
 
 		uint8_t tmp, *i=NULL;
 		while((tmp=eeprom_read_byte(i)) != '\0') {
-			uartput(tmp);
+			while ((UCSR0A & (1U << UDRE0)) == 0) {
+				/* We must wait */
+			}
+			UDR0 = tmp;
 			i++;
 		}
-
-		for(;;) { sendTask(); }
+		for(;;);
 	}
 	else if(global.pwmLevel > (uint8_t) 250) {
 		if(global.monState != (uint8_t) 1) {
