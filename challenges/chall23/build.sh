@@ -14,6 +14,6 @@ docker container rm -f extract
 
 echo "Packaging dist.tgz"
 TMP=$(mktemp -d)
-cp bin/${CHALL}.hex package/* $TMP/
+cp bin/* package/* $TMP/
 tar czvf ${CHALL}-dist.tgz -C $TMP .
 rm -rf $TMP

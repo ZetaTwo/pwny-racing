@@ -6,9 +6,9 @@ menu:
     weight: 110
 ---
 
-The eleventh episode of Pwny Racing will air on December 28th.  
+The eleventh episode of Pwny Racing aired on December 28th.  
 
-You can watch the live stream on [YouTube](https://www.youtube.com/watch?v=egCvtOGS78w).
+You can watch the recorded episode on [YouTube](https://www.youtube.com/watch?v=egCvtOGS78w).
 
 ## Participants
 
@@ -28,6 +28,6 @@ Hosted by:
 
 Author: LarsH
 
-The challenge will appear here after the episode.
+The challenge was an AVR pwnable. The challenge together with setup instructions can be downloaded here: [Challenge 23](/challenges/chall23-dist.tgz).
 
-NOTE: The goal is always to get full code execution, even if you in some cases can read the flag without it. We are now hosting the remote challenges so that you can try to solve them against our server. However, there is no way to turn in flags or track progress.
+NOTE: In this particular challenge, the goal is not to gain code execution. Simply reading the flag is enough.
