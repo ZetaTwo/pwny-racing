@@ -149,3 +149,8 @@ Solvers (times in UTC):
 18. 2019-11-04 00:55:40 [masthoon](https://twitter.com/masthoon)
 19. 2019-11-04 04:40:27 [Axel "0vercl0k" Souchet](https://twitter.com/0vercl0k)
 20. 2019-11-05 02:37:34 [noopnoop](https://twitter.com/owenflannagan1)
+
+## Community challenge 8
+
+The eigth community challenge has been delayed but will be released later.
+Keep an eye out for further announcements.
