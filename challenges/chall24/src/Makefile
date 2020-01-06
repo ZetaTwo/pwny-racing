@@ -6,9 +6,10 @@ LINTOBJECTS  = main.o uart.o
 
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE)
 
-COMPILE = avr-gcc -Wall -O9 -DF_CPU=$(CLOCK) -mmcu=$(DEVICE) \
+COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE) \
 	 -ffunction-sections -Xlinker -gc-sections \
-	 -fomit-frame-pointer -fno-inline -g
+	 -fomit-frame-pointer -fno-inline -g \
+	 -Wl,--defsym=__heap_end=0x8008ff
 
 
 

@@ -35,6 +35,7 @@ typedef enum type type_t;
 
 void *xmalloc(size_t s) {
 	void *ret = malloc(s);
+	debug("%p %p\n", ret, &ret);
 	if(!ret) {
 		printf("Malloc failed!\n");
 		exit(1);
