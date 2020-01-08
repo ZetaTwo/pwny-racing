@@ -84,7 +84,7 @@ struct json {
 };
 typedef struct json json_t;
 
-#define STRING_SIZE (sizeof(type_t) + 0)
+#define STRING_SIZE(x) (sizeof(type_t) + sizeof(string_t) + x)
 #define INT_SIZE    (sizeof(type_t) + 1*sizeof(uint16_t))
 #define LIST_SIZE   (sizeof(type_t) + 2*sizeof(json_t*))
 #define DICT_SIZE   (sizeof(type_t) + 3*sizeof(json_t*))
@@ -93,7 +93,10 @@ typedef struct json json_t;
 static union {
 	string_t str;
 	int16_t val;
-	char padding[1+MAX_STRING_LEN]; // allocate space for string
+	struct {
+		string_t pad1;
+		uint8_t pad2[MAX_STRING_LEN];
+	} padding;
 } token;
 
 enum type getToken(void);
@@ -309,7 +312,7 @@ json_t *getObject(void) {
 			retval = getList();
 			break;
 		case STRING:
-			retval = (json_t*) xmalloc(STRING_SIZE+token.str.len);
+			retval = (json_t*) xmalloc(STRING_SIZE(token.str.len));
 			retval->type = STRING;
 			retval->payload[0].str.len = token.str.len;
 			memcpy(retval->payload[0].str.buf, token.str.buf, token.str.len);
