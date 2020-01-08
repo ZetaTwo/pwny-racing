@@ -35,7 +35,7 @@ lint: $(LINTOBJECTS:.o=.c)
 flash_%: %.hex
 	avrdude -p m328p -P /dev/ttyACM0 -c arduino -U flash:w:$<
 
-flash: flash_chall23
+flash: flash_chall24
 
 fuse:
 	$(AVRDUDE) $(FUSES)
