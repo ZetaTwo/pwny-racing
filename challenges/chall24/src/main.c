@@ -32,7 +32,7 @@ COMMA     ,  // ,
 };
 typedef enum type type_t;
 
-
+#if 0
 void *xmalloc(size_t s) {
 	void *ret = malloc(s);
 	debug("%p %p\n", ret, &ret);
@@ -42,6 +42,9 @@ void *xmalloc(size_t s) {
 	}
 	return ret;
 }
+#else
+#define xmalloc(x) malloc(x)
+#endif
 
 struct string {
 	uint8_t len;
