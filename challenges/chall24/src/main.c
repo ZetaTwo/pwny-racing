@@ -227,7 +227,7 @@ enum type getToken(void) {
 					default:
 						store = c;
 				}
-				if(token.str.len > MAX_STRING_LEN) {
+				if(token.str.len >= MAX_STRING_LEN) {
 					fail();
 				}
 				token.str.buf[token.str.len++] = store;
