@@ -351,11 +351,6 @@ void rputchar(char c) {
 void prettyPrint(json_t *data) {
 	uint8_t i;
 
-	if(data == NULL) {
-		printf("NULL");
-		return;
-	}
-
 	switch(data->type) {
 		case INT:
 			printf("%u", data->payload[0].val);
@@ -411,7 +406,6 @@ uint8_t check(json_t *data) {
 		return 3;
 	}
 	for(i=0;i<data->payload[1].str.len;i++) {
-		printf("in %u\n", data->payload[1].ptr->payload[0].str.buf[i]);
 		if(data->payload[1].ptr->payload[0].str.buf[i] != eeprom_read_byte((void*)(ptr_int_t)i)) {
 			break;
 		}
