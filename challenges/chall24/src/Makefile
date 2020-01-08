@@ -14,7 +14,10 @@ COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE) \
 
 
 # symbolic targets:
-all:	chall24.hex debugversion.x86
+all:	chall24.hex debugversion.x86 chall24.bin
+
+%.bin : %.elf
+	avr-objcopy -O binary $< $@
 
 vpath %.c ../
 
@@ -41,7 +44,7 @@ fuse:
 install: flash fuse
 
 clean:
-	rm -f *.o *.hex *.elf
+	rm -f *.o *.hex *.elf *.bin
 
 
 # file targets:
