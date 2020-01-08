@@ -44,7 +44,7 @@ fuse:
 install: flash fuse
 
 clean:
-	rm -f *.o *.hex *.elf *.bin
+	rm -f *.o *.hex *.elf *.bin *.x86
 
 
 # file targets:
@@ -54,5 +54,7 @@ clean:
 
 %.hex: %.elf
 	rm -f main.hex
-	avr-objcopy -j .text -j .data -O ihex $< $@
+	avr-objcopy -j .text -j .data -O ihex $< tmp.hex
+	avr-objcopy -I ihex -O ihex tmp.hex $@
+	rm tmp.hex
 	avr-size $<

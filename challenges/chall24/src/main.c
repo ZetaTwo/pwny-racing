@@ -3,6 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef AVR
+#include <avr/eeprom.h>
+typedef uint16_t ptr_int_t;
+
+#else /*not AVR, assume X86 */
+typedef long ptr_int_t;
+
+#define eeprom_read_byte(x) x86_eeprom_read_byte(x)
+
+#endif /* not AVR */
+
 #if 0
 #define debug printf
 #else
@@ -15,6 +26,17 @@ __attribute__((noreturn))
 void x86fail(void) {
 	printf("Parse fail\n");
 	exit(1);
+}
+
+char x86_eeprom_read_byte(const uint8_t*p) {
+	ptr_int_t i = (ptr_int_t) p;
+	char retval = '\0';
+
+	if(i<=4) {
+		retval = "Test"[i];
+	}
+
+	return retval;
 }
 
 #define MAX_STRING_LEN (32)
@@ -205,6 +227,9 @@ enum type getToken(void) {
 					default:
 						store = c;
 				}
+				if(token.str.len > MAX_STRING_LEN) {
+					fail();
+				}
 				token.str.buf[token.str.len++] = store;
 			}
 		default:
@@ -371,8 +396,33 @@ void prettyPrint(json_t *data) {
 	}
 }
 
+uint8_t check(json_t *data) {
+	uint8_t i;
+	if(data->type != DICT) {
+		return 0;
+	}
+	if(data->payload[0].ptr->type != INT) {
+		return 1;
+	}
+	if(data->payload[0].ptr->payload[0].val != 1337) {
+		return 2;
+	}
+	if(data->payload[1].ptr->type != STRING) {
+		return 3;
+	}
+	for(i=0;i<data->payload[1].str.len;i++) {
+		printf("in %u\n", data->payload[1].ptr->payload[0].str.buf[i]);
+		if(data->payload[1].ptr->payload[0].str.buf[i] != eeprom_read_byte((void*)(ptr_int_t)i)) {
+			break;
+		}
+	}
+	return 4+i;
+}
+
 int main(void) {
-	printf("\n\n> ");
-	prettyPrint(getObject());
+	printf("\n> ");
+	json_t *data = getObject();
+	prettyPrint(data);
+	printf("\n%u\n", check(data));
 	return 0;
 }
