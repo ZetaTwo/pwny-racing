@@ -46,55 +46,21 @@ uart_pty_t uart_pty;
 avr_t * avr = NULL;
 avr_vcd_t vcd_file;
 
-struct avr_flash {
-	char avr_flash_path[1024];
-	int avr_flash_fd;
-};
-
-// avr special flash initalization
-// here: open and map a file to enable a persistent storage for the flash memory
+// avr special initalization
 void avr_special_init( avr_t * avr, void * data)
 {
-	struct avr_flash *flash_data = (struct avr_flash *)data;
-
 	printf("%s\n", __func__);
-	// open the file
-	flash_data->avr_flash_fd = open(flash_data->avr_flash_path,
-									O_RDWR|O_CREAT, 0644);
-	if (flash_data->avr_flash_fd < 0) {
-		perror(flash_data->avr_flash_path);
-		exit(1);
-	}
-	// resize and map the file the file
-	(void)ftruncate(flash_data->avr_flash_fd, avr->flashend + 1);
-	ssize_t r = read(flash_data->avr_flash_fd, avr->flash, avr->flashend + 1);
-	if (r != avr->flashend + 1) {
-		fprintf(stderr, "unable to load flash memory\n");
-		perror(flash_data->avr_flash_path);
-		exit(1);
-	}
 }
 
-// avr special flash deinitalization
-// here: cleanup the persistent storage
+// avr special deinitalization
 void avr_special_deinit( avr_t* avr, void * data)
 {
-	struct avr_flash *flash_data = (struct avr_flash *)data;
-
 	printf("%s\n", __func__);
-	lseek(flash_data->avr_flash_fd, SEEK_SET, 0);
-	ssize_t r = write(flash_data->avr_flash_fd, avr->flash, avr->flashend + 1);
-	if (r != avr->flashend + 1) {
-		fprintf(stderr, "unable to load flash memory\n");
-		perror(flash_data->avr_flash_path);
-	}
-	close(flash_data->avr_flash_fd);
 	uart_pty_stop(&uart_pty);
 }
 
 int main(int argc, char *argv[])
 {
-	struct avr_flash flash_data;
 	char boot_path[1024] = "";
 	uint32_t boot_base, boot_size;
 	char * mmcu = "atmega328p";
@@ -130,19 +96,12 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "%s: Unable to load %s\n", argv[0], boot_path);
 		exit(1);
 	}
-	if (boot_base > 32*1024*1024) {
-		mmcu = "atmega2560";
-		freq = 20000000;
-	}
+
 	printf("%s booloader 0x%05x: %d bytes\n", mmcu, boot_base, boot_size);
 
-	snprintf(flash_data.avr_flash_path, sizeof(flash_data.avr_flash_path),
-			"simduino_%s_flash.bin", mmcu);
-	flash_data.avr_flash_fd = 0;
-	// register our own functions
 	avr->custom.init = avr_special_init;
 	avr->custom.deinit = avr_special_deinit;
-	avr->custom.data = &flash_data;
+	avr->custom.data = NULL;
 	avr_init(avr);
 	avr->frequency = freq;
 
