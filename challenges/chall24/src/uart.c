@@ -63,5 +63,5 @@ void init_uart(void) {
 	UBRR0H = (uint8_t) (BAUD_PRESCALE >> 8);
 	UBRR0L = (uint8_t) (BAUD_PRESCALE);
 	fdevopen(uart_putchar, uart_getchar);
-	wdt_enable((uint8_t) WDTO_500MS);
+	wdt_enable((uint8_t) WDTO_15MS);
 }
