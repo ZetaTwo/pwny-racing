@@ -1,0 +1,5 @@
+Good start, but to really solve this challenge you need to read more of the EEPROM.
+Wich you now have proven that you can do, great! :)
+
+To prove you have full arbitrary code execution, you must light the LED located at pin B5 and make sure it stays lit.
+When you have done so, this simulator will become interactive.

@@ -1,7 +1,7 @@
 /*
-	simduino.c
+	run_avr.c
 
-	Copyright 2008, 2009 Michel Pollet <buserror@gmail.com>
+	Copyright 2008, 2010 Michel Pollet <buserror@gmail.com>
 
  	This file is part of simavr.
 
@@ -19,102 +19,266 @@
 	along with simavr.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <unistd.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #include <libgen.h>
-
-#if __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-#include <pthread.h>
-
+#include <string.h>
+#include <signal.h>
 #include "sim_avr.h"
-#include "avr_ioport.h"
 #include "sim_elf.h"
-#include "sim_hex.h"
+#include "sim_core.h"
 #include "sim_gdb.h"
-#include "uart_stdinout.h"
+#include "sim_hex.h"
 #include "sim_vcd_file.h"
 
+#include "sim_core_decl.h"
+
+#include "uart_stdinout.h"
 uart_pty_t uart_pty;
-avr_t * avr = NULL;
-avr_vcd_t vcd_file;
 
-// avr special initalization
-void avr_special_init( avr_t * avr, void * data)
+static void
+display_usage(
+	const char * app)
 {
-	fprintf(stderr, "%s\n", __func__);
+	fprintf(stderr,"Usage: %s [...] <firmware>\n", app);
+	fprintf(stderr, "       [--freq|-f <freq>]  Sets the frequency for an .hex firmware\n"
+			"       [--mcu|-m <device>] Sets the MCU type for an .hex firmware\n"
+			"       [--list-cores]      List all supported AVR cores and exit\n"
+			"       [--help|-h]         Display this usage message and exit\n"
+			"       [--trace, -t]       Run full scale decoder trace\n"
+			"       [-ti <vector>]      Add traces for IRQ vector <vector>\n"
+			"       [--gdb|-g [<port>]] Listen for gdb connection on <port> (default 1234)\n"
+			"       [-ff <.hex file>]   Load next .hex file as flash\n"
+			"       [-ee <.hex file>]   Load next .hex file as eeprom\n"
+			"       [--input|-i <file>] A .vcd file to use as input signals\n"
+			"       [-v]                Raise verbosity level\n"
+			"                           (can be passed more than once)\n"
+			"       <firmware>          A .hex or an ELF file. ELF files are\n"
+			"                           prefered, and can include debugging syms\n");
+	exit(1);
 }
 
-// avr special deinitalization
-void avr_special_deinit( avr_t* avr, void * data)
+static void
+list_cores()
 {
-	fprintf(stderr, "%s\n", __func__);
-	uart_pty_stop(&uart_pty);
+	fprintf(stderr, "Supported AVR cores:\n");
+	for (int i = 0; avr_kind[i]; i++) {
+		fprintf(stderr, "       ");
+		for (int ti = 0; ti < 4 && avr_kind[i]->names[ti]; ti++)
+			fprintf(stderr, "%s ", avr_kind[i]->names[ti]);
+		fprintf(stderr, "\n");
+	}
+	exit(1);
 }
 
-int main(int argc, char *argv[])
-{
-	char boot_path[1024] = "";
-	uint32_t boot_base, boot_size;
-	char * mmcu = "atmega328p";
-	uint32_t freq = 16000000;
-	int debug = 0;
-	int verbose = 0;
+static avr_t * avr = NULL;
 
-	for (int i = 1; i < argc; i++) {
-		if (!strcmp(argv[i] + strlen(argv[i]) - 4, ".hex"))
-			strncpy(boot_path, argv[i], sizeof(boot_path));
-		else if (!strcmp(argv[i], "-d"))
-			debug++;
-		else if (!strcmp(argv[i], "-v"))
-			verbose++;
-		else {
-			fprintf(stderr, "%s: invalid argument %s\n", argv[0], argv[i]);
-			exit(1);
+static void
+sig_int(
+		int sign)
+{
+	fprintf(stderr, "signal caught, simavr terminating\n");
+	if (avr)
+		avr_terminate(avr);
+	exit(0);
+}
+
+int
+main(
+		int argc,
+		char *argv[])
+{
+	elf_firmware_t f = {{0}};
+	uint32_t f_cpu = 0;
+	int trace = 0;
+	int gdb = 0;
+	int log = 1;
+	int port = 1234;
+	char name[24] = "";
+	uint32_t loadBase = AVR_SEGMENT_OFFSET_FLASH;
+	int trace_vectors[8] = {0};
+	int trace_vectors_count = 0;
+	const char *vcd_input = NULL;
+
+	if (argc == 1)
+		display_usage(basename(argv[0]));
+
+	for (int pi = 1; pi < argc; pi++) {
+		if (!strcmp(argv[pi], "--list-cores")) {
+			list_cores();
+		} else if (!strcmp(argv[pi], "-h") || !strcmp(argv[pi], "--help")) {
+			display_usage(basename(argv[0]));
+		} else if (!strcmp(argv[pi], "-m") || !strcmp(argv[pi], "--mcu")) {
+			if (pi < argc-1)
+				snprintf(name, sizeof(name), "%s", argv[++pi]);
+			else
+				display_usage(basename(argv[0]));
+		} else if (!strcmp(argv[pi], "-f") || !strcmp(argv[pi], "--freq")) {
+			if (pi < argc-1)
+				f_cpu = atoi(argv[++pi]);
+			else
+				display_usage(basename(argv[0]));
+		} else if (!strcmp(argv[pi], "-i") || !strcmp(argv[pi], "--input")) {
+			if (pi < argc-1)
+				vcd_input = argv[++pi];
+			else
+				display_usage(basename(argv[0]));
+		} else if (!strcmp(argv[pi], "-t") || !strcmp(argv[pi], "--trace")) {
+			trace++;
+		} else if (!strcmp(argv[pi], "--vcd-trace-name")) {
+			if (pi + 1 >= argc) {
+				fprintf(stderr, "%s: missing mandatory argument for %s.\n", argv[0], argv[pi]);
+				exit(1);
+			}
+			++pi;
+			snprintf(f.tracename, sizeof(f.tracename), "%s",  argv[pi]);
+		} else if (!strcmp(argv[pi], "--add-vcd-trace")) {
+			if (pi + 1 >= argc) {
+				fprintf(stderr, "%s: missing mandatory argument for %s.\n", argv[0], argv[pi]);
+				exit(1);
+			}
+			++pi;
+			struct {
+				char     kind[64];
+				uint8_t  mask;
+				uint16_t addr;
+				char     name[64];
+			} trace;
+			const int n_args = sscanf(
+				argv[pi],
+				"%63[^=]=%63[^@]@0x%hx/0x%hhx",
+				&trace.name[0],
+				&trace.kind[0],
+				&trace.addr,
+				&trace.mask
+			);
+			if (n_args != 4) {
+				--pi;
+				fprintf(stderr, "%s: format for %s is name=kind@addr/mask.\n", argv[0], argv[pi]);
+				exit(1);
+			}
+
+			/****/ if (!strcmp(trace.kind, "portpin")) {
+				f.trace[f.tracecount].kind = AVR_MMCU_TAG_VCD_PORTPIN;
+			} else if (!strcmp(trace.kind, "irq")) {
+				f.trace[f.tracecount].kind = AVR_MMCU_TAG_VCD_IRQ;
+			} else if (!strcmp(trace.kind, "trace")) {
+				f.trace[f.tracecount].kind = AVR_MMCU_TAG_VCD_TRACE;
+			} else {
+				fprintf(
+					stderr,
+					"%s: unknown trace kind '%s', not one of 'portpin', 'irq', or 'trace'.\n",
+					argv[0],
+					trace.kind
+				);
+				exit(1);
+			}
+			f.trace[f.tracecount].mask = trace.mask;
+			f.trace[f.tracecount].addr = trace.addr;
+			strncpy(f.trace[f.tracecount].name, trace.name, sizeof(f.trace[f.tracecount].name));
+
+			fprintf(stderr,
+				"Adding %s trace on address 0x%04x, mask 0x%02x ('%s')\n",
+				  f.trace[f.tracecount].kind == AVR_MMCU_TAG_VCD_PORTPIN ? "portpin"
+				: f.trace[f.tracecount].kind == AVR_MMCU_TAG_VCD_IRQ     ? "irq"
+				: f.trace[f.tracecount].kind == AVR_MMCU_TAG_VCD_TRACE   ? "trace"
+				: "unknown",
+				f.trace[f.tracecount].addr,
+				f.trace[f.tracecount].mask,
+				f.trace[f.tracecount].name
+			);
+
+			++f.tracecount;
+		} else if (!strcmp(argv[pi], "--vcd-trace-file")) {
+			if (pi + 1 >= argc) {
+				fprintf(stderr, "%s: missing mandatory argument for %s.\n", argv[0], argv[pi]);
+				exit(1);
+			}
+			snprintf(f.tracename, sizeof(f.tracename), "%s", argv[++pi]);
+		} else if (!strcmp(argv[pi], "-ti")) {
+			if (pi < argc-1)
+				trace_vectors[trace_vectors_count++] = atoi(argv[++pi]);
+		} else if (!strcmp(argv[pi], "-g") || !strcmp(argv[pi], "--gdb")) {
+			gdb++;
+			if (pi < (argc-2) && argv[pi+1][0] != '-' )
+				port = atoi(argv[++pi]);
+		} else if (!strcmp(argv[pi], "-v")) {
+			log++;
+		} else if (!strcmp(argv[pi], "-ee")) {
+			loadBase = AVR_SEGMENT_OFFSET_EEPROM;
+		} else if (!strcmp(argv[pi], "-ff")) {
+			loadBase = AVR_SEGMENT_OFFSET_FLASH;
+		} else if (argv[pi][0] != '-') {
+			char * filename = argv[pi];
+			char * suffix = strrchr(filename, '.');
+			if (suffix && !strcasecmp(suffix, ".hex")) {
+				if (!name[0] || !f_cpu) {
+					fprintf(stderr, "%s: -mcu and -freq are mandatory to load .hex files\n", argv[0]);
+					exit(1);
+				}
+				ihex_chunk_p chunk = NULL;
+				int cnt = read_ihex_chunks(filename, &chunk);
+				if (cnt <= 0) {
+					fprintf(stderr, "%s: Unable to load IHEX file %s\n",
+						argv[0], argv[pi]);
+					exit(1);
+				}
+				fprintf(stderr,"Loaded %d section of ihex\n", cnt);
+				for (int ci = 0; ci < cnt; ci++) {
+					if (chunk[ci].baseaddr < (1*1024*1024)) {
+						f.flash = chunk[ci].data;
+						f.flashsize = chunk[ci].size;
+						f.flashbase = chunk[ci].baseaddr;
+						fprintf(stderr,"Load HEX flash %08x, %d\n", f.flashbase, f.flashsize);
+					} else if (chunk[ci].baseaddr >= AVR_SEGMENT_OFFSET_EEPROM ||
+							chunk[ci].baseaddr + loadBase >= AVR_SEGMENT_OFFSET_EEPROM) {
+						// eeprom!
+						f.eeprom = chunk[ci].data;
+						f.eesize = chunk[ci].size;
+						fprintf(stderr,"Load HEX eeprom %08x, %d\n", chunk[ci].baseaddr, f.eesize);
+					}
+				}
+			} else {
+				if (elf_read_firmware(filename, &f) == -1) {
+					fprintf(stderr, "%s: Unable to load firmware from file %s\n",
+							argv[0], filename);
+					exit(1);
+				}
+			}
 		}
 	}
-	if(!strlen(boot_path)) {
-		fprintf(stderr, "%s: Error: no hex file given!\n", argv[0]);
-		exit(1);
-	}
 
-	avr = avr_make_mcu_by_name(mmcu);
+	if (strlen(name))
+		strcpy(f.mmcu, name);
+	if (f_cpu)
+		f.frequency = f_cpu;
+
+	avr = avr_make_mcu_by_name(f.mmcu);
 	if (!avr) {
-		fprintf(stderr, "%s: Error creating the AVR core\n", argv[0]);
+		fprintf(stderr, "%s: AVR '%s' not known\n", argv[0], f.mmcu);
 		exit(1);
 	}
-
-	uint8_t * boot = read_ihex_file(boot_path, &boot_size, &boot_base);
-	if (!boot) {
-		fprintf(stderr, "%s: Unable to load %s\n", argv[0], boot_path);
-		exit(1);
-	}
-
-	fprintf(stderr, "%s booloader 0x%05x: %d bytes\n", mmcu, boot_base, boot_size);
-
-	avr->custom.init = avr_special_init;
-	avr->custom.deinit = avr_special_deinit;
-	avr->custom.data = NULL;
 	avr_init(avr);
-	avr->frequency = freq;
-
-	memcpy(avr->flash + boot_base, boot, boot_size);
-	free(boot);
-	avr->pc = boot_base;
-	/* end of flash, remember we are writing /code/ */
-	avr->codeend = avr->flashend;
-	avr->log = 1 + verbose;
+	avr->log = (log > LOG_TRACE ? LOG_TRACE : log);
+	avr->trace = trace;
+	avr_load_firmware(avr, &f);
+	if (f.flashbase) {
+		fprintf(stderr,"Attempted to load a bootloader at %04x\n", f.flashbase);
+		avr->pc = f.flashbase;
+	}
+	for (int ti = 0; ti < trace_vectors_count; ti++) {
+		for (int vi = 0; vi < avr->interrupts.vector_count; vi++)
+			if (avr->interrupts.vector[vi]->vector == trace_vectors[ti])
+				avr->interrupts.vector[vi]->trace = 1;
+	}
+	if (vcd_input) {
+		// Stripped...
+		exit(1);
+	}
 
 	// even if not setup at startup, activate gdb if crashing
-	avr->gdb_port = 1234;
-	if (debug) {
+	avr->gdb_port = port;
+	if (gdb) {
 		avr->state = cpu_Stopped;
 		avr_gdb_init(avr);
 	}
@@ -122,10 +286,14 @@ int main(int argc, char *argv[])
 	uart_pty_init(avr, &uart_pty);
 	uart_pty_connect(&uart_pty, '0');
 
-	while (1) {
+	signal(SIGINT, sig_int);
+	signal(SIGTERM, sig_int);
+
+	for (;;) {
 		int state = avr_run(avr);
-		if ( state == cpu_Done || state == cpu_Crashed)
+		if (state == cpu_Done || state == cpu_Crashed)
 			break;
 	}
 
+	avr_terminate(avr);
 }

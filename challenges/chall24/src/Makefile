@@ -14,10 +14,13 @@ COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE) \
 
 
 # symbolic targets:
-all:	chall24.hex debugversion.x86 chall24.bin
+all:	chall24.hex flag.hex debugversion.x86 chall24.bin
 
 %.bin : %.elf
 	avr-objcopy -O binary $< $@
+
+%.hex : %.txt
+	avr-objcopy --change-addresses +0x0810000 -I binary -O ihex $< $@
 
 vpath %.c ../
 
