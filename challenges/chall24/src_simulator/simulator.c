@@ -49,13 +49,13 @@ avr_vcd_t vcd_file;
 // avr special initalization
 void avr_special_init( avr_t * avr, void * data)
 {
-	printf("%s\n", __func__);
+	fprintf(stderr, "%s\n", __func__);
 }
 
 // avr special deinitalization
 void avr_special_deinit( avr_t* avr, void * data)
 {
-	printf("%s\n", __func__);
+	fprintf(stderr, "%s\n", __func__);
 	uart_pty_stop(&uart_pty);
 }
 
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	printf("%s booloader 0x%05x: %d bytes\n", mmcu, boot_base, boot_size);
+	fprintf(stderr, "%s booloader 0x%05x: %d bytes\n", mmcu, boot_base, boot_size);
 
 	avr->custom.init = avr_special_init;
 	avr->custom.deinit = avr_special_deinit;
