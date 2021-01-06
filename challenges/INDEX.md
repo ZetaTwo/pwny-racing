@@ -3,7 +3,7 @@
 * chall01 - Episode 1
 * chall02 - Community challenge 1
 * chall03 - Episode 2
-* chall04 - 
+* chall04 - (UNRELEASED)
 * chall05 - Episode 3
 * chall06 - Community challenge 2
 * chall07 - Episode 4
@@ -19,3 +19,9 @@
 * chall17 - Community challenge 5 (7D variant)
 * chall18 - Episode 8
 * chall19 - Community challenge 6 (7C variant)
+* chall20 - Episode 9 (TODO)
+* chall21 - Community challenge 7
+* chall22 - Episode 10
+* chall23 - Episode 11
+* chall24 - Community challenge 8 (TODO)
+
