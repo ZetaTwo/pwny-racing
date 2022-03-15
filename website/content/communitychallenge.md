@@ -3,6 +3,8 @@ title: "Community Challenge"
 menu: "main"
 ---
 
+As Pwny Racing is no longer runs, the information on page is not accurate but this is information about how the community challenge used to work.
+
 Do you want to participate in the next Pwny Racing episode? You can!
 Every episode we will invite some participants to compete against each other.
 However at least one of the spots will reserved for the winner of the monthly community challenge.
@@ -152,5 +154,4 @@ Solvers (times in UTC):
 
 ## Community challenge 8
 
-The eigth community challenge has been delayed but will be released later.
-Keep an eye out for further announcements.
+The eigth community challenge was unfortunately never released.

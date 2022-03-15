@@ -24,4 +24,3 @@
 * chall22 - Episode 10
 * chall23 - Episode 11
 * chall24 - Community challenge 8 (TODO)
-
